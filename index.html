@@ -73,13 +73,17 @@
 &lt;/div&gt;</code></pre>
 
     <h4>文章内部标题</h4>
-    <p>文章内部标题共分为三种，使用<code>&lt;h1&gt;</code>或<code>&lt;h2&gt;</code>标签作为一级标题，使用<code>&lt;h3&gt;</code>标签作为二级标题，使用<code>&lt;h4&gt;</code>、<code>&lt;h5&gt;</code>或<code>&lt;h6&gt;</code>标签作为三级标题。</p>
+    <p>文章内部标题共分为四种，使用<code>&lt;h1&gt;</code>标签作为一级标题，<code>&lt;h2&gt;</code>作为二级标题，<code>&lt;h3&gt;</code>标签作为三级标题，<code>&lt;h4&gt;</code>、<code>&lt;h5&gt;</code>或<code>&lt;h6&gt;</code>标签作为四级标题。</p>
+    <p>一级标题字体为2em，二级为1.5em，其余的样式它们都一致。三级标题字体为1.2em，并且有一个icon（可配置）。四级标题会仅仅的贴着接下来的段落，字体为1em且加粗。</p>
 
     <h3 id="list">列表</h3>
     <p>列表样式分为有序列表<code>&lt;ol&gt;</code>和无序列表<code>&lt;ul&gt;</code>两种，这两种可以相互嵌套。但是没有对列表样式做过多的修改，还是使用浏览器默认样式。</p>
 
     <h3 id="blockquote">区块引用</h3>
-    <p>区块引用只使用<code>&lt;blockquotes&gt;</code>标签。它们的样式使用了两个Unicode实体图标，这两个icon可以自定义，具体见<a href="#config">配置</a>一章。</p>
+    <p>区块引用只使用<code>&lt;blockquotes&gt;</code>标签。它们的样式使用了两个Unicode实体图标，这两个icon可以自定义。区块引用的样例如下：</p>
+    <blockquote>
+    人生不过是一个行走的影子，一个在舞台上指手划脚的笨拙的怜人，登场片刻，便在无声无息中悄然退去，这是一个愚人所讲的故事，充满了喧哗和骚动，却一无所指。 <small><cite>麦克白</cite></small>
+    </blockquote>
 
     <h3 id="precode">代码区块</h3>
     <p>代码区块样式使用<code>&lt;pre&gt;</code>标签作为容器，且内部可选地嵌入<code>&lt;code&gt;</code>标签。推荐使用<a href="http://prismjs.com/">prism</a>实现代码高亮。</p>
