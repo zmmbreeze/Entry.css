@@ -5,6 +5,7 @@
  * @log 0.1
  *      0.2 修改二级及更深层次的pre的四周都为圆角
  *          修改li中第一层第一个p/div的不缩进
+ *          li之间的上下间距修改为0.25em
  */
 
 @import "config.less";
@@ -191,7 +192,11 @@
         margin-top: 1em;
         padding-left: 4em;
         li {
+            margin-top: 0.25em;
             list-style-position: inside;
+            &:first-child {
+                margin-top: 0;
+            }
         }
     }
     li > ul, li > ol {

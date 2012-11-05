@@ -5,6 +5,7 @@
  * @log 0.1
  *      0.2 修改二级及更深层次的pre的四周都为圆角
  *          修改li中第一层第一个p/div的不缩进
+ *          li之间的上下间距修改为0.25em
  */
 /* ===========================================================
    Config
@@ -279,7 +280,12 @@
 }
 .ext-entry-content ul li,
 .ext-entry-content ol li {
+  margin-top: 0.25em;
   list-style-position: inside;
+}
+.ext-entry-content ul li:first-child,
+.ext-entry-content ol li:first-child {
+  margin-top: 0;
 }
 .ext-entry-content li > ul,
 .ext-entry-content li > ol {
@@ -713,7 +719,12 @@
 }
 .post ul li,
 .post ol li {
+  margin-top: 0.25em;
   list-style-position: inside;
+}
+.post ul li:first-child,
+.post ol li:first-child {
+  margin-top: 0;
 }
 .post li > ul,
 .post li > ol {

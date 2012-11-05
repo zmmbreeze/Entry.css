@@ -195,7 +195,7 @@ console.log('Test');
         </li>
     </ol>
 
-    <h2 id="config">配置</h2>
+    <h2 id="config">配置及使用</h2>
     <p><em>Entry.css</em>是基于less css开发的，故提供了配色和部分icon的配置项。首先安装<a href="http://nodejs.org/">nodejs</a>和<a href="https://npmjs.org/">npm</a>然后运行<code>npm install less -g</code>安装less css。配置文件在src目录下的<code>config.less</code>文件中。可配置的样式选项及介绍如下：</p>
     <pre><code class="language-css">@content-width: 600px;  // 内容区的宽度
 @font-size: 14px;       // 基础文字大小
@@ -259,21 +259,19 @@ console.log('Test');
     <p>也可以使用默认提供的几种结构，它们都在bin目录下。</p>
     <ul>
         <li>
-        <em>wordpress.css</em>专用与一些基于wordpress博客。它试用的HTML结构如上所说。
+        <em>wordpress.css</em>专用于一些基于wordpress博客。它适用的HTML结构如上所说。
         </li>
         <li>
-        <em>markdown.css</em>用于markdown生成的页面，这里有<a href="./markdown.html">demo</a>。它试用的HTML结构如下：
-        <pre><code class="language-markup">&lt;body&gt;
-&lt;div class=&quot;markdown&quot;&gt;
+        <em>markdown.css</em>用于markdown生成的页面，不过需要在<code>body</code>上加<code>class="markdown"</code>，如果需要文章标题样式也需要自己添加<code>&lt;div class=&quot;markdown-header&quot;&gt;</code>标签。这里有<a href="./markdown.html">demo</a>。它适用的HTML结构如下：
+        <pre><code class="language-markup">&lt;body class=&quot;markdown&quot;&gt;
     &lt;div class=&quot;markdown-header&quot;&gt;
         &lt;!-- 文章标题 --&gt;;
     &lt;/div&gt;
     &lt;!-- 内容 --&gt;
-&lt;/div&gt;
 &lt;/body&gt;</code></pre>
         </li>
         <li>
-        <em>puretag.css</em>用于一半情况。它试用的纯html结构
+        <em>puretag.css</em>用于一般情况。它适用的是纯html结构：
 <pre><code class="language-markup">&lt;body&gt;
     &lt;header&gt;
         &lt;!-- 文章标题 --&gt;;
