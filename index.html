@@ -256,6 +256,32 @@ console.log('Test');
     .ext-entry-meta;
 }</code></pre>
     <p>然后运行命令<code>lessc wordpress.less > wordpress.css</code>，生成wordpress.css文件就可以被用到你的博客样式中。你可以先修改default.less，然后打开index.html查看效果～如果你设计了不错的配色，欢迎<code>pull request</code>。</p>
+    <p>也可以使用默认提供的几种结构，它们都在bin目录下。</p>
+    <ul>
+        <li>
+        <em>wordpress.css</em>专用与一些基于wordpress博客。它试用的HTML结构如上所说。
+        </li>
+        <li>
+        <em>markdown.css</em>用于markdown生成的页面，这里有<a href="./markdown.html">demo</a>。它试用的HTML结构如下：
+        <pre><code class="language-markup">&lt;body&gt;
+&lt;div class=&quot;markdown&quot;&gt;
+    &lt;div class=&quot;markdown-header&quot;&gt;
+        &lt;!-- 文章标题 --&gt;;
+    &lt;/div&gt;
+    &lt;!-- 内容 --&gt;
+&lt;/div&gt;
+&lt;/body&gt;</code></pre>
+        </li>
+        <li>
+        <em>puretag.css</em>用于一半情况。它试用的纯html结构
+<pre><code class="language-markup">&lt;body&gt;
+    &lt;header&gt;
+        &lt;!-- 文章标题 --&gt;;
+    &lt;/header&gt;
+    &lt;!-- 内容 --&gt;
+&lt;/body&gt;</code></pre>
+        </li>
+    </ul>
 
     <h2 id="acknowledgement">感谢</h2>
     <p><em>Entry.css</em>参考、使用很多其他库和工具：</p>

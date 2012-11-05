@@ -1,3 +1,12 @@
+/**
+ * Entry.css
+ *
+ * @author mzhou / @zhoumm
+ * @log 0.1
+ *      0.2 修改二级及更深层次的pre的四周都为圆角
+ *          修改li中第一层第一个p/div的不缩进
+ */
+
 @import "config.less";
 
 .rounded-corners (@radius: 5px) {
@@ -173,6 +182,9 @@
         font-size: 0.8571428571428571em; /* 12px */
         border: 1px solid @code-border-color;
         background-color: @code-back-color;
+        .rounded-corners(1em);
+    }
+    > pre {
         .rounded-corners(0 1em 1em 0);
     }
     ul, ol {
@@ -185,6 +197,9 @@
     li > ul, li > ol {
         margin-top: 0;
         padding-left: 3em;
+    }
+    li > p:first-child, li > div:first-child {
+        .no-start-with2word;
     }
     hr {
         position: relative;
