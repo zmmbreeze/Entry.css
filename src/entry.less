@@ -9,6 +9,7 @@
  */
 
 @import "config.less";
+@font-family: "ff-tisa-web-pro-1","ff-tisa-web-pro-2","Lucida Grande","Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei",sans-serif;
 
 .rounded-corners (@radius: 5px) {
     -webkit-border-radius: @radius;
@@ -53,6 +54,8 @@
     max-width: 100%;
     color: @word-highlight-color;
     overflow: hidden;
+    font-family: @font-family;
+    -webkit-font-smoothing:antialiased;
     background-color: @word-back-color;
     .no-start-with2word;
     .box-sizing;
@@ -89,7 +92,8 @@
     color: @word-color;
     word-wrap: break-word;
     font-size: @font-size;
-    font-family: serif;
+    font-family: @font-family;
+    -webkit-font-smoothing:antialiased;
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
 
@@ -115,8 +119,7 @@
     }
     /* === block content === */
     h1, h2, h3, h4, h5, h6 {
-        font-weight: 500;
-        font-family: sans-serif;
+        font-weight: bold;
     }
     h1, h2 {
         font-size: 2em;
@@ -151,7 +154,6 @@
     blockquote {
         position: relative;
         padding: 1em 4em;
-        font-family: serif;
         div, p {
             .no-start-with2word;
         }
@@ -193,7 +195,7 @@
         padding-left: 4em;
         li {
             margin-top: 0.25em;
-            list-style-position: inside;
+            list-style-position: outside; /* 如果是inside，且li第一个元素是block元素，那么Firefox下会移到下一行*/
             &:first-child {
                 margin-top: 0;
             }
@@ -276,7 +278,7 @@
         color: @link-color;
         &[onclick],
         &[href^="javascript:"] {
-            margin: 0 0.025em;
+            margin: 0 0.25em;
             padding: 0.25em 0.5em;
             font-size: 0.8571428571428571em;
             text-decoration: none;
@@ -371,6 +373,8 @@
     }
     /* 缩写 */
     abbr[title] {
+        padding-bottom: 0.05em;
+        cursor: help;
         border-bottom: 1px dotted;
     }
     /* 定义 */

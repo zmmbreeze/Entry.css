@@ -26,6 +26,8 @@
   max-width: 100%;
   color: #ffffff;
   overflow: hidden;
+  font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", "Lucida Grande", "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
   background-color: #83a1d5;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -76,7 +78,8 @@
   color: #666666;
   word-wrap: break-word;
   font-size: 14px;
-  font-family: serif;
+  font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", "Lucida Grande", "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   /* ==========
@@ -172,8 +175,7 @@
 .ext-entry-content h4,
 .ext-entry-content h5,
 .ext-entry-content h6 {
-  font-weight: 500;
-  font-family: sans-serif;
+  font-weight: bold;
 }
 .ext-entry-content h1,
 .ext-entry-content h2 {
@@ -223,7 +225,6 @@
 .ext-entry-content blockquote {
   position: relative;
   padding: 1em 4em;
-  font-family: serif;
 }
 .ext-entry-content blockquote div:before,
 .ext-entry-content blockquote p:before {
@@ -281,7 +282,9 @@
 .ext-entry-content ul li,
 .ext-entry-content ol li {
   margin-top: 0.25em;
-  list-style-position: inside;
+  list-style-position: outside;
+  /* 如果是inside，且li第一个元素是block元素，那么Firefox下会移到下一行*/
+
 }
 .ext-entry-content ul li:first-child,
 .ext-entry-content ol li:first-child {
@@ -381,7 +384,7 @@
 }
 .ext-entry-content a[onclick],
 .ext-entry-content a[href^="javascript:"] {
-  margin: 0 0.025em;
+  margin: 0 0.25em;
   padding: 0.25em 0.5em;
   font-size: 0.8571428571428571em;
   text-decoration: none;
@@ -481,6 +484,8 @@
   content: "》";
 }
 .ext-entry-content abbr[title] {
+  padding-bottom: 0.05em;
+  cursor: help;
   border-bottom: 1px dotted;
 }
 .ext-entry-content dfn {
@@ -515,7 +520,8 @@ body {
   color: #666666;
   word-wrap: break-word;
   font-size: 14px;
-  font-family: serif;
+  font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", "Lucida Grande", "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   /* ==========
@@ -611,8 +617,7 @@ body h3,
 body h4,
 body h5,
 body h6 {
-  font-weight: 500;
-  font-family: sans-serif;
+  font-weight: bold;
 }
 body h1,
 body h2 {
@@ -662,7 +667,6 @@ body div:before {
 body blockquote {
   position: relative;
   padding: 1em 4em;
-  font-family: serif;
 }
 body blockquote div:before,
 body blockquote p:before {
@@ -720,7 +724,9 @@ body ol {
 body ul li,
 body ol li {
   margin-top: 0.25em;
-  list-style-position: inside;
+  list-style-position: outside;
+  /* 如果是inside，且li第一个元素是block元素，那么Firefox下会移到下一行*/
+
 }
 body ul li:first-child,
 body ol li:first-child {
@@ -820,7 +826,7 @@ body a {
 }
 body a[onclick],
 body a[href^="javascript:"] {
-  margin: 0 0.025em;
+  margin: 0 0.25em;
   padding: 0.25em 0.5em;
   font-size: 0.8571428571428571em;
   text-decoration: none;
@@ -920,6 +926,8 @@ body cite:after {
   content: "》";
 }
 body abbr[title] {
+  padding-bottom: 0.05em;
+  cursor: help;
   border-bottom: 1px dotted;
 }
 body dfn {
@@ -954,6 +962,8 @@ body header {
   max-width: 100%;
   color: #ffffff;
   overflow: hidden;
+  font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", "Lucida Grande", "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
   background-color: #83a1d5;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
