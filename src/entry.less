@@ -29,13 +29,13 @@
     -o-box-sizing: @box;
     box-sizing: @box;
 }
-.start-with2word {
+.start-with2word () {
     &:before {
         content: '　　';
         display: inline;
     }
 }
-.no-start-with2word {
+.no-start-with2word () {
     &:before {
         content: '';
     }
@@ -52,7 +52,7 @@
 /* ==========================================================================
    Entry header
    ========================================================================== */
-.ext-entry-header {
+.ext-entry-header () {
     margin: 0;
     padding: 1em 2em;
     max-width: 100%;
@@ -61,6 +61,7 @@
     font-family: @font-family;
     -webkit-font-smoothing:antialiased;
     background-color: @word-back-color;
+    border-bottom: 1px solid darken(@word-back-color, 20%);
     .no-start-with2word;
     .box-sizing;
     h1 {
@@ -79,7 +80,7 @@
         .no-start-with2word;
     }
 }
-.ext-entry-meta {
+.ext-entry-meta () {
     max-width: 100%;
     .box-sizing;
     a {
@@ -90,7 +91,7 @@
 /* ==========================================================================
    Entry content
    ========================================================================== */
-.ext-entry-content {
+.ext-entry-content () {
     margin: 0;
     line-height: @line-height;
     color: @word-color;
