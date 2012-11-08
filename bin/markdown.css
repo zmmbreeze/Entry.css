@@ -249,7 +249,9 @@
 }
 .markdown hr {
   position: relative;
-  margin: 3em 0;
+  margin: 3em auto 3em 0;
+  /* IE <= 9下如果margin-right: 0，那么会导致hr居中，而不是靠左*/
+
   width: 600px;
   height: 0;
   background: none;
