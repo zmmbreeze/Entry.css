@@ -100,6 +100,11 @@
 .markdown iframe:first-child {
   margin-top: 0;
 }
+.markdown iframe {
+  display: block;
+  /* fix slide share */
+
+}
 .markdown > h1,
 .markdown > h2,
 .markdown > h3,

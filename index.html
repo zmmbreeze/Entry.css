@@ -206,10 +206,16 @@ console.log('Test');
     <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/zmmbreeze/8de8h/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
     <h3 id="speakerDeck">Speaker Deck</h3>
+    <div>
+    因为speaker deck会根据父元素的宽度自适应iframe的宽度，且忽略掉iframe的max-width设置，所以必须使用一个<code>div</code>包裹它的embed代码。
     <script async class="speakerdeck-embed" data-id="5085eadcae6235000201e95f" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+    </div>
 
     <h3 id="slideShare">Slide Share</h3>
-    <iframe src="http://www.slideshare.net/slideshow/embed_code/13164993" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen webkitallowfullscreen mozallowfullscreen> </iframe><div style="margin-bottom:5px"> <strong> <a href="http://www.slideshare.net/verekia/deep-dive-into-css-preprocessors" title="Deep Dive Into CSS Preprocessors" target="_blank">Deep Dive Into CSS Preprocessors</a> </strong> from <strong><a href="http://www.slideshare.net/verekia" target="_blank">verekia</a></strong> </div>
+    <div>
+        因为slide share的默认代码会添加一个边框，会略微影响样式，故推荐用<code>div</code>包裹它的embed代码
+        <iframe src="http://www.slideshare.net/slideshow/embed_code/13164993" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen webkitallowfullscreen mozallowfullscreen> </iframe><div style="margin-bottom:5px"> <strong> <a href="http://www.slideshare.net/verekia/deep-dive-into-css-preprocessors" title="Deep Dive Into CSS Preprocessors" target="_blank">Deep Dive Into CSS Preprocessors</a> </strong> from <strong><a href="http://www.slideshare.net/verekia" target="_blank">verekia</a></strong> </div>
+    </div>
 
     <h2 id="config">配置及使用</h2>
     <p><em>Entry.css</em>是基于less css开发的，故提供了配色和部分icon的配置项。首先安装<a href="http://nodejs.org/">nodejs</a>和<a href="https://npmjs.org/">npm</a>然后运行<code>npm install less -g</code>安装less css。配置文件在src目录下的<code>config.less</code>文件中。可配置的样式选项及介绍如下：</p>
