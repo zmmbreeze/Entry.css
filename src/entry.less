@@ -9,6 +9,8 @@
  *      0.3 修改中文字体
  *          修改abbr样式
  *          修改li的list-type-position为inside
+ *      0.4 增加iframe支持,支持jsfiddle/speaker deck/slide share
+ *          支持disqus
  *
  */
 
@@ -107,7 +109,8 @@
        ========== */
     h1, h2, h3, h4, h5, h6,
     div, p, blockquote, pre,
-    ul, ol, table, figure {
+    ul, ol, table, figure,
+    iframe {
         margin: 0.5em 0 0 0;
         padding: 0;
         &:first-child {
@@ -116,7 +119,8 @@
     }
     > h1, > h2, > h3, > h4, > h5, > h6,
     > div, > p, > blockquote, > pre,
-    > ul, > ol, > table, > figure {
+    > ul, > ol, > table, > figure,
+    > iframe {
         max-width: @content-width;
         margin: 1em 0 0 0;
         padding: 0 0 0 1em;
@@ -411,5 +415,10 @@
     }
     sub {
         bottom: -0.25em;
+    }
+
+    /* disqus支持 */
+    #disqus_thread {
+        margin-top: 2em;
     }
 }

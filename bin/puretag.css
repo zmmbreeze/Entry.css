@@ -9,6 +9,8 @@
  *      0.3 修改中文字体
  *          修改abbr样式
  *          修改li的list-type-position为inside
+ *      0.4 增加iframe支持,支持jsfiddle/speaker deck/slide share
+ *          支持disqus
  *
  */
 /* ===========================================================
@@ -60,6 +62,8 @@ body {
 
   /* 上下标 */
 
+  /* disqus支持 */
+
 }
 body h1,
 body h2,
@@ -74,7 +78,8 @@ body pre,
 body ul,
 body ol,
 body table,
-body figure {
+body figure,
+body iframe {
   margin: 0.5em 0 0 0;
   padding: 0;
 }
@@ -91,7 +96,8 @@ body pre:first-child,
 body ul:first-child,
 body ol:first-child,
 body table:first-child,
-body figure:first-child {
+body figure:first-child,
+body iframe:first-child {
   margin-top: 0;
 }
 body > h1,
@@ -107,7 +113,8 @@ body > pre,
 body > ul,
 body > ol,
 body > table,
-body > figure {
+body > figure,
+body > iframe {
   max-width: 600px;
   margin: 1em 0 0 0;
   padding: 0 0 0 1em;
@@ -463,6 +470,9 @@ body sup {
 }
 body sub {
   bottom: -0.25em;
+}
+body #disqus_thread {
+  margin-top: 2em;
 }
 body header {
   margin: 0;
