@@ -11,6 +11,7 @@
  *          修改li的list-type-position为inside
  *      0.4 增加iframe支持,支持jsfiddle/speaker deck/slide share
  *          支持disqus
+ *          修改四级标题样式，增加左边框
  *
  */
 /* ===========================================================
@@ -171,6 +172,12 @@
 .post h6:before {
   content: '　　';
   display: inline;
+}
+.post h4:before,
+.post h5:before,
+.post h6:before {
+  margin-right: 0.5em;
+  border-right: 0.5em solid #CCC;
 }
 .post p,
 .post div {
