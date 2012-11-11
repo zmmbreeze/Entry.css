@@ -487,7 +487,8 @@
 .markdown #disqus_thread {
   margin-top: 2em;
 }
-.markdown .markdown-header {
+.container .head,
+.markdown h1 {
   margin: 0;
   padding: 1em 2em;
   max-width: 100%;
@@ -502,10 +503,12 @@
   -o-box-sizing: border-box;
   box-sizing: border-box;
 }
-.markdown .markdown-header:before {
+.container .head:before,
+.markdown h1:before {
   content: '';
 }
-.markdown .markdown-header h1 {
+.container .head h1,
+.markdown h1 h1 {
   margin: 0;
   padding: 0;
   max-width: 100%;
@@ -518,14 +521,17 @@
   -o-box-sizing: border-box;
   box-sizing: border-box;
 }
-.markdown .markdown-header a {
+.container .head a,
+.markdown h1 a {
   color: #ffffff;
 }
-.markdown .markdown-header p:before,
-.markdown .markdown-header div:before {
+.container .head p:before,
+.markdown h1 p:before,
+.container .head div:before,
+.markdown h1 div:before {
   content: '';
 }
-.markdown .markdown-header .markdown-meta {
+.container .head-meta {
   max-width: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -533,6 +539,6 @@
   -o-box-sizing: border-box;
   box-sizing: border-box;
 }
-.markdown .markdown-header .markdown-meta a {
+.container .head-meta a {
   color: #ffffff;
 }

@@ -12,6 +12,7 @@
  *      0.4 增加iframe支持,支持jsfiddle/speaker deck/slide share
  *          支持disqus
  *          修改四级标题样式，增加左边框
+ *          去掉header的border-bottom
  *
  */
 /* ===========================================================
@@ -495,7 +496,6 @@
   font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", "Lucida Grande", "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei", sans-serif;
   -webkit-font-smoothing: antialiased;
   background-color: #83a1d5;
-  border-bottom: 1px solid #3d69b5;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
