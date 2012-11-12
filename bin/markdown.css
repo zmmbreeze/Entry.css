@@ -13,6 +13,7 @@
  *          支持disqus
  *          修改四级标题样式，增加左边框
  *          去掉header的border-bottom
+ *          去掉iframe为block的样式，为了支持github start button这样的外部按钮
  *
  */
 /* ===========================================================
@@ -101,11 +102,6 @@
 .markdown figure:first-child,
 .markdown iframe:first-child {
   margin-top: 0;
-}
-.markdown iframe {
-  display: block;
-  /* fix slide share */
-
 }
 .markdown > h1,
 .markdown > h2,
