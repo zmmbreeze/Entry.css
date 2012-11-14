@@ -15,6 +15,7 @@
  *          去掉header的border-bottom
  *          去掉iframe为block的样式，为了支持github start button这样的外部按钮
  *      0.5 修改hr的width为max-width，确保小屏幕不会显示横向滚动条
+ *          增加文章右内边距，优化小屏幕、小宽度下的样式
  *
  */
 
@@ -126,7 +127,7 @@
     > iframe {
         max-width: @content-width;
         margin: 1em 0 0 0;
-        padding: 0 0 0 1em;
+        padding: 0 1em;
         .box-sizing;
     }
     /* === block content === */
