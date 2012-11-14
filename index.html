@@ -6,11 +6,12 @@
   <link rel="stylesheet/less" type="text/css" href="src/default.less">
   <script src="less-1.3.0.min.js"></script>
   <!--
-  <link rel="stylesheet" href="./default/style.css" />
+  <link rel="stylesheet" href="bin/default.css" />
   -->
   <title>Entry.css</title>
   <meta name="Keywords" content="Entry.css,中文文章,博客样式"/>
   <meta name="Description" content="Entry.css 中文文章样式解决方案，帮助你快速搭建中文博客主题。"/>
+  <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
 </head>
 <body class="entry">
     <div class="entry-header">
@@ -231,7 +232,7 @@ console.log('Test');
 
     <h3 id="slideShare">Slide Share</h3>
     <div>
-        因为slide share的默认代码会添加一个边框，会略微影响样式，故推荐用<code>div</code>包裹它的embed代码
+        因为slide share的默认代码会添加一个边框，会略微影响样式，故推荐用<code>div</code>包裹它的embed代码<small>（不过不推荐使用slide share，因为它的默认embed代码设置了427像素的宽度，会影响到小屏幕的显示）</small>
         <div>
         <iframe src="http://www.slideshare.net/slideshow/embed_code/13164993" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen webkitallowfullscreen mozallowfullscreen> </iframe><div style="margin-bottom:5px"> <strong> <a href="http://www.slideshare.net/verekia/deep-dive-into-css-preprocessors" title="Deep Dive Into CSS Preprocessors" target="_blank">Deep Dive Into CSS Preprocessors</a> </strong> from <strong><a href="http://www.slideshare.net/verekia" target="_blank">verekia</a></strong> </div>
         </div>
@@ -262,6 +263,7 @@ console.log('Test');
 @blockquote-after-icon: '\275E';    // 后一个引用icon
 
 @h3-icon: '\27BD';      // h3的icon
+@h4-border-color: '#CCC';       // h4,h5,h6的左边框颜色
 
 // 从bootstrap拷贝的颜色
 @code-color: #D14;              // code的文字颜色

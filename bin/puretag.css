@@ -14,6 +14,7 @@
  *          修改四级标题样式，增加左边框
  *          去掉header的border-bottom
  *          去掉iframe为block的样式，为了支持github start button这样的外部按钮
+ *      0.5 修改hr的width为max-width，确保小屏幕不会显示横向滚动条
  *
  */
 /* ===========================================================
@@ -268,7 +269,7 @@ body hr {
   margin: 3em auto 3em 0;
   /* IE <= 9下如果margin-right: 0，那么会导致hr居中，而不是靠左*/
 
-  width: 600px;
+  max-width: 600px;
   height: 0;
   background: none;
   border: none;
