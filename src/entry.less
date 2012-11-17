@@ -16,6 +16,7 @@
  *          去掉iframe为block的样式，为了支持github start button这样的外部按钮
  *      0.5 修改hr的width为max-width，确保小屏幕不会显示横向滚动条
  *          增加文章右内边距，优化小屏幕、小宽度下的样式
+ *      0.6 增加列表的嵌套样式
  *
  */
 
@@ -215,6 +216,24 @@
             list-style-position: outside; /* 如果是inside，且li第一个元素是block元素，那么Firefox下会移到下一行*/
             &:first-child {
                 margin-top: 0;
+            }
+        }
+    }
+    ul li {
+        list-style-type: square;
+        ul li {
+            list-style-type: disc;
+            ul li {
+                list-style-type: circle;
+            }
+        }
+    }
+    ol li {
+        list-style-type: decimal;
+        ol li {
+            list-style-type: upper-roman;
+            ol li {
+                list-style-type: lower-roman;
             }
         }
     }

@@ -15,6 +15,7 @@
  *          去掉header的border-bottom
  *          去掉iframe为block的样式，为了支持github start button这样的外部按钮
  *      0.5 修改hr的width为max-width，确保小屏幕不会显示横向滚动条
+ *          增加文章右内边距，优化小屏幕、小宽度下的样式
  *
  */
 /* ===========================================================
@@ -139,12 +140,12 @@
 .markdown h1,
 .markdown h2 {
   font-size: 2em;
-  color: #ffffff;
-  background-color: #96b3d3;
+  color: #666666;
+  background-color: transparent;
 }
 .markdown h1 a,
 .markdown h2 a {
-  color: #ffffff;
+  color: #666666;
 }
 .markdown h2 {
   font-size: 1.5em;
@@ -158,7 +159,7 @@
   margin-right: 0.5em;
   vertical-align: middle;
   font-size: 1em;
-  color: #96b3d3;
+  color: transparent;
 }
 .markdown h4,
 .markdown h5,
@@ -225,7 +226,7 @@
   /* 12px */
 
   border: 1px solid #e1e1e8;
-  background-color: #f7f7f9;
+  background-color: #fefefe;
   -webkit-border-radius: 1em;
   -moz-border-radius: 1em;
   -ms-border-radius: 1em;
@@ -254,6 +255,24 @@
 .markdown ul li:first-child,
 .markdown ol li:first-child {
   margin-top: 0;
+}
+.markdown ul li {
+  list-style-type: square;
+}
+.markdown ul li ul li {
+  list-style-type: disc;
+}
+.markdown ul li ul li ul li {
+  list-style-type: circle;
+}
+.markdown ol li {
+  list-style-type: decimal;
+}
+.markdown ol li ol li {
+  list-style-type: upper-roman;
+}
+.markdown ol li ol li ol li {
+  list-style-type: lower-roman;
 }
 .markdown li > ul,
 .markdown li > ol {
@@ -402,7 +421,7 @@
 .markdown code {
   padding: 0.05em 0.25em;
   margin: 0 0.25em;
-  background: #f7f7f9;
+  background: #fefefe;
   font-family: monospace, serif;
   font-size: 0.8571428571428571em;
   /* 12px */
@@ -483,59 +502,4 @@
 }
 .markdown #disqus_thread {
   margin-top: 2em;
-}
-.container .head,
-.markdown h1 {
-  margin: 0;
-  padding: 1em 2em;
-  max-width: 100%;
-  color: #ffffff;
-  overflow: hidden;
-  font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", "Lucida Grande", "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  background-color: #83a1d5;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  -o-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.container .head:before,
-.markdown h1:before {
-  content: '';
-}
-.container .head h1,
-.markdown h1 h1 {
-  margin: 0;
-  padding: 0;
-  max-width: 100%;
-  line-height: 1.5;
-  color: #ffffff;
-  background-color: #83a1d5;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  -o-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.container .head a,
-.markdown h1 a {
-  color: #ffffff;
-}
-.container .head p:before,
-.markdown h1 p:before,
-.container .head div:before,
-.markdown h1 div:before {
-  content: '';
-}
-.container .head-meta {
-  max-width: 100%;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  -o-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.container .head-meta a {
-  color: #ffffff;
 }
