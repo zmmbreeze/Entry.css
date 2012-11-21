@@ -13,20 +13,21 @@
   <meta name="Description" content="Entry.css 中文文章样式解决方案，帮助你快速搭建中文博客主题。"/>
   <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
 </head>
-<body class="entry">
-    <div class="entry-header">
-        <h1>Entry.css中文文章样式解决方案</h1>
-        <div class="entry-meta">作者：<a href="http://mzhou.me/">mzhou</a> / <a href="https://twitter.com/zhoumm">@zhoumm</a><br/>下载：<a href="https://github.com/zmmbreeze/Entry.css">Github</a><br/>版本：beta 0.4
-        </div>
-        <br/>
-<iframe src="http://ghbtns.com/github-btn.html?user=zmmbreeze&repo=Entry.css&type=watch&count=true"
-  allowtransparency="true" frameborder="0" scrolling="0" width="100" height="20"></iframe>
-<iframe src="http://ghbtns.com/github-btn.html?user=zmmbreeze&repo=Entry.css&type=fork&count=true"
-  allowtransparency="true" frameborder="0" scrolling="0" width="100" height="20"></iframe>
-<iframe src="http://ghbtns.com/github-btn.html?user=zmmbreeze&type=follow&count=true"
-  allowtransparency="true" frameborder="0" scrolling="0" width="200" height="20"></iframe>
+<body>
+<div class="entry-header">
+    <h1>Entry.css中文文章样式解决方案</h1>
+    <div class="entry-meta">作者：<a href="http://mzhou.me/">mzhou</a> / <a href="https://twitter.com/zhoumm">@zhoumm</a><br/>下载：<a href="https://github.com/zmmbreeze/Entry.css">Github</a><br/>版本：beta 0.4
     </div>
+    <br/>
+    <iframe src="http://ghbtns.com/github-btn.html?user=zmmbreeze&repo=Entry.css&type=watch&count=true"
+    allowtransparency="true" frameborder="0" scrolling="0" width="100" height="20"></iframe>
+    <iframe src="http://ghbtns.com/github-btn.html?user=zmmbreeze&repo=Entry.css&type=fork&count=true"
+    allowtransparency="true" frameborder="0" scrolling="0" width="100" height="20"></iframe>
+    <iframe src="http://ghbtns.com/github-btn.html?user=zmmbreeze&type=follow&count=true"
+    allowtransparency="true" frameborder="0" scrolling="0" width="200" height="20"></iframe>
+</div>
 
+<div class="entry">
     <ul>
         <li><a href="#overview">概述</a></li>
         <li>
@@ -287,7 +288,8 @@ console.log('Test');
 
     <h2 id="config">配置及使用</h2>
     <p><em>Entry.css</em>是基于less css开发的，故提供了配色和部分icon的配置项。首先安装<a href="http://nodejs.org/">nodejs</a>和<a href="https://npmjs.org/">npm</a>然后运行<code>npm install less -g</code>安装less css。配置文件在src目录下的<code>config.less</code>文件中。可配置的样式选项及介绍如下：</p>
-    <pre><code class="language-css">@content-width: 600px;  // 内容区的宽度
+    <pre><code class="language-css">
+@content-width: 560px;  // 内容区的宽度，默认值为 40 * 14 = 560px
 @font-size: 14px;       // 基础文字大小
 @line-height: 1.62;     // 行高
 
@@ -309,13 +311,16 @@ console.log('Test');
 @blockquote-before-icon: '\275D';   // 前一个引用icon
 @blockquote-after-icon: '\275E';    // 后一个引用icon
 
-@h3-icon: '\27BD';      // h3的icon
-@h4-border-color: '#CCC';       // h4,h5,h6的左边框颜色
+@h3-icon: '';               // h3的icon，默认没有
+@h4-border-color: '#CCC';   // h4,h5,h6的左边框颜色
 
 // 从bootstrap拷贝的颜色
 @code-color: #D14;              // code的文字颜色
 @code-back-color: #F7F7F9;      // code的背景色
 @code-border-color: #E1E1E8;    // code的边框颜色
+
+@pre-back-color: #FEFEFE;       // pre的背景色
+@pre-border-color: #E1E1E8;     // pre的边框色
 
 @hr-color: #888;                // hr的颜色
 
@@ -326,7 +331,21 @@ console.log('Test');
 
 @img-border-color: #CCC;    // 图标边框颜色
 
-@mark-back-color: yellow;   // mark的背景色</code></pre>
+@mark-back-color: yellow;   // mark的背景色
+
+
+/* ==========================================================
+   Optional config
+   ========================================================== */
+
+// 多栏样式
+// 设置高度之后，显示成横向阅读
+@use-column: false;     // 设置为true的时候启用多栏样式
+@column-gap: 4em;       // 栏之间的间距
+@column-rule: none;     // eg: 1px solid #CCC; 但不是在间隔中严格居中的，而是靠着内容
+@content-height: 50em;  // 如果内容区的父元素设置了高度，则可以将此处设置为100%
+                        // 推荐一个计算方法是：想要显示的行数 * 行高 = 最终高度值em
+                        // 默认为：30行 * 1.62 = 48.6em</code></pre>
 
     <p>基于less可以自定义<em>文章标题</em>和<em>文章内容</em>区域的CSS选择符。src目录下的wordpress.less是针对如下HTML结构的：</p>
     <pre><code class="language-markup">&lt;article class=&quot;post&quot;&gt;
@@ -382,19 +401,20 @@ console.log('Test');
     </ul>
 
     <div id="disqus_thread"></div>
-    <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = 'entrycss'; // required: replace example with your forum shortname
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
 
-    <script src="prism.js"></script>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'entrycss'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<script src="prism.js"></script>
 </body>
 </html>

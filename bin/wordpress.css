@@ -16,24 +16,43 @@
  *          去掉iframe为block的样式，为了支持github start button这样的外部按钮
  *      0.5 修改hr的width为max-width，确保小屏幕不会显示横向滚动条
  *          增加文章右内边距，优化小屏幕、小宽度下的样式
+ *      0.6 增加列表的嵌套样式
+ *      0.7 拆分文件
+ *          增加可选的mutli-column支持
+ *          修改宽度默认值为60px
+ *          修改h3-icon默认值为空
+ *          修改pre样式，去掉左右边框、圆角等等样式。使其适应性更强一些。并设置背景默认为transparent
+ *          添加了两个配置：@pre-back-color 和 @pre-border-color
+ *          去掉了四级标题的边框和下边距合并，保证样式普通
+ *          修改行内code的上下内边距为0.15em，使其在WIN chrome下更高些
+ *          修改a的下划线样式，确保下划线不和中文文字粘在一起
+ *          优化字体，增加wenquanyi 微米黑字体，ubuntu linux firefox立马好看不少
+ *          修复em下划线的颜色为word-color
+ *          修复h1, h2内部的u,em,abbr的下划线颜色
  *
  */
 /* ===========================================================
    Config
    =========================================================== */
+/* ==========================================================
+   Optional config
+   ========================================================== */
 /* ==========================================================================
    Entry header
    ========================================================================== */
 /* ==========================================================================
    Entry content
    ========================================================================== */
+/* ================================================
+   Multi-column
+   ================================================ */
 .post {
   margin: 0;
   line-height: 1.62;
   color: #666666;
   word-wrap: break-word;
   font-size: 14px;
-  font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", "Lucida Grande", "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei", sans-serif;
+  font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", "Lucida Grande", "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei", "wenquanyi micro hei", sans-serif;
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
@@ -120,7 +139,7 @@
 .post > table,
 .post > figure,
 .post > iframe {
-  max-width: 600px;
+  max-width: 560px;
   margin: 1em 0 0 0;
   padding: 0 1em;
   -webkit-box-sizing: border-box;
@@ -147,6 +166,16 @@
 .post h2 a {
   color: #ffffff;
 }
+.post h1 a,
+.post h2 a,
+.post h1 em,
+.post h2 em,
+.post h1 u,
+.post h2 u,
+.post h1 abbr[title],
+.post h2 abbr[title] {
+  border-bottom-color: #ffffff;
+}
 .post h2 {
   font-size: 1.5em;
 }
@@ -155,28 +184,17 @@
 }
 .post h3:before {
   display: inline-block;
-  content: '\27BD';
+  content: '';
   margin-right: 0.5em;
   vertical-align: middle;
   font-size: 1em;
   color: #96b3d3;
-}
-.post h4,
-.post h5,
-.post h6 {
-  margin-bottom: -1em;
 }
 .post h4:before,
 .post h5:before,
 .post h6:before {
   content: '　　';
   display: inline;
-}
-.post h4:before,
-.post h5:before,
-.post h6:before {
-  margin-right: 0.5em;
-  border-right: 0.5em solid #CCC;
 }
 .post p,
 .post div {
@@ -226,19 +244,9 @@
   /* 12px */
 
   border: 1px solid #e1e1e8;
-  background-color: #f7f7f9;
-  -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
-  -ms-border-radius: 1em;
-  -o-border-radius: 1em;
-  border-radius: 1em;
-}
-.post > pre {
-  -webkit-border-radius: 0 1em 1em 0;
-  -moz-border-radius: 0 1em 1em 0;
-  -ms-border-radius: 0 1em 1em 0;
-  -o-border-radius: 0 1em 1em 0;
-  border-radius: 0 1em 1em 0;
+  border-right: none;
+  border-left: none;
+  background-color: #fefefe;
 }
 .post ul,
 .post ol {
@@ -288,7 +296,7 @@
   margin: 3em auto 3em 0;
   /* IE <= 9下如果margin-right: 0，那么会导致hr居中，而不是靠左*/
 
-  max-width: 600px;
+  max-width: 560px;
   height: 0;
   background: none;
   border: none;
@@ -328,7 +336,7 @@
 .post table {
   padding: 0;
   margin-left: 1em;
-  min-width: 300px;
+  min-width: 280px;
   border-collapse: collapse;
   border-spacing: 0;
   border: 1px solid #dddddd;
@@ -366,14 +374,16 @@
 }
 .post a {
   margin: 0 0.25em;
+  padding-bottom: 0.025em;
   color: #006699;
+  text-decoration: none;
+  border-bottom: 1px solid #006699;
 }
 .post a[onclick],
 .post a[href^="javascript:"] {
   margin: 0 0.25em;
   padding: 0.25em 0.5em;
   font-size: 0.8571428571428571em;
-  text-decoration: none;
   color: #ffffff;
   background-color: #96b3d3;
   -webkit-border-radius: 0.25em;
@@ -381,6 +391,7 @@
   -ms-border-radius: 0.25em;
   -o-border-radius: 0.25em;
   border-radius: 0.25em;
+  border-bottom: none;
 }
 .post a[onclick]:visited,
 .post a[href^="javascript:"]:visited {
@@ -388,6 +399,7 @@
 }
 .post a:visited {
   color: #551a8b;
+  border-bottom-color: #551a8b;
 }
 .post a:focus {
   outline: thin dotted;
@@ -419,7 +431,7 @@
   margin-left: 0.125em;
 }
 .post code {
-  padding: 0.05em 0.25em;
+  padding: 0.15em 0.25em;
   margin: 0 0.25em;
   background: #f7f7f9;
   font-family: monospace, serif;
@@ -472,7 +484,7 @@
 .post abbr[title] {
   padding-bottom: 0.05em;
   cursor: help;
-  border-bottom: 1px dotted;
+  border-bottom: 1px dotted #666666;
 }
 .post dfn {
   font-style: italic;
@@ -509,7 +521,7 @@
   max-width: 100%;
   color: #ffffff;
   overflow: hidden;
-  font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", "Lucida Grande", "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei", sans-serif;
+  font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", "Lucida Grande", "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei", "wenquanyi micro hei", sans-serif;
   -webkit-font-smoothing: antialiased;
   background-color: #83a1d5;
   -webkit-box-sizing: border-box;

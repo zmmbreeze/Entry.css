@@ -1,7 +1,7 @@
 /* ===========================================================
    Config
    =========================================================== */
-@content-width: 600px;  // 内容区的宽度
+@content-width: 560px;  // 内容区的宽度，默认值为 40 * 14 = 560px
 @font-size: 14px;       // 基础文字大小
 @line-height: 1.62;     // 行高
 
@@ -23,13 +23,16 @@
 @blockquote-before-icon: '\275D';   // 前一个引用icon
 @blockquote-after-icon: '\275E';    // 后一个引用icon
 
-@h3-icon: '\27BD';          // h3的icon
+@h3-icon: '';               // h3的icon，默认没有
 @h4-border-color: '#CCC';   // h4,h5,h6的左边框颜色
 
 // 从bootstrap拷贝的颜色
 @code-color: #D14;              // code的文字颜色
 @code-back-color: #F7F7F9;      // code的背景色
 @code-border-color: #E1E1E8;    // code的边框颜色
+
+@pre-back-color: #FEFEFE;       // pre的背景色
+@pre-border-color: #E1E1E8;     // pre的边框色
 
 @hr-color: #888;                // hr的颜色
 
@@ -41,3 +44,17 @@
 @img-border-color: #CCC;    // 图标边框颜色
 
 @mark-back-color: yellow;   // mark的背景色
+
+
+/* ==========================================================
+   Optional config
+   ========================================================== */
+
+// 多栏样式
+// 设置高度之后，显示成横向阅读
+@use-column: false;     // 设置为true的时候启用多栏样式
+@column-gap: 4em;       // 栏之间的间距
+@column-rule: none;     // eg: 1px solid #CCC; 但不是在间隔中严格居中的，而是靠着内容
+@content-height: 50em;  // 如果内容区的父元素设置了高度，则可以将此处设置为100%
+                        // 推荐一个计算方法是：想要显示的行数 * 行高 = 最终高度值em
+                        // 默认为：30行 * 1.62 = 48.6em

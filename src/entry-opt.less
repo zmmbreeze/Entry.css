@@ -1,0 +1,7 @@
+/* ================================================
+   Multi-column
+   ================================================ */
+.ext-entry-content () when (@use-column) {
+    .column(@content-width, @column-gap, @column-rule);
+    height: @content-height;
+}

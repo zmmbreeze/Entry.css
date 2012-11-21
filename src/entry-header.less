@@ -1,0 +1,30 @@
+/* ==========================================================================
+   Entry header
+   ========================================================================== */
+.ext-entry-header () {
+    margin: 0;
+    padding: 1em 2em;
+    max-width: 100%;
+    color: @word-highlight-color;
+    overflow: hidden;
+    font-family: @font-family;
+    -webkit-font-smoothing:antialiased;
+    background-color: @word-back-color;
+    .no-start-with2word;
+    .box-sizing;
+    h1 {
+        margin: 0;
+        padding: 0;
+        max-width: 100%;
+        line-height: 1.5;
+        color: @word-highlight-color;
+        background-color: @word-back-color;
+        .box-sizing;
+    }
+    a {
+        color: @link-highlight-color;
+    }
+    p, div {
+        .no-start-with2word;
+    }
+}

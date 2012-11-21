@@ -1,0 +1,354 @@
+/* ==========================================================================
+   Entry content
+   ========================================================================== */
+.ext-entry-content () {
+    margin: 0;
+    line-height: @line-height;
+    color: @word-color;
+    word-wrap: break-word;
+    font-size: @font-size;
+    font-family: @font-family;
+    -webkit-font-smoothing:antialiased;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+
+    /* ==========
+       Typography
+       ========== */
+    h1, h2, h3, h4, h5, h6,
+    div, p, blockquote, pre,
+    ul, ol, table, figure,
+    iframe {
+        margin: 0.5em 0 0 0;
+        padding: 0;
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+    > h1, > h2, > h3, > h4, > h5, > h6,
+    > div, > p, > blockquote, > pre,
+    > ul, > ol, > table, > figure,
+    > iframe {
+        max-width: @content-width;
+        margin: 1em 0 0 0;
+        padding: 0 1em;
+        .box-sizing;
+    }
+    /* === block content === */
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: bold;
+    }
+    h1, h2 {
+        font-size: 2em;
+        color: @word-highlight-color-2;
+        background-color: @word-back-color-2;
+        a {
+            color: @word-highlight-color-2;
+        }
+        a, em, u, abbr[title] {
+            border-bottom-color: @word-highlight-color-2;
+        }
+    }
+    h2 {
+        font-size: 1.5em;
+    }
+    h3 {
+        font-size: 1.2em;
+    }
+    h3:before {
+        display: inline-block;
+        content: @h3-icon;
+        margin-right: 0.5em;
+        vertical-align: middle;
+        font-size: 1em;
+        color: @word-back-color-2;
+    }
+    h4, h5, h6 {
+        .start-with2word;
+    }
+    p, div {
+        /* text-indent: 2em; 避免继承，故不用 */
+        .start-with2word;
+    }
+    blockquote {
+        position: relative;
+        padding: 1em 4em;
+        div, p {
+            .no-start-with2word;
+        }
+        &:before {
+            position: absolute;
+            content: @blockquote-before-icon;
+            top: 0;
+            left: 1em;
+            font-size: 2em;
+            color: @blockquote-quot-color;
+        }
+        &:after {
+            position: absolute;
+            content: @blockquote-after-icon;
+            bottom: 0;
+            right: 1em;
+            margin-right: -0.25em;
+            font-size: 2em;
+            color: @blockquote-quot-color;
+        }
+    }
+    pre {
+        padding: 1em 4em;
+        line-height: 1.5; /* 强制设置行高，避免难看 */
+        white-space: pre;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        font-family: monospace, serif;
+        font-size: 0.8571428571428571em; /* 12px */
+        border: 1px solid @pre-border-color;
+        border-right: none;
+        border-left: none;
+        background-color: @pre-back-color;
+    }
+    ul, ol {
+        margin-top: 1em;
+        padding-left: 4em;
+        li {
+            margin-top: 0.25em;
+            list-style-position: outside; /* 如果是inside，且li第一个元素是block元素，那么Firefox下会移到下一行*/
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+    }
+    ul li {
+        list-style-type: square;
+        ul li {
+            list-style-type: disc;
+            ul li {
+                list-style-type: circle;
+            }
+        }
+    }
+    ol li {
+        list-style-type: decimal;
+        ol li {
+            list-style-type: upper-roman;
+            ol li {
+                list-style-type: lower-roman;
+            }
+        }
+    }
+    li > ul, li > ol {
+        margin-top: 0;
+        padding-left: 3em;
+    }
+    li > p:first-child, li > div:first-child {
+        .no-start-with2word;
+    }
+    hr {
+        position: relative;
+        margin: 3em auto 3em 0; /* IE <= 9下如果margin-right: 0，那么会导致hr居中，而不是靠左*/
+        max-width: @content-width;
+        height: 0;
+        background: none;
+        border: none;
+        border-bottom: 2px dashed @hr-color;
+        .box-sizing;
+        &:before, &:after {
+            content: '';
+            position: absolute;
+            width: 30%;
+            height: 2px;
+            pointer-events: none;
+        }
+        &:before {
+            left: 0;
+            right: auto;
+            .background-linear-gradient(right, rgba(255,255,255,0), white, white);
+        }
+        &:after {
+            top: 0;
+            right: 0;
+            .background-linear-gradient(left, rgba(255,255,255,0), white, white);
+        }
+    }
+    table {
+        padding: 0;
+        margin-left: 1em;
+        min-width: @content-width / 2;
+        border-collapse: collapse;
+        border-spacing: 0;
+        border: 1px solid @table-border-color;
+        .rounded-corners(0.5em);
+        caption {
+            padding: 0.5em 0 0.25em;
+        }
+        thead {
+            th {
+                text-align: left;
+            }
+        }
+        tbody {
+            margin: 0 1em;
+            td, th {
+                border-top: 1px solid @table-inner-border-color;
+            }
+            tr:nth-child(odd) {
+                td, th {
+                    background-color: @table-highlight-back-color;
+                }
+            }
+        }
+        td, th {
+            padding: 0.5em 1em;
+            border-left: 1px solid @table-inner-border-color;
+            &:first-child {
+                border-left: none;
+            }
+        }
+    }
+
+
+    /* === inline content === */
+    a {
+        margin: 0 0.25em;
+        padding-bottom: 0.025em;
+        color: @link-color;
+        text-decoration: none;
+        border-bottom: 1px solid @link-color;
+        &[onclick],
+        &[href^="javascript:"] {
+            margin: 0 0.25em;
+            padding: 0.25em 0.5em;
+            font-size: 0.8571428571428571em;
+            color: @link-js-highlight-color;
+            background-color: @link-js-back-color;
+            .rounded-corners(0.25em);
+            border-bottom: none;
+        }
+        &[onclick]:visited,
+        &[href^="javascript:"]:visited {
+            color: @link-js-highlight-color;
+        }
+    }
+    a:visited {
+        color: @link-visited-color;
+        border-bottom-color: @link-visited-color;
+    }
+    a:focus {
+        outline: thin dotted;
+    }
+    a:active,
+    a:hover {
+        outline: 0;
+    }
+    /* 强调 */
+    b,
+    strong {
+        font-weight: bold;
+    }
+    u, em {
+        padding-bottom: .05em;
+        font-style: normal;
+        font-weight: normal;
+        border-bottom: 2px dotted @word-color;
+    }
+    u {
+        text-decoration: none;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+    }
+    em + em, em + u, u + em, u + u {
+        margin-left: 0.125em;
+    }
+    /* code */
+    code {
+        padding: 0.15em 0.25em;
+        margin: 0 0.25em;
+        background: @code-back-color;
+        font-family: monospace, serif;
+        font-size: 0.8571428571428571em; /* 12px */
+        color: @code-color;
+        border: 1px solid @code-border-color;
+        .rounded-corners(0.25em);
+    }
+    pre code {
+        padding: 0;
+        margin: 0;
+        font-size: 1em;
+        color: @word-color;
+        background: none;
+        border: none;
+    }
+    /* image */
+    img {
+        border: 0;
+    }
+    figure {
+        img {
+            display: block;
+            margin: 0 auto;
+            padding: 0.5em;
+            max-width: 97%;
+            border: 1px solid @img-border-color;
+        }
+        figcaption {
+            display: block;
+            margin-top: 0.5em;
+            text-align: center;
+            font-style: italic;
+        }
+    }
+    /* other */
+    /* 书名号(han.css) */
+    cite {
+        font-style: inherit;
+        &:before,
+        &:after {
+            content: "《";
+            line-height: inherit;
+        }
+        &:after {
+            content: "》";
+        }
+    }
+    /* 缩写 */
+    abbr[title] {
+        padding-bottom: 0.05em;
+        cursor: help;
+        border-bottom: 1px dotted @word-color;
+    }
+    /* 定义 */
+    dfn {
+        font-style: italic;
+    }
+    /* 标记 */
+    mark {
+        background: @mark-back-color;
+        color: @word-color;
+    }
+    /* 行内引用 */
+    q {
+        quotes: "\201C" "\201D" "\2018" "\2019";
+    }
+    /* 旁注 */
+    small {
+        font-size: 80%;
+    }
+    /* 上下标 */
+    sub, sup {
+        font-size: 75%;
+        line-height: 0;
+        position: relative;
+        vertical-align: baseline;
+    }
+    sup {
+        top: -0.5em;
+    }
+    sub {
+        bottom: -0.25em;
+    }
+
+    /* disqus支持 */
+    #disqus_thread {
+        margin-top: 2em;
+    }
+}
