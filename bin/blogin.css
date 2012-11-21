@@ -29,6 +29,7 @@
  *          优化字体，增加wenquanyi 微米黑字体，ubuntu linux firefox立马好看不少
  *          修复em下划线的颜色为word-color
  *          修复h1, h2内部的u,em,abbr的下划线颜色
+ *          修证h1, h2, h3的padding-left和padding-right值
  *
  */
 /* ===========================================================
@@ -176,19 +177,23 @@
 .markdown h2 abbr[title] {
   border-bottom-color: #666666;
 }
+.markdown > h1 {
+  padding-right: 0.5em;
+  padding-left: 0.5em;
+}
 .markdown h2 {
   font-size: 1.5em;
+}
+.markdown > h2 {
+  padding-right: 0.6666666666666666em;
+  padding-left: 0.6666666666666666em;
 }
 .markdown h3 {
   font-size: 1.2em;
 }
-.markdown h3:before {
-  display: inline-block;
-  content: '';
-  margin-right: 0.5em;
-  vertical-align: middle;
-  font-size: 1em;
-  color: transparent;
+.markdown > h3 {
+  padding-right: 0.7692307692307692em;
+  padding-left: 0.7692307692307692em;
 }
 .markdown h4:before,
 .markdown h5:before,
