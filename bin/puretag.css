@@ -382,7 +382,7 @@ body a {
   padding-bottom: 0.025em;
   color: #006699;
   text-decoration: none;
-  border-bottom: 1px solid #006699;
+  border-bottom-color: #006699;
 }
 body a[onclick],
 body a[href^="javascript:"] {
@@ -402,15 +402,19 @@ body a[onclick]:visited,
 body a[href^="javascript:"]:visited {
   color: #ffffff;
 }
+body a:focus {
+  outline: thin dotted;
+}
 body a:visited {
   color: #551a8b;
   border-bottom-color: #551a8b;
 }
-body a:focus {
-  outline: thin dotted;
-}
-body a:active,
 body a:hover {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+body a:hover,
+body a:active {
   outline: 0;
 }
 body b,

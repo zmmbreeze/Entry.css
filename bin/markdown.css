@@ -382,7 +382,7 @@
   padding-bottom: 0.025em;
   color: #006699;
   text-decoration: none;
-  border-bottom: 1px solid #006699;
+  border-bottom-color: #006699;
 }
 .markdown a[onclick],
 .markdown a[href^="javascript:"] {
@@ -402,15 +402,19 @@
 .markdown a[href^="javascript:"]:visited {
   color: #ffffff;
 }
+.markdown a:focus {
+  outline: thin dotted;
+}
 .markdown a:visited {
   color: #551a8b;
   border-bottom-color: #551a8b;
 }
-.markdown a:focus {
-  outline: thin dotted;
-}
-.markdown a:active,
 .markdown a:hover {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+.markdown a:hover,
+.markdown a:active {
   outline: 0;
 }
 .markdown b,

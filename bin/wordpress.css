@@ -382,7 +382,7 @@
   padding-bottom: 0.025em;
   color: #006699;
   text-decoration: none;
-  border-bottom: 1px solid #006699;
+  border-bottom-color: #006699;
 }
 .post a[onclick],
 .post a[href^="javascript:"] {
@@ -402,15 +402,19 @@
 .post a[href^="javascript:"]:visited {
   color: #ffffff;
 }
+.post a:focus {
+  outline: thin dotted;
+}
 .post a:visited {
   color: #551a8b;
   border-bottom-color: #551a8b;
 }
-.post a:focus {
-  outline: thin dotted;
-}
-.post a:active,
 .post a:hover {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+.post a:hover,
+.post a:active {
   outline: 0;
 }
 .post b,
