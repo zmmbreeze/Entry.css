@@ -19,7 +19,9 @@
     div, p, blockquote, pre,
     ul, ol, table, figure,
     iframe {
-        margin: 0.5em 0 0 0;
+        margin-top: 0.5em;
+        margin-bottom: 0;
+        .layout-box;
         padding: 0;
         &:first-child {
             margin-top: 0;
@@ -30,9 +32,15 @@
     > ul, > ol, > table, > figure,
     > iframe {
         max-width: @content-width;
-        margin: 1em 0 0 0;
+        margin-top: 1em;
+        margin-bottom: 0;
+        display: block;  // for iframe
+        .layout-box;
         padding: 0 1em;
         .box-sizing;
+    }
+    > table {
+        display: table;
     }
     /* === block content === */
     h1, h2, h3, h4, h5, h6 {
@@ -71,7 +79,6 @@
         .start-with2word;
     }
     p, div {
-        /* text-indent: 2em; 避免继承，故不用 */
         .start-with2word;
     }
     blockquote {
@@ -100,12 +107,12 @@
     }
     pre {
         padding: 1em 4em;
-        line-height: 1.5; /* 强制设置行高，避免难看 */
+        line-height: 1.5; // 强制设置行高，避免难看
         white-space: pre;
         white-space: pre-wrap;
         word-wrap: break-word;
         font-family: monospace, serif;
-        font-size: 0.8571428571428571em; /* 12px */
+        font-size: 0.8571428571428571em; // 12px
         border: 1px solid @pre-border-color;
         border-right: none;
         border-left: none;
@@ -116,7 +123,7 @@
         padding-left: 4em;
         li {
             margin-top: 0.25em;
-            list-style-position: outside; /* 如果是inside，且li第一个元素是block元素，那么Firefox下会移到下一行*/
+            list-style-position: outside; // 如果是inside，且li第一个元素是block元素，那么Firefox下会移到下一行
             &:first-child {
                 margin-top: 0;
             }
@@ -149,7 +156,9 @@
     }
     hr {
         position: relative;
-        margin: 3em auto 3em 0; /* IE <= 9下如果margin-right: 0，那么会导致hr居中，而不是靠左*/
+        margin-top: 3em;
+        margin-bottom: 3em;
+        .layout-box;                // IE <= 9下如果margin-left: 0; margin-right: 0; 那么会导致hr居中，而不是靠左
         max-width: @content-width;
         height: 0;
         background: none;
@@ -176,7 +185,7 @@
     }
     table {
         padding: 0;
-        margin-left: 1em;
+        .layout-table;
         min-width: @content-width / 2;
         border-collapse: collapse;
         border-spacing: 0;
@@ -273,7 +282,7 @@
         margin: 0 0.25em;
         background: @code-back-color;
         font-family: monospace, serif;
-        font-size: 0.8571428571428571em; /* 12px */
+        font-size: 0.8571428571428571em; // 12px
         color: @code-color;
         border: 1px solid @code-border-color;
         .rounded-corners(0.25em);
@@ -305,7 +314,6 @@
             font-style: italic;
         }
     }
-    /* other */
     /* 书名号(han.css) */
     cite {
         font-style: inherit;

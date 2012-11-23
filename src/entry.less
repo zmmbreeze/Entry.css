@@ -30,6 +30,8 @@
  *          修复em下划线的颜色为word-color
  *          修复h1, h2内部的u,em,abbr的下划线颜色
  *          修证h1, h2, h3的padding-left和padding-right值
+ *      0.8 增加居中、居右两种布局
+ *          删掉三四级标题的配置
  *
  */
 
@@ -50,7 +52,10 @@
     -o-box-sizing: @box;
     box-sizing: @box;
 }
+
+// 段落开头空两个中文
 .start-with2word () {
+    // text-indent: 2em; 避免继承，故不用
     &:before {
         content: '　　';
         display: inline;
@@ -61,6 +66,8 @@
         content: '';
     }
 }
+
+// 背景线性渐变
 .background-linear-gradient (@pos: left, @start: rgba(255,255,255,0), @middle: white, @end: white) {
     background-image: -webkit-linear-gradient(@pos, @start 0%, @middle 80%, @end 100%);
     background-image: -moz-linear-gradient(@pos, @start 0%, @middle 80%, @end 100%);
@@ -68,6 +75,8 @@
     background-image: -o-linear-gradient(@pos, @start 0%, @middle 80%, @end 100%);
     background-image: linear-gradient(@pos, @start 0%, @middle 80%, @end 100%);
 }
+
+// 分栏样式
 .column (@width, @gap, @rule) {
     // opera and IE 10+ support without prefix
     -webkit-column-width: @width;
@@ -79,6 +88,67 @@
             column-width: @width;
             column-gap: @gap;
             column-rule: @rule;
+}
+
+// 左中右布局相关样式的文字
+.layout-text () {
+    text-align: left;
+}
+.layout-text () when (@layout = center) {
+    text-align: center;
+}
+.layout-text () when (@layout = right) {
+    text-align: right;
+}
+
+// 左中右布局相关样式的块级元素
+.layout-box () {
+    margin-left: 0;
+    margin-right: auto;
+}
+.layout-box () when (@layout = center) {
+    margin-left: auto;
+    margin-right: auto;
+}
+.layout-box () when (@layout = right) {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+// 左中右布局相关样式的table
+.layout-table () {
+    margin-left: 1em;
+}
+.layout-table () when (@layout = center) {
+    margin-left: auto;
+}
+.layout-table () when (@layout = right) {
+    margin-left: auto;
+    margin-right: 1em;
+}
+
+// 左中右布局相关样式的header
+.layout-header () {
+}
+.layout-header () when (@layout = center) {
+}
+.layout-header () when (@layout = right) {
+    padding-right: 0;
+}
+
+// 左中右布局相关样式的header中的块级元素
+.layout-header-box () {
+    display: block;
+}
+.layout-header-box () when (@layout = center) {
+    width: @content-width;
+    margin-left: auto;
+    margin-right: auto;
+}
+.layout-header-box () when (@layout = right) {
+    width: @content-width;
+    margin-left: auto;
+    margin-right: 0;
 }
 
 @import "entry-header.less";

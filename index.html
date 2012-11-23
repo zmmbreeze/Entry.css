@@ -16,15 +16,15 @@
 <body>
 <div class="entry-header">
     <h1>Entry.css中文文章样式解决方案</h1>
-    <div class="entry-meta">作者：<a href="http://mzhou.me/">mzhou</a> / <a href="https://twitter.com/zhoumm">@zhoumm</a><br/>下载：<a href="https://github.com/zmmbreeze/Entry.css">Github</a><br/>版本：beta 0.7
+    <div class="entry-meta">作者：<a href="http://mzhou.me/">mzhou</a> / <a href="https://twitter.com/zhoumm">@zhoumm</a><br/>下载：<a href="https://github.com/zmmbreeze/Entry.css">Github</a><br/>版本：beta 0.8
+        <br/>
+        <iframe src="http://ghbtns.com/github-btn.html?user=zmmbreeze&repo=Entry.css&type=watch&count=true"
+        allowtransparency="true" frameborder="0" scrolling="0" width="100" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=zmmbreeze&repo=Entry.css&type=fork&count=true"
+        allowtransparency="true" frameborder="0" scrolling="0" width="100" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=zmmbreeze&type=follow&count=true"
+        allowtransparency="true" frameborder="0" scrolling="0" width="200" height="20"></iframe>
     </div>
-    <br/>
-    <iframe src="http://ghbtns.com/github-btn.html?user=zmmbreeze&repo=Entry.css&type=watch&count=true"
-    allowtransparency="true" frameborder="0" scrolling="0" width="100" height="20"></iframe>
-    <iframe src="http://ghbtns.com/github-btn.html?user=zmmbreeze&repo=Entry.css&type=fork&count=true"
-    allowtransparency="true" frameborder="0" scrolling="0" width="100" height="20"></iframe>
-    <iframe src="http://ghbtns.com/github-btn.html?user=zmmbreeze&type=follow&count=true"
-    allowtransparency="true" frameborder="0" scrolling="0" width="200" height="20"></iframe>
 </div>
 
 <div class="entry">
@@ -69,7 +69,8 @@
 
     <h2 id="overview">概述</h2>
     <p><strong>Entry.css</strong>提供一种<em>可配置</em>的、<em>更适合阅读</em>的<strong>中文文章样式</strong>，满足一般的博客文章展示需求。它使用了<a href="http://www.lesscss.net/">Less css</a>作为开发工具。同时推荐使用<a href="http://daringfireball.net/projects/markdown/">markdown</a>来书写文章，然后转换成HTML。</p>
-    <!-- <p>它分为左、右和居中三种排版方式。默认为向左布局方式，通过在<code>entry</code>元素上加class <code>entry-right</code>或<code>entry-center</code>切换排版布局。</p> -->
+    <p>它分为左、右和居中三种排版方式。默认为向左布局方式，通过在<a href="#config">less的配置</a>中修改<code>@layout: left | center | right</code>值来使用不同的排版布局。</p>
+    <p>它还提供了可选的多栏模式（multi-column），不过此特性还在开发中，且各个主流浏览器支持不够好。</p>
 
     <h2 id="block">块级元素</h2>
 
@@ -311,9 +312,6 @@ console.log('Test');
 @blockquote-before-icon: '\275D';   // 前一个引用icon
 @blockquote-after-icon: '\275E';    // 后一个引用icon
 
-@h3-icon: '';               // h3的icon，默认没有
-@h4-border-color: '#CCC';   // h4,h5,h6的左边框颜色
-
 // 从bootstrap拷贝的颜色
 @code-color: #D14;              // code的文字颜色
 @code-back-color: #F7F7F9;      // code的背景色
@@ -333,6 +331,8 @@ console.log('Test');
 
 @mark-back-color: yellow;   // mark的背景色
 
+// 整体布局：默认为靠左，也可以设置为居中(center)、靠右(right)
+@layout: left;  // left | center | right
 
 /* ==========================================================
    Optional config

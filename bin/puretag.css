@@ -30,6 +30,8 @@
  *          修复em下划线的颜色为word-color
  *          修复h1, h2内部的u,em,abbr的下划线颜色
  *          修证h1, h2, h3的padding-left和padding-right值
+ *      0.8 增加居中、居右两种布局
+ *          删掉三四级标题的配置
  *
  */
 /* ===========================================================
@@ -46,6 +48,7 @@
    ========================================================================== */
 /* ================================================
    Multi-column
+   多栏样式，很多浏览器不支持，慎用！
    ================================================ */
 body {
   margin: 0;
@@ -70,8 +73,6 @@ body {
   /* code */
 
   /* image */
-
-  /* other */
 
   /* 书名号(han.css) */
 
@@ -105,7 +106,10 @@ body ol,
 body table,
 body figure,
 body iframe {
-  margin: 0.5em 0 0 0;
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-right: auto;
   padding: 0;
 }
 body h1:first-child,
@@ -141,13 +145,20 @@ body > table,
 body > figure,
 body > iframe {
   max-width: 560px;
-  margin: 1em 0 0 0;
+  margin-top: 1em;
+  margin-bottom: 0;
+  display: block;
+  margin-left: 0;
+  margin-right: auto;
   padding: 0 1em;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
   -o-box-sizing: border-box;
   box-sizing: border-box;
+}
+body > table {
+  display: table;
 }
 body h1,
 body h2,
@@ -201,11 +212,6 @@ body h6:before {
   content: '　　';
   display: inline;
 }
-body p,
-body div {
-  /* text-indent: 2em; 避免继承，故不用 */
-
-}
 body p:before,
 body div:before {
   content: '　　';
@@ -239,15 +245,11 @@ body blockquote:after {
 body pre {
   padding: 1em 4em;
   line-height: 1.5;
-  /* 强制设置行高，避免难看 */
-
   white-space: pre;
   white-space: pre-wrap;
   word-wrap: break-word;
   font-family: monospace, serif;
   font-size: 0.8571428571428571em;
-  /* 12px */
-
   border: 1px solid #e1e1e8;
   border-right: none;
   border-left: none;
@@ -262,8 +264,6 @@ body ul li,
 body ol li {
   margin-top: 0.25em;
   list-style-position: outside;
-  /* 如果是inside，且li第一个元素是block元素，那么Firefox下会移到下一行*/
-
 }
 body ul li:first-child,
 body ol li:first-child {
@@ -298,9 +298,10 @@ body li > div:first-child:before {
 }
 body hr {
   position: relative;
-  margin: 3em auto 3em 0;
-  /* IE <= 9下如果margin-right: 0，那么会导致hr居中，而不是靠左*/
-
+  margin-top: 3em;
+  margin-bottom: 3em;
+  margin-left: 0;
+  margin-right: auto;
   max-width: 560px;
   height: 0;
   background: none;
@@ -445,8 +446,6 @@ body code {
   background: #f7f7f9;
   font-family: monospace, serif;
   font-size: 0.8571428571428571em;
-  /* 12px */
-
   color: #dd1144;
   border: 1px solid #e1e1e8;
   -webkit-border-radius: 0.25em;
@@ -561,4 +560,24 @@ body header a {
 body header p:before,
 body header div:before {
   content: '';
+}
+body header > h1,
+body header > h2,
+body header > h3,
+body header > h4,
+body header > h5,
+body header > h6,
+body header > div,
+body header > p,
+body header > blockquote,
+body header > pre,
+body header > ul,
+body header > ol,
+body header > table,
+body header > figure,
+body header > iframe {
+  display: block;
+}
+body header > table {
+  display: table;
 }

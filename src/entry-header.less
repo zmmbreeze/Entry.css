@@ -12,6 +12,7 @@
     background-color: @word-back-color;
     .no-start-with2word;
     .box-sizing;
+    .layout-header;
     h1 {
         margin: 0;
         padding: 0;
@@ -26,5 +27,14 @@
     }
     p, div {
         .no-start-with2word;
+    }
+    > h1, > h2, > h3, > h4, > h5, > h6,
+    > div, > p, > blockquote, > pre,
+    > ul, > ol, > table, > figure, > iframe {
+        display: block;
+        .layout-header-box;
+    }
+    > table {
+        display: table;
     }
 }
