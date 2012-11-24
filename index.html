@@ -56,6 +56,7 @@
             <a href="#other">外部内容</a>
             <ul>
                 <li><a href="#inlineiframe">行内iframe按钮</a></li>
+                <li><a href="#codepenio">codepen.io</a></li>
                 <li><a href="#jsfiddle">jsfiddle</a></li>
                 <li><a href="#speakerDeck">Speaker Deck</a></li>
                 <li><a href="#slideShare">Slide Share</a></li>
@@ -268,6 +269,13 @@ console.log('Test');
           allowtransparency="true" frameborder="0" scrolling="0" width="60" height="20"></iframe>
         <iframe src="http://ghbtns.com/github-btn.html?user=zmmbreeze&type=follow"
             allowtransparency="true" frameborder="0" scrolling="0" width="180" height="20"></iframe>
+    </div>
+
+    <h3 id="codepenio">codepen.io</h3>
+    <div>
+        因为codepen.io的iframe宽度为100%，所以会根据父元素的宽度自适应iframe的宽度，且忽略掉iframe的max-width设置。所以必须使用一个div包裹它的embed代码。
+        <pre class="codepen" data-height="300" data-type="result" data-href="guLfC" data-user="zmmbreeze"><code></code></pre>
+        <script async src="http://codepen.io/assets/embed/ei.js"></script>
     </div>
 
     <h3 id="jsfiddle">jsfiddle</h3>
