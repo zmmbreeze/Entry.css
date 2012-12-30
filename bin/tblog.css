@@ -35,7 +35,7 @@
  *          删除普通a标签的左右边距
  *      0.9 增加限制图片的宽度
  *          增加section与article标签的支持
- *          
+ *          使pre标签不会自动换行
  *
  */
 /* ===========================================================
@@ -262,8 +262,8 @@ body {
   padding: 1em 4em;
   line-height: 1.5;
   white-space: pre;
-  white-space: pre-wrap;
-  word-wrap: break-word;
+  word-wrap: normal;
+  overflow: auto;
   font-family: monospace, serif;
   font-size: 0.8571428571428571em;
   border: 1px solid #e1e1e8;
