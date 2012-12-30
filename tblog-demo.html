@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Python Profile | HX</title>
+    <link rel="stylesheet/less" type="text/css" href="src/tblog.config.less" />
+    <script src="less-1.3.0.min.js"></script>
+    <!--
+    <link rel="stylesheet" href="bin/default.css" />
+    -->
+  </head>
+  <body>
+<article class="markdown">
+<h1 id="python-profiling_384">Python Profiling</h1>
+<p>Author: dreampuf(http://huangx.in)<br />
+Slide: http://www.slideshare.net/dreampuf/python-profiling</p>
+<p>TODO :</p>
+<ul>
+<li>socketconsole</li>
+<li>mmstats</li>
+<li>mmash</li>
+<li>pystuck</li>
+<li>scales</li>
+</ul>
+<h2 id="introduction_384">Introduction</h2>
+<p>性能分析(Performance analysis 或 profiling)是收集程序运行时信息为手段研究程序行为的分析方法。
+接下来的分析基于如下版本的<a href="http://zh.wikipedia.org/zh/快速排序">快排</a>。 </p>
+<pre><code>def qks(ls):
+    if not ls : return ls
+    p, ls = ls[0], ls[1:]
+    return qks([i for i in ls if i &lt; p]) + [p] + qks([i for i in ls if i &gt;= p])
+if __name__ == "__main__":
+    import random
+    ls = [random.randint(0, 100) for i in xrange(10)]
+</code></pre>
+<h2 id="time-utility-time-module-timeit-sysgetsizeof_384">time utility, time module, timeit, sys.getsizeof</h2>
+<p>本栏介绍一些系统Profile的工具。</p>
+<h3 id="time_384">time</h3>
+<p><code>time</code>是系统自带的测量工具，能够统计出程序在系统中的耗时。</p>
+<pre><code>dreampuf@HX:~/hub/fortest$ time python test_timeit.py
+0.143877983093
+real     0m0.184s  #实际总耗时
+user     0m0.166s  #应用耗时
+sys     0m0.015s  #应用期间执行系统指令耗时
+</code></pre>
+<p>需要注意的是，<code>real</code>一般而言是指程序总执行时间，但是真正的CPU占用可能只有一小部分，比如在执行<code>sleep 5</code>指令之后，并没有占用CPU 5s，而是将控制权让给了其他并行的程序。</p>
+<pre><code>dreampuf@HX:~/hub/fortest$ time sleep 5
+real     0m5.036s
+user     0m0.001s
+sys     0m0.003s
+</code></pre>
+<p><code>time</code>的特点：</p>
+<ul>
+<li>系统级别耗时（一般而言 real &gt; user + sys）</li>
+<li>应用耗时和系统调用耗时比率</li>
+</ul>
+<h3 id="time-module_384">time module</h3>
+<p>提起Profile，最直接的测量往往如下：</p>
+<pre><code>dreampuf@HX:~/hub/fortest$ python test_timeit.py
+2.31266021729e-05
+import time
+def time_module():
+    start = time.time()
+    qks(ls)
+    return time.time() - start
+COUNT = 100000
+print sum([time_module() for i in xrange(COUNT)])/COUNT
+</code></pre>
+<p>这当然只是最原始的方式，不过在不变更原有的代码基础之上，能够很快而且灵活的测量出执行时间，所以不失为一种方法。
+不过考虑到重用，最好还是封装到自己的常用函数中，<a href="http://pypi.python.org/pypi/Benchmarker/">Benchmarker</a>算是一个不错的封装，而且提供了比较完善的报表。</p>
+<p><code>time module</code> 特点：</p>
+<ul>
+<li>平台精度</li>
+<li>灵活</li>
+</ul>
+<h3 id="timeit_384">timeit</h3>
+<p>除了自己手写<code>time.time()</code>测量，Python 还提供了内置的<code>timeit</code>模块。这个模块相当于封装了<code>time module</code>的一些测量操作。</p>
+<pre><code>from timeit import Timer
+@Timer
+def caller():
+    qks(ls)
+print caller.timeit(10000)   #0.14427113533
+</code></pre>
+<p>除此之外，还能够在解释器环境中，快速执行测量。</p>
+<pre><code>In [1]: from timeit import timeit
+In [2]: timeit('s.appendleft(3)',
+   ...:        'import collections; s= collections.deque()', number=1000000)
+Out[2]: 0.1150519847869873
+In [3]: timeit('s.insert(0, 3)', 's=[]', number=1000000)
+Out[3]: 392.4638919830322
+</code></pre>
+<p><code>timeit</code>模块的特点：</p>
+<ul>
+<li>不同平台使用的time不同(Xinux 使用 <code>time.time()</code>, Windows 使用<code>time.clock()</code>)</li>
+<li><code>python -m timeit -s "import collections; s = collections.deque()" -n 1000000 "s.appendleft(3)"</code></li>
+</ul>
+<h3 id="sysgetsizeof_384">sys.getsizeof</h3>
+<p>除了耗时占用，有的时候我们需要对内存的占用有一个估算，那么内置的<code>sys.getsizeof</code>就能很好的帮助我们。</p>
+<pre><code>import sys
+def sys_getsizeof():
+    a = range(1000000)
+    b = xrange(1000000)
+    c = [i for i in xrange(1000000)]
+    print sys.getsizeof(a)     #8000072
+    print sys.getsizeof(b)     #40
+    print sys.getsizeof(c)     #8697472
+</code></pre>
+<p>上面三条语句分别测量的是：</p>
+<ul>
+<li>一个列表（Python 2.x）</li>
+<li>一个迭代器</li>
+<li>一个通过枚举器输出的列表推导</li>
+</ul>
+<p>第一种方式和第三种方式的不同在于，<code>range</code>是系统内置方法，他初始化就确定了列表大小，并不是动态增长的，所以没有动态增长带来的“盈余空间”。可以通过如下方式证明：</p>
+<pre><code>In [1]: import sys
+In [2]: a = range(1000000)
+In [3]: b = [i for i in xrange(1000000)]
+In [4]: sys.getsizeof(a)
+Out[4]: 8000072
+In [5]: sys.getsizeof(b)
+Out[5]: 8697472
+In [6]: a.append(1)
+In [7]: b.append(1)
+In [8]: sys.getsizeof(a)  # 由于不是通过动态增长，没有留下额外的空间，增加一个元素需要新开辟一段空间
+Out[8]: 9000128
+In [9]: sys.getsizeof(b)  # 而b则直接使用之前的盈余空间
+Out[9]: 8697472
+</code></pre>
+<p>当然，你也可以通过源码找到结果（Python2.7_SourceCode/Python/bltinmodule.c r1875）。
+下面是对于<code>sys.getsizeof</code>获取的容器大小的一个展示：</p>
+<pre><code>class Entity(object):
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+es = [Entity("dreampuf", 100) for i in xrange(1000000)]
+print sys.getsizeof(es)     #8697472
+print sum([sys.getsizeof(i) for i in es])     #64000000
+</code></pre>
+<p><code>sys.getsizeof</code>的特点：</p>
+<ul>
+<li>和实际有所出入(Python对象缓存池)</li>
+<li>容器还是对象</li>
+</ul>
+<h2 id="module-profile-cprofile-hotshot-pystats_384">Module: profile, cProfile, hotshot, pystats</h2>
+<p>系统自带的模块或多或少的能够帮助我们解决一些问题，但实际上在我们解决现实问题时有或这或那的不足。
+我们就需要其他模块来帮助我们定位问题。</p>
+<p><code>profile</code>, <code>cProfile</code> 以及 <code>hotshot</code>，他们拥有近似的接口，作用也有一样，就是采集运行时的调用信息，将信息打印或者保存为stats格式，供后期Profile。
+比如使用<code>cProfile</code>：</p>
+<pre><code>from cProfile import Profile as profile
+def profile_module():
+    p = profile()
+    p.enable()
+    qks(ls*100)
+    p.disable()
+    print p.getstats()
+dreampuf@HX:~/hub/fortest$ python test_timeit.py
+
+[_lsprof.profiler_entry(code="&lt;method 'disable' of '_lsprof.Profiler' objects&gt;", callcount=1, reccallcount=0, totaltime=0.0, inlinetime=0.0, calls=None), _lsprof.profiler_entry(code=&lt;code object qks at 0x10a1694b0, file "test_timeit.py", line 6&gt;, callcount=2001, reccallcount=2000, totaltime=0.01724, inlinetime=0.01724, calls=[_lsprof.profiler_subentry(code=&lt;code object qks at 0x10a1694b0, file "test_timeit.py", line 6&gt;, callcount=2000, reccallcount=1998, totaltime=0.017048, inlinetime=0.017048)])]
+</code></pre>
+<p>可以看到，直接输出的结果，几乎无法阅读。实际上，还需要借助其他的模块来格式化这些信息：</p>
+<pre><code>from cProfile import Profile as profile
+from pstats import Stats
+def profile_module():
+    p = profile()
+    p.snapshot_stats()
+    p.enable()
+    dirs(".")
+    p.disable()
+    p.print_stats(2)  # 按照调用累加总耗时累加排序，即将最耗时的函数最优先
+    p.dump_stats("call.log")
+</code></pre>
+<p>这样，我们就能够得到程序的调用结果：</p>
+<pre><code>dreampuf@HX:~/hub/fortest$ python test_timeit.py
+         135259 function calls in 0.071 seconds
+   Ordered by: cumulative time
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.002    0.002    0.071    0.071 test_timeit.py:101(dirs)
+       22    0.005    0.000    0.068    0.003 test_timeit.py:74(main)
+    10519    0.008    0.000    0.047    0.000 ast.py:203(walk)
+    10498    0.004    0.000    0.035    0.000 {method 'extend' of 'collections.deque' objects}
+    20975    0.015    0.000    0.031    0.000 ast.py:173(iter_child_nodes)
+       21    0.000    0.000    0.014    0.001 ast.py:32(parse)
+       21    0.014    0.001    0.014    0.001 {compile}
+    26234    0.009    0.000    0.011    0.000 ast.py:161(iter_fields)
+    39368    0.008    0.000    0.008    0.000 {isinstance}
+        1    0.002    0.002    0.004    0.004 collections.py:1(&lt;module&gt;)
+    15736    0.002    0.000    0.002    0.000 {getattr}
+        1    0.001    0.001    0.001    0.001 heapq.py:31(&lt;module&gt;)
+    10498    0.001    0.000    0.001    0.000 {method 'popleft' of 'collections.deque' objects}
+</code></pre>
+<h3 id="profile-vs-cprofile-vs-hotshot_384"><code>profile</code> vs. <code>cProfile</code> vs. <code>hotshot</code></h3>
+<p><img alt="" src="http://noteton-img.b0.upaiyun.com/u/2e9eab56-b396-43a7-b482-3361cc8830d4/790fde83-8b8e-4ff1-bcc2-c5931104e692.jpe" /></p>
+<p><code>profile</code>模块的特点：</p>
+<ul>
+<li>行级别调用信息（时间，次数）</li>
+<li>可以保存执行结果</li>
+<li>友好的输出信息</li>
+</ul>
+<h2 id="multithread-profiling_384">Multithread Profiling</h2>
+<p>在Python中，多线程的Profiling，可以通过统一的<code>threading.setprofile</code>接口绑定测量函数。
+具体内容可以参见下面的连接。</p>
+<ul>
+<li><a href="http://docs.python.org/library/threading.html#threading.setprofile">threading.setprofile(func)</a></li>
+<li><a href="http://docs.python.org/library/sys.html#sys.setprofile">sys.setprofile(profilefunc)</a></li>
+<li><a href="https://bitbucket.org/sumerc/yappi/src">Yet Another Python Profiler, but this time Thread-Aware</a></li>
+</ul>
+<h2 id="thrid-party-modules_384">Thrid-party modules</h2>
+<p>除了Python自带的模块，其他第三方模块提供了更好的易用功能。
+为了更好的展示这些功能，我们使用如下的基准代码：</p>
+<pre><code>import re
+import os
+import ast
+is_chinese = re.compile("[^\x00-\x7f]")
+mnode = re.compile("&gt;([^&lt;]+?)&lt;")
+breakline = re.compile("[\r\n]+")
+title = re.compile("&lt;title&gt;([^&lt;]+)&lt;/title&gt;")
+def main(filename):
+    with open(filename) as f:
+        data = f.read()
+    if filename[-3:] == ".py":
+        try:
+            node = ast.parse(data, filename=filename)
+        except:
+            return
+        for i in ast.walk(node):
+            if not isinstance(i, ast.Str):
+                continue
+            if is_chinese.search(i.s):
+                t = i.s if isinstance(i.s, str) else i.s.encode("u8")
+                #print t.strip()#, i.lineno, filename
+    elif filename[-3:] == "tml":
+        t = title.search(data)
+        if t:
+            pass
+            #print
+            #print "=========", t.group(1), "=========="
+        for i in mnode.finditer(data):
+            m = i.group(1).strip()
+            if m and is_chinese.search(m):
+                pass
+                #print "".join(map(lambda x: x.strip(), breakline.split(m)))#, i.start()
+def dirs(dirpath):
+    for current, ds, fs in os.walk(dirpath):
+        for f in fs:
+            if f[-3:] not in ('tml', '.py'):
+                continue
+            main(os.path.join(current, f))
+        break
+</code></pre>
+<p>上面的代码主要实现了对于一个目录下的<code>.py</code>文件以及<code>.html</code>文件中字符常量的遍历（已经将打印字符注释了）。
+这主要是解决一个项目中的文案重构工作。</p>
+<h3 id="line-profiler_384">Line Profiler</h3>
+<p><code>LineProfiler</code>如其名，能够对每一行的耗时做profile，下面是他的示例代码：</p>
+<pre><code>from line_profiler import LineProfiler
+def line_profiler():
+    p = LineProfiler()
+    dirs_lineprofiler = p(dirs)
+    dirs_lineprofiler(".")
+    p.print_stats()
+</code></pre>
+<p>这里需要注意的是，调用的函数需要是经过<code>LineProfiler</code>包装后的函数。</p>
+<pre><code>dreampuf@HX:~/hub/fortest$ python test_timeit.py
+Timer unit: 1e-06 s
+File: test_timeit.py
+Function: dirs at line 101
+Total time: 0.108716 s
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   101                                           def dirs(dirpath):
+   102         1         1129   1129.0      1.0      for current, ds, fs in os.walk(dirpath):
+   103        49           56      1.1      0.1          for f in fs:
+   104        48           50      1.0      0.0              if f[-3:] not in ('tml', '.py'):
+   105        26           16      0.6      0.0                  continue
+   106        22       107461   4884.6     98.8              main(os.path.join(current, f))
+   107         1            4      4.0      0.0          break
+</code></pre>
+<p>可以看到，上面的Profile结果没有包含子函数的调用，不过这点可以通过<code>line_profiler.LineProfiler()</code>函数解决，最简单的方法则是以装饰器的形式，标记在想要Profile的函数上。</p>
+<p><code>LineProfiler</code>的特点：</p>
+<ul>
+<li>直观</li>
+<li>准确（Python C API 实现的trace）</li>
+</ul>
+<h3 id="memory-profiler_384">Memory Profiler</h3>
+<p><code>Memory Profiler</code>是基于<code>Line Profiler</code>的一个对于内存占用的代码行Profile类库。使用结果如下：</p>
+<pre><code>dreampuf@HX:~/hub/fortest$ python test_timeit.py
+Filename: test_timeit.py
+Line #    Mem usage    Increment   Line Contents
+================================================
+   101      8.68 MB      0.00 MB   def dirs(dirpath):
+   102      8.68 MB      0.01 MB       for current, ds, fs in os.walk(dirpath):
+   103     11.59 MB      2.91 MB           for f in fs:
+   104     11.59 MB      0.00 MB               if f[-3:] not in ('tml', '.py'):
+   105     11.59 MB      0.00 MB                   continue
+   106     11.59 MB      0.00 MB               main(os.path.join(current, f))
+   107     11.59 MB      0.00 MB           break
+</code></pre>
+<h3 id="objgraph_384">Objgraph</h3>
+<p>在<code>sys.getsizeof</code>的例子中，我们看到了一些不是很直观结论。如果能够通过图示的方法展示内存中对象的引用，那么我们对程序的Profile理解，可能会更容易，<code>Objgraph</code>就是这样的工具。
+仍然是<code>sys.getsizeof</code>中的例子：</p>
+<pre><code>import objgraph
+def objgraph_profile():
+    a = range(1000000)
+    b = xrange(1000000)
+    c = (i for i in xrange(1000000))
+    class Entity(object):
+        def __init__(self, name, age):
+            self.name = name
+            self.age = age
+    es = [Entity("dreampuf", 100) for i in xrange(1000)]
+    objgraph.show_refs([es], filename='simple-es.png')
+</code></pre>
+<p>我们来分别看看这些容器对象在内存中的形态：</p>
+<p>a = range(1000000)
+<img alt="" src="http://noteton-img.b0.upaiyun.com/u/2e9eab56-b396-43a7-b482-3361cc8830d4/e10a9f41-485d-4426-bc94-1aaeea6cacd2.jpe" /></p>
+<p>b = xrange(1000000)  # 直接返回的是一个xrange对象，并没有展开</p>
+<p><img alt="" src="http://noteton-img.b0.upaiyun.com/u/2e9eab56-b396-43a7-b482-3361cc8830d4/5292cdd3-79af-41b6-9822-97fac2ede5cd.jpe" /></p>
+<p>c = (i for i in xrange(1000000)) # 注意，这里不是列表推倒了，而是一个<a href="http://wiki.python.org/moin/Generators">生成器</a></p>
+<p><img alt="" src="http://noteton-img.b0.upaiyun.com/u/2e9eab56-b396-43a7-b482-3361cc8830d4/9d350c67-f1f0-4ee6-ae13-373c69d12a68.jpe" /></p>
+<p>es = [Entity("dreampuf", 100) for i in xrange(1000)]  # 实体对象中，对于基本类型，Python并不会创建多份，而是不断的复用。</p>
+<p><img alt="" src="http://noteton-img.b0.upaiyun.com/u/2e9eab56-b396-43a7-b482-3361cc8830d4/e9c8ba4b-208f-4d4c-854d-e149da92c9be.jpe" /></p>
+<p><code>objgraph</code>的特点：</p>
+<ul>
+<li>图形结果，直观</li>
+<li>可以指定遍历层级（第三方模块，Python Module，CPython）</li>
+</ul>
+<h3 id="runsnakerun_384">RunSnakeRun</h3>
+<p><code>RunSnakeRun</code>是一个基于<code>wxPython</code>构建的图形界面<code>stats</code>分析工具。他能够通过<code>profile</code>模块得到的<code>stats</code>结果（以文件的形式），以TreeMap的形式展现出来程序的运行状态。你可以直观的了解到程序执行过程，CPU耗时，调用函数相关的实现，函数调用关系（当然，这些都是<code>stats</code>文件所包含的，只不过<code>RunSnakeRun</code>通过界面更直观的展示了出来）。</p>
+<p><img alt="" src="http://noteton-img.b0.upaiyun.com/u/2e9eab56-b396-43a7-b482-3361cc8830d4/51855d5e-80f8-49d5-bc17-6e247d352eb7.jpe" /></p>
+<h2 id="in-action_384">In Action</h2>
+<p>下面就给出一些我实际应用中Profile的例子。
+这是一个Django项目，主要是围绕内容做一些逻辑。逻辑本身很简单，这里只是给出一些我通过Profile得到的结论。</p>
+<pre><code>File: /home/dreampuf/hub/site/tag/views_tag.py
+Function: tag_index at line 50
+Total time: 0.144165 s
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    50                                           @profile.profile
+    51                                           def tag_index(req, tag_name):
+    74         1         4536   4536.0      3.1      question_list, page_next = qa_question_list(tag_name, TAG_ACTIVITY, page_len*(page_num-1), page_len)
+    75         2         4237   2118.5      2.9      activity_info_list = [qa_item(question_id) for question_id in question_list]
+
+    80         1          544    544.0      0.4      tag_hot_answer_id = cacheutil.mccallcache(600)(pgrpc.backend.get_tag_hot_qa)(tag_name, count=20)
+    81         1        23148  23148.0     16.1      tag_hot_answer = contents.get_list(tag_hot_answer_id)
+    82                                               #tag_hot_qa_id = list(set([i.related_content_id for i in tag_hot_answer]))
+    88         1         5176   5176.0      3.6      tag_hot_qa = contents.get_list(tag_hot_qa_id[:tag_module_list_len])
+    89
+    90         1         6746   6746.0      4.7      tag_latest_qa_id = pgrpc.backend.get_tag_latest_qa(tag_name, count=tag_module_list_len, answer_count=settings.DIGIT_TAG_LATEST_ANSWER)
+    91         1          248    248.0      0.2      tag_latest_qa = contents.get_list(tag_latest_qa_id)
+    94         1        63515  63515.0     44.1      side = _tag_side(tag_name)
+</code></pre>
+<p>上面的函数包含大概一百多行代码，在Profile之前，我肯定不会注意到<code>_tag_side(tag_name)</code>调用的损耗有这么多，往往都将精力聚焦在那些“以为”会出问题的地方，比如80行对于后端数据的调用，因为我知道这个调用逻辑比较多，“可能” 会是瓶颈。
+好在Profile解决了我的猜疑，有了上面的结论，只需要将精力专注在<code>_tag_side(tag_name)</code>这个函数中。
+下面是对这个函数的<code>Memory Profiler</code>的结果：</p>
+<pre><code>Filename: /home/dreampuf/hub/site/tag/views_tag.py
+Line #    Mem usage    Increment   Line Contents
+================================================
+    50                             @profile.mem_profile
+    51                             def tag_index(req, tag_name):
+    55     26.09 MB      1.68 MB       if req.method != 'GET':
+    56                                     raise Http404
+
+    73                                 #标签页问答动态
+    74     25.26 MB     -0.82 MB       question_list, page_next = qa_question_list(tag_name, TAG_ACTIVITY, page_len*(page_num-1), page_len)
+    75     26.09 MB      0.82 MB       activity_info_list = [qa_item(question_id) for question_id in question_list]
+    83                                 #有序且不重复
+    84     24.84 MB     -1.25 MB       tag_hot_qa_id = []
+    85     26.09 MB      1.25 MB       for i in tag_hot_answer:
+</code></pre>
+<p>下面这个函数，是处理上传文件的函数：</p>
+<pre><code>File: /home/dreampuf/hub/site/api/views_tag.py
+Function: tag_logo at line 29
+Total time: 0.32325 s
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    31                                           @profile.profile
+    32                                           def tag_logo(req, tag_name):
+    33         1           13     13.0      0.0      ukey = req.session.get('ukey')
+    36         1        32441  32441.0     10.0      tag_info = services.minerva.get_tag(tag=tag_name)
+    46         1        17087  17087.0      5.3      form = TagLogoForm(req.POST, req.FILES)
+    47         1          274    274.0      0.1      if not form.is_valid():
+    48                                                   return sessauth.api_error(2,u'参数格式错误')
+    51         1         8438   8438.0      2.6      data,request_id, filename = get_upload_file(req, FILE_UPLOAD_USER_MAXSIZE)
+    55         1            5      5.0      0.0      try:
+    56         1       104795 104795.0     32.4          image = imageutil.Image(data).resize((48, 48))
+    57         1          395    395.0      0.1          new_data = image.str_value()
+    58                                               except Exception, ex:
+    59                                                   print ex
+    65         1            2      2.0      0.0      try:
+    66         1           14     14.0      0.0          filekey=pgrpc.backend.new_fixedfile(request_id,
+    67         1            3      3.0      0.0                  filesize=len(new_data),
+    68         1        34996  34996.0     10.8                  filesha1=strutil.sha1sum(new_data))
+    69                                               except pgrpc.LogicError,ex:
+    70                                                   return sessauth.api_error(712,u'文件注册失败')
+    71         1          281    281.0      0.1      save_gkimage(filekey, new_data, image.suffix)
+    72
+    73         1           21     21.0      0.0      url = storage.filekey2url(filekey, settings.STORAGE_BASEURL, image.suffix)
+    74         1            2      2.0      0.0      try:
+    75         1         8066   8066.0      2.5          services.minerva.post_tag(tag=tag_name, logo=url)
+    76                                               except services.APIError, ex:
+    77                                                   return sessauth.api_error(712,u'文件上传失败')
+    79         1         2107   2107.0      0.7      pgrpc.cache.kill('tag', tag_name)
+    89         1       114058 114058.0     35.3      services.juno.audit(**data)
+</code></pre>
+<p>除了后端接口调用，以及图片处理本身，文件Key的生成也是很耗时（68行）。</p>
+<pre><code>Filename: /home/dreampuf/hub/site/api/views_tag.py
+Line #    Mem usage    Increment   Line Contents
+================================================
+    31                             @profile.mem_profile
+    32     25.62 MB      0.00 MB   def tag_logo(req, tag_name):
+    33     25.62 MB      0.01 MB       ukey = req.session.get('ukey')
+    46     26.31 MB      0.68 MB       form = TagLogoForm(req.POST, req.FILES)
+    47     26.31 MB      0.00 MB       if not form.is_valid():
+    48                                     return sessauth.api_error(2,u'参数格式错误')
+    49
+    50     26.31 MB      0.00 MB       try:
+    51     26.95 MB      0.64 MB           data,request_id, filename = get_upload_file(req, FILE_UPLOAD_USER_MAXSIZE)
+    52                                 except UploadError,ex:
+    53                                     return sessauth.api_error(ex.errnum,ex.errmsg)
+    54
+    55     26.95 MB      0.00 MB       try:
+    56     27.11 MB      0.16 MB           image = imageutil.Image(data).resize((48, 48))
+    57     27.11 MB      0.00 MB           new_data = image.str_value()
+    58                                 except Exception, ex:
+    59                                     print ex
+    79     27.29 MB      0.18 MB       pgrpc.cache.kill('tag', tag_name)
+    80                                 #RC.kill?
+    81     27.29 MB      0.00 MB       data = {
+    87     26.66 MB     -0.64 MB               'context': tag_info['logo'],
+    88                                        }
+    89     26.68 MB      0.02 MB       services.juno.audit(**data)
+</code></pre>
+<p>上面是内存消耗情况，在上传文件时，表单的创建需要拷贝文件，处理文件（<code>get_upload_file</code>函数）也需要拷贝一份文件。
+从而我们可以得到优化方案，即复用表单中的<code>File</code>对象，直接处理表单中的文件对象。</p>
+<h3 id="how-to_384">How to</h3>
+<p>对于优化性能，问了一下身边的同事，各有各的看法。</p>
+<ul>
+<li>雪柏：定位问题，缓存</li>
+<li>王瑞：优化算法，使用trick</li>
+<li>敏明：理清逻辑，缓存，分时计算</li>
+<li>明理：定位问题，优化算法，缓存</li>
+</ul>
+<h2 id="conclusion-from-python-essential-reference4th_384">Conclusion (From Python Essential Reference，4th)</h2>
+<ol>
+<li>理解你的程序</li>
+<li>不要过度抽象</li>
+<li>使用合适的Entity</li>
+<li>使用<code>__slots__</code></li>
+<li>避免重复引用</li>
+<li>不常见情况使用异常</li>
+<li>避免对常见情况使用异常</li>
+<li>推崇函数式编程和迭</li>
+<li>使用装饰器和元类</li>
+</ol>
+<h3 id="guido-van-rossums-talk_384">Guido van Rossum's talk</h3>
+<p><a href="https://plus.google.com/115212051037621986145/posts/HajXHPGN752">Source</a></p>
+<ul>
+<li>Avoid overengineering datastructures. Tuples are better than objects (try namedtuple too though). Prefer simple fields over getter/setter functions.</li>
+<li>Built-in datatypes are your friends. Use more numbers, strings, tuples, lists, sets, dicts. Also check out the collections library, esp. deque.</li>
+<li>Be suspicious of function/method calls; creating a stack frame is expensive.</li>
+<li>Don't write Java (or C++, or Javascript, ...) in Python.</li>
+<li>Are you sure it's too slow? Profile before optimizing!</li>
+<li>The universal speed-up is rewriting small bits of code in C. Do this only when all else fails.</li>
+<li>(Michael Foord) Understand the performance characteristics of basic operations on the builtin types. For example checking for membership in a list is O(N) but for a set or dictionary it is O(1). Adding lists and tuples creates new objects, inserting to the left of a list is O(N) whilst append is O(1) (use a deque instead). And so on.</li>
+</ul>
+<h2 id="reference_763">Reference</h2>
+<ul>
+<li><a href="http://pypi.python.org/pypi/Benchmarker/">Benchmarker</a></li>
+<li><a href="http://www.slideshare.net/kwatch/benchmarker-a-good-friend-for-performance">Benchmarker - a good friend for performance</a></li>
+<li><a href="http://wiki.python.org/moin/PythonSpeed">Python Speed</a></li>
+<li><a href="http://wiki.python.org/moin/PythonSpeed/PerformanceTips">Python Speed - Performance Tips</a></li>
+<li><a href="http://article.yeeyan.org/view/20180/5371">究竟是什么使Linux滴答地响</a></li>
+<li><a href="http://docs.python.org/library/profile.html">The Python Profilers</a></li>
+<li><a href="http://code.activestate.com/recipes/465831-profiling-threads/">Profiling threads</a></li>
+<li><a href="http://ianozsvald.com/HighPerformancePythonfromTrainingatEuroPython2011_v0.2.pdf">High Performance Python tutorial</a></li>
+<li><a href="http://www.vrplumber.com/programming/runsnakerun/">RunSnakeRun</a></li>
+<li><a href="http://blog.csdn.net/lanphaday/article/details/1483728">用profile协助程序性能优化</a></li>
+<li><a href="http://www.doughellmann.com/PyMOTW/profile/">profile,cProfile, and stats - Performance analysis of Python programs</a></li>
+<li><a href="http://packages.python.org/line_profiler/">Line Profiler</a></li>
+<li><a href="https://github.com/fabianp/memory_profiler">Memory Profiler</a></li>
+<li><a href="http://mg.pov.lt/objgraph/">Objgraph</a></li>
+<li><a href="http://www.huyng.com/posts/python-performance-analysis/">A guide to analyzing Python performance</a></li>
+<li><a href="http://zh.wikipedia.org/wiki/性能分析">性能分析</a></li>
+<li><a href="http://blip.tv/pycon-us-videos-2009-2010-2011/introduction-to-python-profiling-1966784">Introduction to Python Profiling</a></li>
+</ul>
+<p><span class="public-date">发表于2012-09-10 15:33:26</span></p>
+</article>
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/github.min.css" media="all" /><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/highlight.min.js"></script><script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>

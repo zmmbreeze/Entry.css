@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>CodernityDB | HX</title>
+    <link rel="stylesheet/less" type="text/css" href="src/tblog.config.less" />
+    <script src="less-1.3.0.min.js"></script>
+    <!--
+    <link rel="stylesheet" href="bin/default.css" />
+    -->
+  </head>
+  <body>
+
+<article class="markdown">
+<section id="CodernityDB"><header><h1>CodernityDB</h1></header></section>
+<p>放弃CodernityDB。</p>
+<p>EXCELLENCE:</p>
+<ul>
+<li>
+<p>纯Python，没有引入额外的依赖。</p>
+</li>
+<li>
+<p>过程透明，存储方式，结构，序列化，查询都需要有所了解。每个查询都需要建立一个Index</p>
+</li>
+<li>
+<p>代码结构简单易于阅读</p>
+</li>
+<li>
+<p>对于并发的支持，提供了本地模式，线程安全模式以及独立Server模式。</p>
+</li>
+</ul>
+<p>DEFECT:</p>
+<ul>
+<li>
+<p>API仍然只是针对存储过程，没有面向存储服务，暴露非常多的细节，想要简单使用成本仍然很大</p>
+</li>
+<li>
+<p>比上不足，比下不够。demo会考虑<code>anydbm</code>，<code>shelve</code>，或者<code>sqlite</code>，产品开发会用生产型数据库，CodernityDB的定位是基于本地存储的纯Python应用，除非比anydbm,sqlite更简单易上手（还很不足），比pg,mysql更轻量（已经达到了），否则很难被考虑</p>
+</li>
+<li>
+<p>文档。无法解决我的使用，需要翻阅源码以及联系开发者。</p>
+</li>
+<li>
+<p>维护，一个使用中的系统必然涉及持续的增长变化，如果没有一个方便的调试方式或者维护接口，无论是开发还是维护都是地狱般举步维艰。</p>
+</li>
+</ul>
+<p>CONCLUSION:</p>
+<p>作为开源框架，学习的价值大于生产环境使用的价值。</p>
+<p>另外今天得知自己提交的一个Pull Request 终于可能在下个版本中<a href="https://bitbucket.org/codernity/codernitydb/pull-request/2/fix-database-_add_single_index-add-source/diff#comment-51280">被采用</a>，对话中发现开发者对于基本类库缺乏一定了解。</p>
+<p><span class="public-date">发表于2012-11-26 06:04:37</span></p>
+</article>
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/github.min.css" media="all" /><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/highlight.min.js"></script><script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>

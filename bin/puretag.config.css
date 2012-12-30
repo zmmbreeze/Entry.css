@@ -34,6 +34,8 @@
  *          删掉三四级标题的配置
  *          删除普通a标签的左右边距
  *      0.9 增加限制图片的宽度
+ *          增加section与article标签的支持
+ *          
  *
  */
 /* ===========================================================
@@ -52,7 +54,7 @@
    Multi-column
    多栏样式，很多浏览器不支持，慎用！
    ================================================ */
-.markdown {
+body {
   margin: 0;
   line-height: 1.62;
   color: #666666;
@@ -93,66 +95,70 @@
   /* disqus支持 */
 
 }
-.markdown h1,
-.markdown h2,
-.markdown h3,
-.markdown h4,
-.markdown h5,
-.markdown h6,
-.markdown div,
-.markdown p,
-.markdown blockquote,
-.markdown pre,
-.markdown ul,
-.markdown ol,
-.markdown table,
-.markdown figure,
-.markdown iframe {
+body h1,
+body h2,
+body h3,
+body h4,
+body h5,
+body h6,
+body div,
+body p,
+body blockquote,
+body pre,
+body ul,
+body ol,
+body table,
+body figure,
+body iframe,
+body section,
+body article {
   margin-top: 0.5em;
   margin-bottom: 0;
   margin-left: 0;
-  margin-left: auto;
   margin-right: auto;
   padding: 0;
 }
-.markdown h1:first-child,
-.markdown h2:first-child,
-.markdown h3:first-child,
-.markdown h4:first-child,
-.markdown h5:first-child,
-.markdown h6:first-child,
-.markdown div:first-child,
-.markdown p:first-child,
-.markdown blockquote:first-child,
-.markdown pre:first-child,
-.markdown ul:first-child,
-.markdown ol:first-child,
-.markdown table:first-child,
-.markdown figure:first-child,
-.markdown iframe:first-child {
+body h1:first-child,
+body h2:first-child,
+body h3:first-child,
+body h4:first-child,
+body h5:first-child,
+body h6:first-child,
+body div:first-child,
+body p:first-child,
+body blockquote:first-child,
+body pre:first-child,
+body ul:first-child,
+body ol:first-child,
+body table:first-child,
+body figure:first-child,
+body iframe:first-child,
+body section:first-child,
+body article:first-child {
   margin-top: 0;
 }
-.markdown > h1,
-.markdown > h2,
-.markdown > h3,
-.markdown > h4,
-.markdown > h5,
-.markdown > h6,
-.markdown > div,
-.markdown > p,
-.markdown > blockquote,
-.markdown > pre,
-.markdown > ul,
-.markdown > ol,
-.markdown > table,
-.markdown > figure,
-.markdown > iframe {
-  max-width: 600px;
+body > h1,
+body > h2,
+body > h3,
+body > h4,
+body > h5,
+body > h6,
+body > div,
+body > p,
+body > blockquote,
+body > pre,
+body > ul,
+body > ol,
+body > table,
+body > figure,
+body > iframe,
+body > section,
+body > article {
+  max-width: 560px;
   margin-top: 1em;
   margin-bottom: 0;
   display: block;
   margin-left: 0;
-  margin-left: auto;
   margin-right: auto;
   padding: 0 1em;
   -webkit-box-sizing: border-box;
@@ -161,75 +167,75 @@
   -o-box-sizing: border-box;
   box-sizing: border-box;
 }
-.markdown > table {
+body > table {
   display: table;
 }
-.markdown h1,
-.markdown h2,
-.markdown h3,
-.markdown h4,
-.markdown h5,
-.markdown h6 {
+body h1,
+body h2,
+body h3,
+body h4,
+body h5,
+body h6 {
   font-weight: bold;
 }
-.markdown h1,
-.markdown h2 {
+body h1,
+body h2 {
   font-size: 2em;
-  color: #666666;
-  background-color: transparent;
+  color: #ffffff;
+  background-color: #96b3d3;
 }
-.markdown h1 a,
-.markdown h2 a {
-  color: #666666;
+body h1 a,
+body h2 a {
+  color: #ffffff;
 }
-.markdown h1 a,
-.markdown h2 a,
-.markdown h1 em,
-.markdown h2 em,
-.markdown h1 u,
-.markdown h2 u,
-.markdown h1 abbr[title],
-.markdown h2 abbr[title] {
-  border-bottom-color: #666666;
+body h1 a,
+body h2 a,
+body h1 em,
+body h2 em,
+body h1 u,
+body h2 u,
+body h1 abbr[title],
+body h2 abbr[title] {
+  border-bottom-color: #ffffff;
 }
-.markdown > h1 {
+body > h1 {
   padding-right: 0.5em;
   padding-left: 0.5em;
 }
-.markdown h2 {
+body h2 {
   font-size: 1.5em;
 }
-.markdown > h2 {
+body > h2 {
   padding-right: 0.6666666666666666em;
   padding-left: 0.6666666666666666em;
 }
-.markdown h3 {
+body h3 {
   font-size: 1.2em;
 }
-.markdown > h3 {
+body > h3 {
   padding-right: 0.7692307692307692em;
   padding-left: 0.7692307692307692em;
 }
-.markdown h4:before,
-.markdown h5:before,
-.markdown h6:before {
+body h4:before,
+body h5:before,
+body h6:before {
   content: '　　';
   display: inline;
 }
-.markdown p:before,
-.markdown div:before {
+body p:before,
+body div:before {
   content: '　　';
   display: inline;
 }
-.markdown blockquote {
+body blockquote {
   position: relative;
   padding: 1em 4em;
 }
-.markdown blockquote div:before,
-.markdown blockquote p:before {
+body blockquote div:before,
+body blockquote p:before {
   content: '';
 }
-.markdown blockquote:before {
+body blockquote:before {
   position: absolute;
   content: '\275D';
   top: 0;
@@ -237,7 +243,7 @@
   font-size: 2em;
   color: #cccccc;
 }
-.markdown blockquote:after {
+body blockquote:after {
   position: absolute;
   content: '\275E';
   bottom: 0;
@@ -246,7 +252,7 @@
   font-size: 2em;
   color: #cccccc;
 }
-.markdown pre {
+body pre {
   padding: 1em 4em;
   line-height: 1.5;
   white-space: pre;
@@ -257,57 +263,56 @@
   border: 1px solid #e1e1e8;
   border-right: none;
   border-left: none;
-  background-color: #fbfbfb;
+  background-color: #fefefe;
 }
-.markdown ul,
-.markdown ol {
+body ul,
+body ol {
   margin-top: 1em;
   padding-left: 4em;
 }
-.markdown ul li,
-.markdown ol li {
+body ul li,
+body ol li {
   margin-top: 0.25em;
   list-style-position: outside;
 }
-.markdown ul li:first-child,
-.markdown ol li:first-child {
+body ul li:first-child,
+body ol li:first-child {
   margin-top: 0;
 }
-.markdown ul li {
+body ul li {
   list-style-type: square;
 }
-.markdown ul li ul li {
+body ul li ul li {
   list-style-type: disc;
 }
-.markdown ul li ul li ul li {
+body ul li ul li ul li {
   list-style-type: circle;
 }
-.markdown ol li {
+body ol li {
   list-style-type: decimal;
 }
-.markdown ol li ol li {
+body ol li ol li {
   list-style-type: upper-roman;
 }
-.markdown ol li ol li ol li {
+body ol li ol li ol li {
   list-style-type: lower-roman;
 }
-.markdown li > ul,
-.markdown li > ol {
+body li > ul,
+body li > ol {
   margin-top: 0;
   padding-left: 3em;
 }
-.markdown li > p:first-child:before,
-.markdown li > div:first-child:before {
+body li > p:first-child:before,
+body li > div:first-child:before {
   content: '';
 }
-.markdown hr {
+body hr {
   position: relative;
   margin-top: 3em;
   margin-bottom: 3em;
   margin-left: 0;
-  margin-left: auto;
   margin-right: auto;
-  max-width: 600px;
+  max-width: 560px;
   height: 0;
   background: none;
   border: none;
@@ -318,15 +323,15 @@
   -o-box-sizing: border-box;
   box-sizing: border-box;
 }
-.markdown hr:before,
-.markdown hr:after {
+body hr:before,
+body hr:after {
   content: '';
   position: absolute;
   width: 30%;
   height: 2px;
   pointer-events: none;
 }
-.markdown hr:before {
+body hr:before {
   left: 0;
   right: auto;
   background-image: -webkit-linear-gradient(right, rgba(255, 255, 255, 0) 0%, #ffffff 80%, #ffffff 100%);
@@ -335,7 +340,7 @@
   background-image: -o-linear-gradient(right, rgba(255, 255, 255, 0) 0%, #ffffff 80%, #ffffff 100%);
   background-image: linear-gradient(right, rgba(255, 255, 255, 0) 0%, #ffffff 80%, #ffffff 100%);
 }
-.markdown hr:after {
+body hr:after {
   top: 0;
   right: 0;
   background-image: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #ffffff 80%, #ffffff 100%);
@@ -344,11 +349,10 @@
   background-image: -o-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #ffffff 80%, #ffffff 100%);
   background-image: linear-gradient(left, rgba(255, 255, 255, 0) 0%, #ffffff 80%, #ffffff 100%);
 }
-.markdown table {
+body table {
   padding: 0;
   margin-left: 1em;
-  margin-left: auto;
-  min-width: 300px;
+  min-width: 280px;
   border-collapse: collapse;
   border-spacing: 0;
   border: 1px solid #dddddd;
@@ -358,40 +362,40 @@
   -o-border-radius: 0.5em;
   border-radius: 0.5em;
 }
-.markdown table caption {
+body table caption {
   padding: 0.5em 0 0.25em;
 }
-.markdown table thead th {
+body table thead th {
   text-align: left;
 }
-.markdown table tbody {
+body table tbody {
   margin: 0 1em;
 }
-.markdown table tbody td,
-.markdown table tbody th {
+body table tbody td,
+body table tbody th {
   border-top: 1px solid #dddddd;
 }
-.markdown table tbody tr:nth-child(odd) td,
-.markdown table tbody tr:nth-child(odd) th {
+body table tbody tr:nth-child(odd) td,
+body table tbody tr:nth-child(odd) th {
   background-color: #f9f9f9;
 }
-.markdown table td,
-.markdown table th {
+body table td,
+body table th {
   padding: 0.5em 1em;
   border-left: 1px solid #dddddd;
 }
-.markdown table td:first-child,
-.markdown table th:first-child {
+body table td:first-child,
+body table th:first-child {
   border-left: none;
 }
-.markdown a {
+body a {
   padding-bottom: 0.025em;
   color: #006699;
   text-decoration: none;
   border-bottom-color: #006699;
 }
-.markdown a[onclick],
-.markdown a[href^="javascript:"] {
+body a[onclick],
+body a[href^="javascript:"] {
   margin: 0 0.25em;
   padding: 0.25em 0.5em;
   font-size: 0.8571428571428571em;
@@ -404,51 +408,51 @@
   border-radius: 0.25em;
   border-bottom: none;
 }
-.markdown a[onclick]:visited,
-.markdown a[href^="javascript:"]:visited {
+body a[onclick]:visited,
+body a[href^="javascript:"]:visited {
   color: #ffffff;
 }
-.markdown a:focus {
+body a:focus {
   outline: thin dotted;
 }
-.markdown a:visited {
+body a:visited {
   color: #551a8b;
   border-bottom-color: #551a8b;
 }
-.markdown a:hover {
+body a:hover {
   border-bottom-width: 1px;
   border-bottom-style: solid;
 }
-.markdown a:hover,
-.markdown a:active {
+body a:hover,
+body a:active {
   outline: 0;
 }
-.markdown b,
-.markdown strong {
+body b,
+body strong {
   font-weight: bold;
 }
-.markdown u,
-.markdown em {
+body u,
+body em {
   padding-bottom: .05em;
   font-style: normal;
   font-weight: normal;
   border-bottom: 2px dotted #666666;
 }
-.markdown u {
+body u {
   text-decoration: none;
   border-bottom-width: 1px;
   border-bottom-style: solid;
 }
-.markdown em + em,
-.markdown em + u,
-.markdown u + em,
-.markdown u + u {
+body em + em,
+body em + u,
+body u + em,
+body u + u {
   margin-left: 0.125em;
 }
-.markdown code {
+body code {
   padding: 0.15em 0.25em;
   margin: 0 0.25em;
-  background: #fefefe;
+  background: #f7f7f9;
   font-family: monospace, serif;
   font-size: 0.8571428571428571em;
   color: #dd1144;
@@ -459,7 +463,7 @@
   -o-border-radius: 0.25em;
   border-radius: 0.25em;
 }
-.markdown pre code {
+body pre code {
   padding: 0;
   margin: 0;
   font-size: 1em;
@@ -467,65 +471,123 @@
   background: none;
   border: none;
 }
-.markdown img {
-  max-width: 600px;
+body img {
+  max-width: 560px;
   border: 0;
 }
-.markdown figure img {
+body figure img {
   display: block;
   margin: 0 auto;
   padding: 0.5em;
   max-width: 97%;
   border: 1px solid #cccccc;
 }
-.markdown figure figcaption {
+body figure figcaption {
   display: block;
   margin-top: 0.5em;
   text-align: center;
   font-style: italic;
 }
-.markdown cite {
+body cite {
   font-style: inherit;
 }
-.markdown cite:before,
-.markdown cite:after {
+body cite:before,
+body cite:after {
   content: "《";
   line-height: inherit;
 }
-.markdown cite:after {
+body cite:after {
   content: "》";
 }
-.markdown abbr[title] {
+body abbr[title] {
   padding-bottom: 0.05em;
   cursor: help;
   border-bottom: 1px dotted #666666;
 }
-.markdown dfn {
+body dfn {
   font-style: italic;
 }
-.markdown mark {
+body mark {
   background: #ffff00;
   color: #666666;
 }
-.markdown q {
+body q {
   quotes: "\201C" "\201D" "\2018" "\2019";
 }
-.markdown small {
+body small {
   font-size: 80%;
 }
-.markdown sub,
-.markdown sup {
+body sub,
+body sup {
   font-size: 75%;
   line-height: 0;
   position: relative;
   vertical-align: baseline;
 }
-.markdown sup {
+body sup {
   top: -0.5em;
 }
-.markdown sub {
+body sub {
   bottom: -0.25em;
 }
-.markdown #disqus_thread {
+body #disqus_thread {
   margin-top: 2em;
+}
+body header {
+  margin: 0;
+  padding: 1em 2em;
+  max-width: 100%;
+  color: #ffffff;
+  overflow: hidden;
+  font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", "Lucida Grande", "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei", "wenquanyi micro hei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background-color: #83a1d5;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body header:before {
+  content: '';
+}
+body header h1 {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  line-height: 1.5;
+  color: #ffffff;
+  background-color: #83a1d5;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body header a {
+  color: #ffffff;
+}
+body header p:before,
+body header div:before {
+  content: '';
+}
+body header > h1,
+body header > h2,
+body header > h3,
+body header > h4,
+body header > h5,
+body header > h6,
+body header > div,
+body header > p,
+body header > blockquote,
+body header > pre,
+body header > ul,
+body header > ol,
+body header > table,
+body header > figure,
+body header > iframe {
+  display: block;
+}
+body header > table {
+  display: table;
 }
