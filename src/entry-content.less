@@ -20,7 +20,7 @@
     ul, ol, table, figure,
     iframe,
     section, article {
-        margin-top: 0.5em;
+        margin-top: 0;
         margin-bottom: 0;
         .layout-box;
         padding: 0;
@@ -28,13 +28,15 @@
             margin-top: 0;
         }
     }
+    // 文字默认行框高为 h = 1em * @line-height
     > h1, > h2, > h3, > h4, > h5, > h6,
     > div, > p, > blockquote, > pre,
     > ul, > ol, > table, > figure,
     > iframe,
     > section, > article {
         max-width: @content-width;
-        margin-top: 1em;
+        // 默认上间隔为 @line-height * 1em = h
+        margin-top: @line-height * 1em;
         margin-bottom: 0;
         display: block;  // for iframe
         .layout-box;
@@ -48,8 +50,10 @@
     h1, h2, h3, h4, h5, h6 {
         font-weight: bold;
     }
+    // h1的行框高为：2em * @line-height = h
     h1, h2 {
         font-size: 2em;
+        line-height: @line-height / 2;
         color: @word-highlight-color-2;
         background-color: @word-back-color-2;
         a {
@@ -60,24 +64,38 @@
         }
     }
     > h1 {
+        // h1的上间隔为 2em * @line-height * 1em = 2h
+        margin-top: @line-height * 1em;
         padding-right: 1/2em;
         padding-left: 1/2em;
     }
+    // h2的行框高为：1.5em * @line-height / 1.5 = h
     h2 {
         font-size: 1.5em;
+        line-height: @line-height / 1.5;
     }
     > h2 {
+        // h2的上间隔为 1.5em * @line-height * 2em / 1.5 = 2h
+        margin-top: @line-height * 2em / 1.5;
         padding-right: 1/1.5em;
         padding-left: 1/1.5em;
     }
+    // h3的行框高为：1.2em * @line-height * 1 / 1.2 = h
     h3 {
         font-size: 1.2em;
+        line-height: @line-height / 1.2;
     }
     > h3 {
+        // h3的上间隔为 1.2em * @line-height * 1em / 1.2 = h
+        margin-top: @line-height * 1em / 1.2;
         padding-right: 1/1.3em;
         padding-left: 1/1.3em;
     }
+    // h4, h5, h6的行框高为：1em * @
+    // h4, h5, h6的上间隔为 1em * @line-height = h
     h4, h5, h6 {
+        font-size: 1em;
+        line-height: @line-height;
         .start-with2word;
     }
     p, div {
@@ -108,23 +126,37 @@
         }
     }
     pre {
-        padding: 1em 4em;
-        line-height: 1.5; // 强制设置行高，避免难看
+        /*
+        // pre上间距为： 1em * (14 / 16) * @line-height * 1em * (16 / 14) = h
+        margin-top: @line-height * 1em * 16 / 14;
+        // pre上下内间距为：
+        //      1em * (14 / 16) * @line-height * 0.5em * (16 / 14) = 0.5h
+        padding: @line-height * 0.5em * 16 / 14 4em;
+        // pre行框高为：(14h/32) * (16/14) = h/2
+        line-height: 16 / 14; // 强制设置行高，避免难看
+        // pre字体大小为：14h/32
+        font-size: (1em * @line-height / 2) * (14/16);
+        */
+        // pre上下内间距为：
+        //      1em * (14 / 16) * @line-height * 0.5em * (16 / 14) = 0.5h
+        padding: @line-height * 0.5em 4em;
+        line-height: @line-height;
+        font-size: 1em;
+
         white-space: pre;
         word-wrap: normal;  // reset
         overflow: auto;
         font-family: @code-font-family;
-        font-size: 0.8571428571428571em; // 12px
-        border: 1px solid @pre-border-color;
+        // border: 1px solid @pre-border-color;
         border-right: none;
         border-left: none;
         background-color: @pre-back-color;
     }
     ul, ol {
-        margin-top: 1em;
+        // ul, ol 上间隔为 @line-height * 1em = h
+        margin-top: @line-height * 1em;
         padding-left: 4em;
         li {
-            margin-top: 0.25em;
             list-style-position: outside; // 如果是inside，且li第一个元素是block元素，那么Firefox下会移到下一行
             &:first-child {
                 margin-top: 0;
@@ -158,13 +190,21 @@
     }
     hr {
         position: relative;
-        margin-top: 3em;
-        margin-bottom: 3em;
-        .layout-box;                // IE <= 9下如果margin-left: 0; margin-right: 0; 那么会导致hr居中，而不是靠左
+        // hr的上内边距为： @line-height / 2 * 1em = 0.5h
+        padding-top: @line-height / 2 * 1em;
+        // hr的上外边距为： @line-height / 2 * 5em = 2.5h
+        // 使用margin-bottom，故可以合并
+        margin-bottom: @line-height / 2 * 5em;
+        // 去掉border-bottom的2px，避免Vertical Rhythm被打乱
+        margin-top: -2px;
+        // IE <= 9下如果margin-left: 0; margin-right: 0;
+        // 那么会导致hr居中，而不是靠左
+        .layout-box;
         max-width: @content-width;
         height: 0;
         background: none;
         border: none;
+        // 这两像素导致它不是绝对的Vertical Rhythm
         border-bottom: 2px dashed @hr-color;
         .box-sizing;
         &:before, &:after {
