@@ -8,838 +8,273 @@
   <meta name="Description" content="Entry.css 中文文章样式解决方案，帮助你快速搭建中文博客主题。"/>
 </head>
 <body class="markdown">
-    <div class="markdown-header">
-        <h1>这是一份使用了<em>Entry.css</em>样式的markdown中文文档</h1>
-        <div class="markdown-meta">
-            这里是文章的meta信息，不过这和文章标题都是可选的
-        </div>
-    </div>
-<p><strong>NOTE:</strong> This is Simplelified  Chinese Edition Document of Markdown Syntax. If you are seeking for English Edition Document. Please refer to <a href="http://daringfireball.net/projects/markdown/syntax">Markdown: Syntax</a>.</p>
+<h1>译Javascript Test Spies, Stubs and Mocks</h1>
+<p>译者言：本文是<cite>Test-Driven Javascript Development</cite>一书的作者的博文，关于他设计Javascript测试库<a href="http://sinonjs.org/">Sinon</a>时的思路和想法。
 
-<p><strong>声明：</strong> 这份文档派生(fork)于<a href="http://markdown.tw/">繁体中文版</a>，在此基础上进行了繁体转简体工作，并进行了适当的润色。此文档用 Markdown 语法编写，你可以到这里<a href="http://gitcafe.com/riku/Markdown-Syntax-CN/blob/master/syntax.md">查看它的源文件</a>。「繁体中文版的原始文件可以<a href="https://github.com/othree/markdown-syntax-zhtw/blob/master/syntax.md">查看这里</a> 。」--By @<a href="http://twitter.com/riku">riku</a></p>
+</p>
+<hr>
+<p>最近我在写<a href="http://cjohansen.no/en/javascript/test_driven_javascript_the_book">书</a>过程中遇到的事情就是一个叫Sinon的Javascript stubbing和mocking库（还在开发中）。一次给出三篇文章来展示API的预览。希望可以得到一些你们的想法和反馈。
 
-<p><strong>注：</strong> 本项目托管于 <a href="http://gitcafe.com/riku/Markdown-Syntax-CN/">GitCafe</a>上，请通过"派生"和"合并请求"来帮忙改进本项目。</p>
+</p>
+<p>在这篇文章中，我们会了解库里面的核心部分：spies，stubs和mocks。我会覆盖到此库的基本想法，并且展示最为相关的API。
 
-<h1>Markdown 语法说明 (简体中文版) / (<a href="./basic.html">点击查看快速入门</a>)</h1>
+</p>
+<h2>Sinon的目标</h2>
+<p>为什么要写另一个stubbing和mocking的库呢？现在已经有了不少类似的库了，并且有部分测试库发布时就内建了stub和mocks的功能。原本我写Sinon是为了写书，在“TDD by example”这一章节里面使用它。最终这没有成为现实，但是我依旧使用它作为“使用stubbing和mocking库”的样例（相对于我们最简单、最经常遇到的手工stubbing的情况）。
 
+</p>
+<p>我对这样的一个库做了如下需求设计：
+
+</p>
 <ul>
-<li><a href="#overview">概述</a>
-<ul>
-<li><a href="#philosophy">宗旨</a></li>
-<li><a href="#html">兼容 HTML</a></li>
-<li><a href="#autoescape">特殊字符自动转换</a></li>
-</ul></li>
-<li><a href="#block">区块元素</a>
-<ul>
-<li><a href="#p">段落和换行</a></li>
-<li><a href="#header">标题</a></li>
-<li><a href="#blockquote">区块引用</a></li>
-<li><a href="#list">列表</a></li>
-<li><a href="#precode">代码区块</a></li>
-<li><a href="#hr">分隔线</a></li>
-</ul></li>
-<li><a href="#span">区段元素</a>
-<ul>
-<li><a href="#link">链接</a></li>
-<li><a href="#em">强调</a></li>
-<li><a href="#code">代码</a></li>
-<li><a href="#img">图片</a></li>
-</ul></li>
-<li><a href="#misc">其它</a>
-<ul>
-<li><a href="#backslash">反斜杠</a></li>
-<li><a href="#autolink">自动链接</a></li>
-</ul></li>
-<li><a href="#acknowledgement">感谢</a></li>
-<li><a href="#editor">Markdown 免费编辑器</a></li>
+<li><strong>独立</strong> 没有理由把stubbing和mocking功能绑定到一个指定的测试库中。虽然在某些情况下它可以被自动化，但是这样的集成也可以由独立的库来提供。</li>
+<li><strong>最小化全局变量占用</strong> 在测试环境中你绝对不希望大量的全局命名污染。Stub和Mock API
+必须是在同一个对象上的</li>
+<li><strong>容易使用</strong> 这可能是理所应当的，但是某些我见过的mocking解决方案就需要大量额外的工具库依赖才可以运行。</li>
+<li><strong>容易集成</strong> 之所以做成独立的库，就是希望最小化库，使其容易被自动集成到任何测试库中。</li>
+<li><strong>CommonJS兼容</strong> 使用CommonJS模块标准，能同时工作在浏览器和Server上</li>
 </ul>
+<p>Sinon实现了这些需求。它是独立的，它的API都在<code>sinon</code>对象上，它拥有一个（希望是）简单的API并且提供了一系列工具来减少依赖大量的工具库。这篇文章专注于它的API，并且我会很快发布关于集成部分的文章。
 
-<hr />
+</p>
+<h2>现状</h2>
+<p>目前，Sinon的核心（本篇文章覆盖到的）是可以工作的，但是库整体还没有完成，API本身也没有固定。我希望通过分享这些信息来降低提供反馈和建议的门槛。我不会正式发布它，知道我有了合适的文档。这篇文章以及之后的两篇是一个开始。
 
-<h2 id="overview">概述</h2>
+</p>
+<p>结束聊天，直接上代码
 
-<h3 id="philosophy">宗旨</h3>
+</p>
+<h2>Test spies</h2>
+<p><a href="http://xunitpatterns.com/Test%20Spy.html">测试spy</a>是一个对象，它记录了自己与整个代码库中其他对象交互。当无法仅仅通过可用对象状态来决定一个测试成功与否的时候，我们可以使用测试spies，并且断言回调的执行次数、传递的参数、返回值等等。
 
-<p>Markdown 的目标是实现「易读易写」。</p>
+</p>
+<p>Sinon以函数的形式实现了spies，它包裹了其他函数，然后记录每次调用，包括<code>this</code>、参数、返回值和任何抛出的exception。它可以在不影响默认行为的情况监控方法，虽然在实践中你很少会直接创建spy。Stubs和mocks都是通过spy借口实现的。
 
-<p>可读性，无论如何，都是最重要的。一份使用 Markdown 格式撰写的文件应该可以直接以纯文本发布，并且看起来不会像是由许多标签或是格式指令所构成。Markdown 语法受到一些既有 text-to-HTML 格式的影响，包括 <a href="http://docutils.sourceforge.net/mirror/setext.html">Setext</a>、<a href="http://www.aaronsw.com/2002/atx/">atx</a>、<a href="http://textism.com/tools/textile/">Textile</a>、<a href="http://docutils.sourceforge.net/rst.html">reStructuredText</a>、<a href="http://www.triptico.com/software/grutatxt.html">Grutatext</a> 和 <a href="http://ettext.taint.org/doc/">EtText</a>，而最大灵感来源其实是纯文本电子邮件的格式。</p>
+</p>
+<p>Spies有一些属性和有用的方法。如下是你监控jQuery的<code>ajax</code>方法的例子：
 
-<p>总之， Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然。比如：在文字两旁加上星号，看起来就像*强调*。Markdown 的列表看起来，嗯，就是列表。Markdown 的区块引用看起来就真的像是引用一段文字，就像你曾在电子邮件中见过的那样。</p>
+</p>
+<pre><code>sinon.spy(jQuery, &quot;ajax&quot;);
+jQuery.getJSON(&quot;/some/data&quot;);</code></pre>
+<p>这么做不会影响<code>jQuery.ajax</code>的默认行为，但是它会包裹这个方法并记录数据。
 
-<h3 id="html">兼容 HTML</h3>
+</p>
+<h3>属性</h3>
+<p>如下的属性是spies暴露的，并且是如上样例对应的结果：
 
-<p>Markdown 语法的目标是：成为一种适用于网络的<em>书写</em>语言。</p>
-
-<p>Markdown 不是想要取代 HTML，甚至也没有要和它相近，它的语法种类很少，只对应 HTML 标记的一小部分。Markdown 的构想<em>不是</em>要使得 HTML 文档更容易书写。在我看来， HTML 已经很容易写了。Markdown 的理念是，能让文档更容易读、写和随意改。HTML 是一种<em>发布</em>的格式，Markdown 是一种<em>书写</em>的格式。就这样，Markdown 的格式语法只涵盖纯文本可以涵盖的范围。</p>
-
-<p>不在 Markdown 涵盖范围之内的标签，都可以直接在文档里面用 HTML 撰写。不需要额外标注这是 HTML 或是 Markdown；只要直接加标签就可以了。</p>
-
-<p>要制约的只有一些 HTML 区块元素――比如 <code>&lt;div&gt;</code>、<code>&lt;table&gt;</code>、<code>&lt;pre&gt;</code>、<code>&lt;p&gt;</code> 等标签，必须在前后加上空行与其它内容区隔开，还要求它们的开始标签与结尾标签不能用制表符或空格来缩进。Markdown 的生成器有足够智能，不会在 HTML 区块标签外加上不必要的 <code>&lt;p&gt;</code> 标签。</p>
-
-<p>例子如下，在 Markdown 文件里加上一段 HTML 表格：</p>
-
-<pre><code>这是一个普通段落。
-
-&lt;table&gt;
-    &lt;tr&gt;
-        &lt;td&gt;Foo&lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;
-
-这是另一个普通段落。
-</code></pre>
-
-<p>请注意，在 HTML 区块标签间的 Markdown 格式语法将不会被处理。比如，你在 HTML 区块内使用 Markdown 样式的<code>*强调*</code>会没有效果。</p>
-
-<p>HTML 的区段（行内）标签如 <code>&lt;span&gt;</code>、<code>&lt;cite&gt;</code>、<code>&lt;del&gt;</code> 可以在 Markdown 的段落、列表或是标题里随意使用。依照个人习惯，甚至可以不用 Markdown 格式，而直接采用 HTML 标签来格式化。举例说明：如果比较喜欢 HTML 的 <code>&lt;a&gt;</code> 或 <code>&lt;img&gt;</code> 标签，可以直接使用这些标签，而不用 Markdown 提供的链接或是图像标签语法。</p>
-
-<p>和处在 HTML 区块标签间不同，Markdown 语法在 HTML 区段标签间是有效的。</p>
-
-<h3 id="autoescape">特殊字符自动转换</h3>
-
-<p>在 HTML 文件中，有两个字符需要特殊处理： <code>&lt;</code> 和 <code>&amp;</code> 。 <code>&lt;</code> 符号用于起始标签，<code>&amp;</code> 符号则用于标记 HTML 实体，如果你只是想要显示这些字符的原型，你必须要使用实体的形式，像是 <code>&amp;lt;</code> 和 <code>&amp;amp;</code>。</p>
-
-<p><code>&amp;</code> 字符尤其让网络文档编写者受折磨，如果你要打「<code>AT&amp;T</code>」 ，你必须要写成「<code>AT&amp;amp;T</code>」。而网址中的 <code>&amp;</code> 字符也要转换。比如你要链接到：</p>
-
-<pre><code>http://images.google.com/images?num=30&amp;q=larry+bird
-</code></pre>
-
-<p>你必须要把网址转换写为：</p>
-
-<pre><code>http://images.google.com/images?num=30&amp;amp;q=larry+bird
-</code></pre>
-
-<p>才能放到链接标签的 <code>href</code> 属性里。不用说也知道这很容易忽略，这也可能是 HTML 标准检验所检查到的错误中，数量最多的。</p>
-
-<p>Markdown 让你可以自然地书写字符，需要转换的由它来处理好了。如果你使用的 <code>&amp;</code> 字符是 HTML 字符实体的一部分，它会保留原状，否则它会被转换成 <code>&amp;amp</code>;。</p>
-
-<p>所以你如果要在文档中插入一个版权符号 <code>©</code>，你可以这样写：</p>
-
-<pre><code>&amp;copy;
-</code></pre>
-
-<p>Markdown 会保留它不动。而若你写：</p>
-
-<pre><code>AT&amp;T
-</code></pre>
-
-<p>Markdown 就会将它转为：</p>
-
-<pre><code>AT&amp;amp;T
-</code></pre>
-
-<p>类似的状况也会发生在 <code>&lt;</code> 符号上，因为 Markdown 允许 <a href="#html">兼容 HTML</a> ，如果你是把 <code>&lt;</code> 符号作为 HTML 标签的定界符使用，那 Markdown 也不会对它做任何转换，但是如果你写：</p>
-
-<pre><code>4 &lt; 5
-</code></pre>
-
-<p>Markdown 将会把它转换为：</p>
-
-<pre><code>4 &amp;lt; 5
-</code></pre>
-
-<p>不过需要注意的是，code 范围内，不论是行内还是区块， <code>&lt;</code> 和 <code>&amp;</code> 两个符号都<em>一定</em>会被转换成 HTML 实体，这项特性让你可以很容易地用 Markdown 写 HTML code （和 HTML 相对而言， HTML 语法中，你要把所有的 <code>&lt;</code> 和 <code>&amp;</code> 都转换为 HTML 实体，才能在 HTML 文件里面写出 HTML code。）</p>
-
-<hr />
-
-<h2 id="block">区块元素</h2>
-
-<h3 id="p">段落和换行</h3>
-
-<p>一个 Markdown 段落是由一个或多个连续的文本行组成，它的前后要有一个以上的空行（空行的定义是显示上看起来像是空的，便会被视为空行。比方说，若某一行只包含空格和制表符，则该行也会被视为空行）。普通段落不该用空格或制表符来缩进。</p>
-
-<p>「由一个或多个连续的文本行组成」这句话其实暗示了 Markdown 允许段落内的强迫换行（插入换行符），这个特性和其他大部分的 text-to-HTML 格式不一样（包括 Movable Type 的「Convert Line Breaks」选项），其它的格式会把每个换行符都转成 <code>&lt;br /&gt;</code> 标签。</p>
-
-<p>如果你<em>确实</em>想要依赖 Markdown 来插入 <code>&lt;br /&gt;</code> 标签的话，在插入处先按入两个以上的空格然后回车。</p>
-
-<p>的确，需要多费点事（多加空格）来产生 <code>&lt;br /&gt;</code> ，但是简单地「每个换行都转换为 <code>&lt;br /&gt;</code>」的方法在 Markdown 中并不适合， Markdown 中 email 式的 <a href="#blockquote">区块引用</a> 和多段落的 <a href="#list">列表</a> 在使用换行来排版的时候，不但更好用，还更方便阅读。</p>
-
-<h3 id="header">标题</h3>
-
-<p>Markdown 支持两种标题的语法，类 <a href="http://docutils.sourceforge.net/mirror/setext.html">Setext</a> 和类 <a href="http://www.aaronsw.com/2002/atx/">atx</a> 形式。</p>
-
-<p>类 Setext 形式是用底线的形式，利用 <code>=</code> （最高阶标题）和 <code>-</code> （第二阶标题），例如：</p>
-
-<pre><code>This is an H1
-=============
-
-This is an H2
--------------
-</code></pre>
-
-<p>任何数量的 <code>=</code> 和 <code>-</code> 都可以有效果。</p>
-
-<p>类 Atx 形式则是在行首插入 1 到 6 个 <code>#</code> ，对应到标题 1 到 6 阶，例如：</p>
-
-<pre><code># 这是 H1
-
-## 这是 H2
-
-###### 这是 H6
-</code></pre>
-
-<p>你可以选择性地「闭合」类 atx 样式的标题，这纯粹只是美观用的，若是觉得这样看起来比较舒适，你就可以在行尾加上 <code>#</code>，而行尾的 <code>#</code> 数量也不用和开头一样（行首的井字符数量决定标题的阶数）：</p>
-
-<pre><code># 这是 H1 #
-
-## 这是 H2 ##
-
-### 这是 H3 ######
-</code></pre>
-
-<h3 id="blockquote">区块引用 Blockquotes</h3>
-
-<p>Markdown 标记区块引用是使用类似 email 中用 <code>&gt;</code> 的引用方式。如果你还熟悉在 email 信件中的引言部分，你就知道怎么在 Markdown 文件中建立一个区块引用，那会看起来像是你自己先断好行，然后在每行的最前面加上 <code>&gt;</code> ：</p>
-
-<pre><code>&gt; This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
-&gt; consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.
-&gt; Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
-&gt; 
-&gt; Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse
-&gt; id sem consectetuer libero luctus adipiscing.
-</code></pre>
-
-<p>Markdown 也允许你偷懒只在整个段落的第一行最前面加上 <code>&gt;</code> ：</p>
-
-<pre><code>&gt; This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
-consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.
-Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
-
-&gt; Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse
-id sem consectetuer libero luctus adipiscing.
-</code></pre>
-
-<p>区块引用可以嵌套（例如：引用内的引用），只要根据层次加上不同数量的 <code>&gt;</code> ：</p>
-
-<pre><code>&gt; This is the first level of quoting.
-&gt;
-&gt; &gt; This is nested blockquote.
-&gt;
-&gt; Back to the first level.
-</code></pre>
-
-<p>引用的区块内也可以使用其他的 Markdown 语法，包括标题、列表、代码区块等：</p>
-
-<pre><code>&gt; ## 这是一个标题。
-&gt; 
-&gt; 1.   这是第一行列表项。
-&gt; 2.   这是第二行列表项。
-&gt; 
-&gt; 给出一些例子代码：
-&gt; 
-&gt;     return shell_exec("echo $input | $markdown_script");
-</code></pre>
-
-<p>任何像样的文本编辑器都能轻松地建立 email 型的引用。例如在 BBEdit 中，你可以选取文字后然后从选单中选择<em>增加引用阶层</em>。</p>
-
-<h3 id="list">列表</h3>
-
-<p>Markdown 支持有序列表和无序列表。</p>
-
-<p>无序列表使用星号、加号或是减号作为列表标记：</p>
-
-<pre><code>*   Red
-*   Green
-*   Blue
-</code></pre>
-
-<p>等同于：</p>
-
-<pre><code>+   Red
-+   Green
-+   Blue
-</code></pre>
-
-<p>也等同于：</p>
-
-<pre><code>-   Red
--   Green
--   Blue
-</code></pre>
-
-<p>有序列表则使用数字接着一个英文句点：</p>
-
-<pre><code>1.  Bird
-2.  McHale
-3.  Parish
-</code></pre>
-
-<p>很重要的一点是，你在列表标记上使用的数字并不会影响输出的 HTML 结果，上面的列表所产生的 HTML 标记为：</p>
-
-<pre><code>&lt;ol&gt;
-&lt;li&gt;Bird&lt;/li&gt;
-&lt;li&gt;McHale&lt;/li&gt;
-&lt;li&gt;Parish&lt;/li&gt;
-&lt;/ol&gt;
-</code></pre>
-
-<p>如果你的列表标记写成：</p>
-
-<pre><code>1.  Bird
-1.  McHale
-1.  Parish
-</code></pre>
-
-<p>或甚至是：</p>
-
-<pre><code>3. Bird
-1. McHale
-8. Parish
-</code></pre>
-
-<p>你都会得到完全相同的 HTML 输出。重点在于，你可以让 Markdown 文件的列表数字和输出的结果相同，或是你懒一点，你可以完全不用在意数字的正确性。</p>
-
-<p>如果你使用懒惰的写法，建议第一个项目最好还是从 1. 开始，因为 Markdown 未来可能会支持有序列表的 start 属性。</p>
-
-<p>列表项目标记通常是放在最左边，但是其实也可以缩进，最多 3 个空格，项目标记后面则一定要接着至少一个空格或制表符。</p>
-
-<p>要让列表看起来更漂亮，你可以把内容用固定的缩进整理好：</p>
-
-<pre><code>*   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-    Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi,
-    viverra nec, fringilla in, laoreet vitae, risus.
-*   Donec sit amet nisl. Aliquam semper ipsum sit amet velit.
-    Suspendisse id sem consectetuer libero luctus adipiscing.
-</code></pre>
-
-<p>但是如果你懒，那也行：</p>
-
-<pre><code>*   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi,
-viverra nec, fringilla in, laoreet vitae, risus.
-*   Donec sit amet nisl. Aliquam semper ipsum sit amet velit.
-Suspendisse id sem consectetuer libero luctus adipiscing.
-</code></pre>
-
-<p>如果列表项目间用空行分开，在输出 HTML 时 Markdown 就会将项目内容用 <code>&lt;p&gt;</code> 
-标签包起来，举例来说：</p>
-
-<pre><code>*   Bird
-*   Magic
-</code></pre>
-
-<p>会被转换为：</p>
-
-<pre><code>&lt;ul&gt;
-&lt;li&gt;Bird&lt;/li&gt;
-&lt;li&gt;Magic&lt;/li&gt;
-&lt;/ul&gt;
-</code></pre>
-
-<p>但是这个：</p>
-
-<pre><code>*   Bird
-
-*   Magic
-</code></pre>
-
-<p>会被转换为：</p>
-
-<pre><code>&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Bird&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Magic&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</code></pre>
-
-<p>列表项目可以包含多个段落，每个项目下的段落都必须缩进 4 个空格或是 1 个制表符：</p>
-
-<pre><code>1.  This is a list item with two paragraphs. Lorem ipsum dolor
-    sit amet, consectetuer adipiscing elit. Aliquam hendrerit
-    mi posuere lectus.
-
-    Vestibulum enim wisi, viverra nec, fringilla in, laoreet
-    vitae, risus. Donec sit amet nisl. Aliquam semper ipsum
-    sit amet velit.
-
-2.  Suspendisse id sem consectetuer libero luctus adipiscing.
-</code></pre>
-
-<p>如果你每行都有缩进，看起来会看好很多，当然，再次地，如果你很懒惰，Markdown 也允许：</p>
-
-<pre><code>*   This is a list item with two paragraphs.
-
-    This is the second paragraph in the list item. You're
-only required to indent the first line. Lorem ipsum dolor
-sit amet, consectetuer adipiscing elit.
-
-*   Another item in the same list.
-</code></pre>
-
-<p>如果要在列表项目内放进引用，那 <code>&gt;</code> 就需要缩进：</p>
-
-<pre><code>*   A list item with a blockquote:
-
-    &gt; This is a blockquote
-    &gt; inside a list item.
-</code></pre>
-
-<p>如果要放代码区块的话，该区块就需要缩进<em>两次</em>，也就是 8 个空格或是 2 个制表符：</p>
-
-<pre><code>*   一列表项包含一个列表区块：
-
-        &lt;代码写在这&gt;
-</code></pre>
-
-<p>当然，项目列表很可能会不小心产生，像是下面这样的写法：</p>
-
-<pre><code>1986. What a great season.
-</code></pre>
-
-<p>换句话说，也就是在行首出现<em>数字-句点-空白</em>，要避免这样的状况，你可以在句点前面加上反斜杠。</p>
-
-<pre><code>1986\. What a great season.
-</code></pre>
-
-<h3 id="precode">代码区块</h3>
-
-<p>和程序相关的写作或是标签语言原始码通常会有已经排版好的代码区块，通常这些区块我们并不希望它以一般段落文件的方式去排版，而是照原来的样子显示，Markdown 会用 <code>&lt;pre&gt;</code> 和 <code>&lt;code&gt;</code> 标签来把代码区块包起来。</p>
-
-<p>要在 Markdown 中建立代码区块很简单，只要简单地缩进 4 个空格或是 1 个制表符就可以，例如，下面的输入：</p>
-
-<pre><code>这是一个普通段落：
-
-    这是一个代码区块。
-</code></pre>
-
-<p>Markdown 会转换成：</p>
-
-<pre><code>&lt;p&gt;这是一个普通段落：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;这是一个代码区块。
-&lt;/code&gt;&lt;/pre&gt;
-</code></pre>
-
-<p>这个每行一阶的缩进（4 个空格或是 1 个制表符），都会被移除，例如：</p>
-
-<pre><code>Here is an example of AppleScript:
-
-    tell application "Foo"
-        beep
-    end tell
-</code></pre>
-
-<p>会被转换为：</p>
-
-<pre><code>&lt;p&gt;Here is an example of AppleScript:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;tell application "Foo"
-    beep
-end tell
-&lt;/code&gt;&lt;/pre&gt;
-</code></pre>
-
-<p>一个代码区块会一直持续到没有缩进的那一行（或是文件结尾）。</p>
-
-<p>在代码区块里面， <code>&amp;</code> 、 <code>&lt;</code> 和 <code>&gt;</code> 会自动转成 HTML 实体，这样的方式让你非常容易使用 Markdown 插入范例用的 HTML 原始码，只需要复制贴上，再加上缩进就可以了，剩下的 Markdown 都会帮你处理，例如：</p>
-
-<pre><code>    &lt;div class="footer"&gt;
-        &amp;copy; 2004 Foo Corporation
-    &lt;/div&gt;
-</code></pre>
-
-<p>会被转换为：</p>
-
-<pre><code>&lt;pre&gt;&lt;code&gt;&amp;lt;div class="footer"&amp;gt;
-    &amp;amp;copy; 2004 Foo Corporation
-&amp;lt;/div&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-</code></pre>
-
-<p>代码区块中，一般的 Markdown 语法不会被转换，像是星号便只是星号，这表示你可以很容易地以 Markdown 语法撰写 Markdown 语法相关的文件。</p>
-
-<h3 id="hr">分隔线</h3>
-
-<p>你可以在一行中用三个以上的星号、减号、底线来建立一个分隔线，行内不能有其他东西。你也可以在星号或是减号中间插入空格。下面每种写法都可以建立分隔线：</p>
-
-<pre><code>* * *
-
-***
-
-*****
-
-- - -
-
----------------------------------------
-</code></pre>
-
-<hr />
-
-<h2 id="span">区段元素</h2>
-
-<h3 id="link">链接</h3>
-
-<p>Markdown 支持两种形式的链接语法： <em>行内式</em>和<em>参考式</em>两种形式。</p>
-
-<p>不管是哪一种，链接文字都是用 [方括号] 来标记。</p>
-
-<p>要建立一个<em>行内式</em>的链接，只要在方块括号后面紧接着圆括号并插入网址链接即可，如果你还想要加上链接的 title 文字，只要在网址后面，用双引号把 title 文字包起来即可，例如：</p>
-
-<pre><code>This is [an example](http://example.com/ "Title") inline link.
-
-[This link](http://example.net/) has no title attribute.
-</code></pre>
-
-<p>会产生：</p>
-
-<pre><code>&lt;p&gt;This is &lt;a href="http://example.com/" title="Title"&gt;
-an example&lt;/a&gt; inline link.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href="http://example.net/"&gt;This link&lt;/a&gt; has no
-title attribute.&lt;/p&gt;
-</code></pre>
-
-<p>如果你是要链接到同样主机的资源，你可以使用相对路径：</p>
-
-<pre><code>See my [About](/about/) page for details.
-</code></pre>
-
-<p><em>参考式</em>的链接是在链接文字的括号后面再接上另一个方括号，而在第二个方括号里面要填入用以辨识链接的标记：</p>
-
-<pre><code>This is [an example][id] reference-style link.
-</code></pre>
-
-<p>你也可以选择性地在两个方括号中间加上一个空格：</p>
-
-<pre><code>This is [an example] [id] reference-style link.
-</code></pre>
-
-<p>接着，在文件的任意处，你可以把这个标记的链接内容定义出来：</p>
-
-<pre><code>[id]: http://example.com/  "Optional Title Here"
-</code></pre>
-
-<p>链接内容定义的形式为：</p>
-
+</p>
 <ul>
-<li>方括号（前面可以选择性地加上至多三个空格来缩进），里面输入链接文字</li>
-<li>接着一个冒号</li>
-<li>接着一个以上的空格或制表符</li>
-<li>接着链接的网址</li>
-<li>选择性地接着 title 内容，可以用单引号、双引号或是括弧包着</li>
+<li><code>jQuery.ajax.called</code> boolean, <code>true</code></li>
+<li><code>jQuery.ajax.callCount</code> number, <code>1</code></li>
+<li><code>jQuery.ajax.calledOnce</code> boolean, <code>true</code></li>
+<li><code>jQuery.ajax.calledTwice</code> boolean, <code>false</code></li>
+<li><code>jQuery.ajax.calledThrice</code> boolean, <code>false</code></li>
 </ul>
+<h3>调用数据</h3>
+<p>Spies在四个数组中存储了调用数据。如果你喜欢底层代码，你们你会需要他们。
 
-<p>下面这三种链接的定义都是相同：</p>
-
-<pre><code>[foo]: http://example.com/  "Optional Title Here"
-[foo]: http://example.com/  'Optional Title Here'
-[foo]: http://example.com/  (Optional Title Here)
-</code></pre>
-
-<p><strong>请注意：</strong>有一个已知的问题是 Markdown.pl 1.0.1 会忽略单引号包起来的链接 title。</p>
-
-<p>链接网址也可以用方括号包起来：</p>
-
-<pre><code>[id]: &lt;http://example.com/&gt;  "Optional Title Here"
-</code></pre>
-
-<p>你也可以把 title 属性放到下一行，也可以加一些缩进，若网址太长的话，这样会比较好看：</p>
-
-<pre><code>[id]: http://example.com/longish/path/to/resource/here
-    "Optional Title Here"
-</code></pre>
-
-<p>网址定义只有在产生链接的时候用到，并不会直接出现在文件之中。</p>
-
-<p>链接辨别标签可以有字母、数字、空白和标点符号，但是并<em>不</em>区分大小写，因此下面两个链接是一样的：</p>
-
-<pre><code>[link text][a]
-[link text][A]
-</code></pre>
-
-<p><em>隐式链接标记</em>功能让你可以省略指定链接标记，这种情形下，链接标记会视为等同于链接文字，要用隐式链接标记只要在链接文字后面加上一个空的方括号，如果你要让 "Google" 链接到 google.com，你可以简化成：</p>
-
-<pre><code>[Google][]
-</code></pre>
-
-<p>然后定义链接内容：</p>
-
-<pre><code>[Google]: http://google.com/
-</code></pre>
-
-<p>由于链接文字可能包含空白，所以这种简化型的标记内也许包含多个单词：</p>
-
-<pre><code>Visit [Daring Fireball][] for more information.
-</code></pre>
-
-<p>然后接着定义链接：</p>
-
-<pre><code>[Daring Fireball]: http://daringfireball.net/
-</code></pre>
-
-<p>链接的定义可以放在文件中的任何一个地方，我比较偏好直接放在链接出现段落的后面，你也可以把它放在文件最后面，就像是注解一样。</p>
-
-<p>下面是一个参考式链接的范例：</p>
-
-<pre><code>I get 10 times more traffic from [Google] [1] than from
-[Yahoo] [2] or [MSN] [3].
-
-  [1]: http://google.com/        "Google"
-  [2]: http://search.yahoo.com/  "Yahoo Search"
-  [3]: http://search.msn.com/    "MSN Search"
-</code></pre>
-
-<p>如果改成用链接名称的方式写：</p>
-
-<pre><code>I get 10 times more traffic from [Google][] than from
-[Yahoo][] or [MSN][].
-
-  [google]: http://google.com/        "Google"
-  [yahoo]:  http://search.yahoo.com/  "Yahoo Search"
-  [msn]:    http://search.msn.com/    "MSN Search"
-</code></pre>
-
-<p>上面两种写法都会产生下面的 HTML。</p>
-
-<pre><code>&lt;p&gt;I get 10 times more traffic from &lt;a href="http://google.com/"
-title="Google"&gt;Google&lt;/a&gt; than from
-&lt;a href="http://search.yahoo.com/" title="Yahoo Search"&gt;Yahoo&lt;/a&gt;
-or &lt;a href="http://search.msn.com/" title="MSN Search"&gt;MSN&lt;/a&gt;.&lt;/p&gt;
-</code></pre>
-
-<p>下面是用行内式写的同样一段内容的 Markdown 文件，提供作为比较之用：</p>
-
-<pre><code>I get 10 times more traffic from [Google](http://google.com/ "Google")
-than from [Yahoo](http://search.yahoo.com/ "Yahoo Search") or
-[MSN](http://search.msn.com/ "MSN Search").
-</code></pre>
-
-<p>参考式的链接其实重点不在于它比较好写，而是它比较好读，比较一下上面的范例，使用参考式的文章本身只有 81 个字符，但是用行内形式的却会增加到 176 个字元，如果是用纯 HTML 格式来写，会有 234 个字元，在 HTML 格式中，标签比文本还要多。</p>
-
-<p>使用 Markdown 的参考式链接，可以让文件更像是浏览器最后产生的结果，让你可以把一些标记相关的元数据移到段落文字之外，你就可以增加链接而不让文章的阅读感觉被打断。</p>
-
-<h3 id="em">强调</h3>
-
-<p>Markdown 使用星号（<code>*</code>）和底线（<code>_</code>）作为标记强调字词的符号，被 <code>*</code> 或 <code>_</code> 包围的字词会被转成用 <code>&lt;em&gt;</code> 标签包围，用两个 <code>*</code> 或 <code>_</code> 包起来的话，则会被转成 <code>&lt;strong&gt;</code>，例如：</p>
-
-<pre><code>*single asterisks*
-
-_single underscores_
-
-**double asterisks**
-
-__double underscores__
-</code></pre>
-
-<p>会转成：</p>
-
-<pre><code>&lt;em&gt;single asterisks&lt;/em&gt;
-
-&lt;em&gt;single underscores&lt;/em&gt;
-
-&lt;strong&gt;double asterisks&lt;/strong&gt;
-
-&lt;strong&gt;double underscores&lt;/strong&gt;
-</code></pre>
-
-<p>你可以随便用你喜欢的样式，唯一的限制是，你用什么符号开启标签，就要用什么符号结束。</p>
-
-<p>强调也可以直接插在文字中间：</p>
-
-<pre><code>un*frigging*believable
-</code></pre>
-
-<p>但是<strong>如果你的 <code>*</code> 和 <code>_</code> 两边都有空白的话，它们就只会被当成普通的符号</strong>。</p>
-
-<p>如果要在文字前后直接插入普通的星号或底线，你可以用反斜线：</p>
-
-<pre><code>\*this text is surrounded by literal asterisks\*
-</code></pre>
-
-<h3 id="code">代码</h3>
-
-<p>如果要标记一小段行内代码，你可以用反引号把它包起来（<code>`</code>），例如：</p>
-
-<pre><code>Use the `printf()` function.
-</code></pre>
-
-<p>会产生：</p>
-
-<pre><code>&lt;p&gt;Use the &lt;code&gt;printf()&lt;/code&gt; function.&lt;/p&gt;
-</code></pre>
-
-<p>如果要在代码区段内插入反引号，你可以用多个反引号来开启和结束代码区段：</p>
-
-<pre><code>``There is a literal backtick (`) here.``
-</code></pre>
-
-<p>这段语法会产生：</p>
-
-<pre><code>&lt;p&gt;&lt;code&gt;There is a literal backtick (`) here.&lt;/code&gt;&lt;/p&gt;
-</code></pre>
-
-<p>代码区段的起始和结束端都可以放入一个空白，起始端后面一个，结束端前面一个，这样你就可以在区段的一开始就插入反引号：</p>
-
-<pre><code>A single backtick in a code span: `` ` ``
-
-A backtick-delimited string in a code span: `` `foo` ``
-</code></pre>
-
-<p>会产生：</p>
-
-<pre><code>&lt;p&gt;A single backtick in a code span: &lt;code&gt;`&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;A backtick-delimited string in a code span: &lt;code&gt;`foo`&lt;/code&gt;&lt;/p&gt;
-</code></pre>
-
-<p>在代码区段内，<code>&amp;</code> 和方括号<strong>都</strong>会被自动地转成 HTML 实体，这使得插入 HTML 原始码变得很容易，Markdown 会把下面这段：</p>
-
-<pre><code>Please don't use any `&lt;blink&gt;` tags.
-</code></pre>
-
-<p>转为：</p>
-
-<pre><code>&lt;p&gt;Please don't use any &lt;code&gt;&amp;lt;blink&amp;gt;&lt;/code&gt; tags.&lt;/p&gt;
-</code></pre>
-
-<p>你也可以这样写：</p>
-
-<pre><code>`&amp;#8212;` is the decimal-encoded equivalent of `&amp;mdash;`.
-</code></pre>
-
-<p>以产生：</p>
-
-<pre><code>&lt;p&gt;&lt;code&gt;&amp;amp;#8212;&lt;/code&gt; is the decimal-encoded
-equivalent of &lt;code&gt;&amp;amp;mdash;&lt;/code&gt;.&lt;/p&gt;
-</code></pre>
-
-<h3 id="img">图片</h3>
-
-<p>很明显地，要在纯文字应用中设计一个「自然」的语法来插入图片是有一定难度的。</p>
-
-<p>Markdown 使用一种和链接很相似的语法来标记图片，同样也允许两种样式： <em>行内式</em>和<em>参考式</em>。</p>
-
-<p>行内式的图片语法看起来像是：</p>
-
-<pre><code>![Alt text](/path/to/img.jpg)
-
-![Alt text](/path/to/img.jpg "Optional title")
-</code></pre>
-
-<p>详细叙述如下：</p>
-
+</p>
 <ul>
-<li>一个惊叹号 <code>!</code></li>
-<li>接着一个方括号，里面放上图片的替代文字</li>
-<li>接着一个普通括号，里面放上图片的网址，最后还可以用引号包住并加上
-选择性的 'title' 文字。</li>
+<li><code>jQuery.ajax.args</code><br/>
+是spy接收到的arguments数组。为了获取到第一次调用的第一个参数，你需要这么做<code>jQuery.ajax.args[0][0]</code>，第一个0表示调用次数，第二个表示第几个参数。</li>
+<li><code>jQuery.ajax.returnValues</code><br/>
+是回调函数的返回结果数组。为了获得第一次调用的返回结果，你需要这么做<code>jQuery.ajax.returnValues[0]</code>。对那些没有显示返回值的调用，数组会存储<code>undefined</code>值。</li>
+<li><code>jQuery.ajax.exceptions</code><br/>
+是spy抛出的exception的数组。如果spy在给定的调用中不抛出exception，数组会存储<code>undefined</code>。这个数组每次调用总是包含一个实体，不管它有没有抛出它。</li>
+<li><code>jQuery.ajax.thisValues</code><br/>
+是包含了<code>this</code>值的数组。对每次调用，spy存储<code>this</code>值到数组中，它在测试绑定了特殊对象的函数或是使用了<code>call</code>和<code>apply</code>方法的函数调用时很有用。</li>
 </ul>
+<h3>方法</h3>
+<p>如果你喜欢底层代码，上面的四个数组可以提供你想要的所有东西，帮助你监控调用的整个过程。如果你和我更像一些，喜欢高层封装方法来让测试用例的意图更清晰，你可能更喜欢如下提供的方法。
 
-<p>参考式的图片语法则长得像这样：</p>
-
-<pre><code>![Alt text][id]
-</code></pre>
-
-<p>「id」是图片参考的名称，图片参考的定义方式则和连结参考一样：</p>
-
-<pre><code>[id]: url/to/image  "Optional title attribute"
-</code></pre>
-
-<p>到目前为止， Markdown 还没有办法指定图片的宽高，如果你需要的话，你可以使用普通的 <code>&lt;img&gt;</code> 标签。</p>
-
-<hr />
-
-<h2 id="misc">其它</h2>
-
-<h3 id="autolink">自动链接</h3>
-
-<p>Markdown 支持以比较简短的自动链接形式来处理网址和电子邮件信箱，只要是用方括号包起来， Markdown 就会自动把它转成链接。一般网址的链接文字就和链接地址一样，例如：</p>
-
-<pre><code>&lt;http://example.com/&gt;
-</code></pre>
-
-<p>Markdown 会转为：</p>
-
-<pre><code>&lt;a href="http://example.com/"&gt;http://example.com/&lt;/a&gt;
-</code></pre>
-
-<p>邮址的自动链接也很类似，只是 Markdown 会先做一个编码转换的过程，把文字字符转成 16 进位码的 HTML 实体，这样的格式可以糊弄一些不好的邮址收集机器人，例如：</p>
-
-<pre><code>&lt;address@example.com&gt;
-</code></pre>
-
-<p>Markdown 会转成：</p>
-
-<pre><code>&lt;a href="&amp;#x6D;&amp;#x61;i&amp;#x6C;&amp;#x74;&amp;#x6F;:&amp;#x61;&amp;#x64;&amp;#x64;&amp;#x72;&amp;#x65;
-&amp;#115;&amp;#115;&amp;#64;&amp;#101;&amp;#120;&amp;#x61;&amp;#109;&amp;#x70;&amp;#x6C;e&amp;#x2E;&amp;#99;&amp;#111;
-&amp;#109;"&gt;&amp;#x61;&amp;#x64;&amp;#x64;&amp;#x72;&amp;#x65;&amp;#115;&amp;#115;&amp;#64;&amp;#101;&amp;#120;&amp;#x61;
-&amp;#109;&amp;#x70;&amp;#x6C;e&amp;#x2E;&amp;#99;&amp;#111;&amp;#109;&lt;/a&gt;
-</code></pre>
-
-<p>在浏览器里面，这段字串（其实是 <code>&lt;a href="mailto:address@example.com"&gt;address@example.com&lt;/a&gt;</code>）会变成一个可以点击的「address@example.com」链接。</p>
-
-<p>（这种作法虽然可以糊弄不少的机器人，但并不能全部挡下来，不过总比什么都不做好些。不管怎样，公开你的信箱终究会引来广告信件的。）</p>
-
-<h3 id="backslash">反斜杠</h3>
-
-<p>Markdown 可以利用反斜杠来插入一些在语法中有其它意义的符号，例如：如果你想要用星号加在文字旁边的方式来做出强调效果（但不用 <code>&lt;em&gt;</code> 标签），你可以在星号的前面加上反斜杠：</p>
-
-<pre><code>\*literal asterisks\*
-</code></pre>
-
-<p>Markdown 支持以下这些符号前面加上反斜杠来帮助插入普通的符号：</p>
-
-<pre><code>\   反斜线
-`   反引号
-*   星号
-_   底线
-{}  花括号
-[]  方括号
-()  括弧
-#   井字号
-+   加号
--   减号
-.   英文句点
-!   惊叹号
-</code></pre>
-
-<h2 id="acknowledgement">感谢</h2>
-
-<p>感谢 <a href="https://twitter.com/#!/leafy7382">leafy7382</a> 协助翻译，<a href="http://iamhlb.com/">hlb</a>、<a href="http://twitter.com/randylien">Randylien</a> 帮忙润稿，<a href="https://twitter.com/#!/ethantw">ethantw</a> 的<a href="http://ethantw.net/projects/han/">汉字标准格式・CSS Reset</a>， <a href="http://kidwm.net/">WM</a> 回报文字错误。</p>
-
-<p>感谢 <a href="https://github.com/fenprace">fenprace</a>，<a href="https://github.com/addv">addv</a>。</p>
-
-<hr />
-
-<h2 id="editor">Markdown 免费编辑器</h2>
-
-<p>Windows 平台</p>
-
+</p>
 <ul>
-<li><a href="http://markdownpad.com/">MarkdownPad</a></li>
-<li><a href="http://code52.org/DownmarkerWPF/">MarkPad</a></li>
+<li><code>jQuery.ajax.calledWith(arg1, arg2, ...)</code><br/>
+此方法传递任意数量的参数，并且只要指定的arguments被调用了一次，那么这个方法就会返回<code>true</code>。arguments列表不需要很详细 - 你可以提供第一个参数，如果任意一次调用的参数中第一个是你传递的值，你们这个方法就会返回<code>true</code>。（这解决了可选参数的情况）</li>
+<li><code>jQuery.ajax.calledWithExactly(arg1, arg2, ...)</code><br/>
+如果你需要知道一个函数是否接收了指定的参数，并且只有那些指定的参数，这个方法就是<code>calledWith(arg1, arg2, ...)</code>的严格版本。</li>
+<li><code>jQuery.ajax.alwaysCalledWith(arg1, arg2, ...)</code><br/>
+和<code>calledWith(arg1, arg2, ...)</code>几乎一样，除了它需要所有的调用都符合。</li>
+<li><code>jQuery.ajax.alwaysCalledWithExactly(arg1, arg2, ...)</code><br/>
+和<code>calledWith(arg1, arg2, ...)</code>类似，只是它需要所有的调用都严格相符。</li>
+<li><code>returned(returnValue)</code><br/>
+返回<code>true</code>，如果spy返回的值与指定的值相同。</li>
+<li><code>alwaysReturned(returnValue)</code><br/>
+同上，只有在符合所有调用的时候返回<code>true</code>。</li>
+<li><code>threw(exceptionOrType)</code><br/>
+如果没有参数被传递且如果spy任意一次调用中抛出一个exception，那么方法返回<code>true</code>。如果一个字符串被传递给它，且spy抛出一个相同类型的excption（例如<code>TypeError</code>），那么方法返回<code>true</code>。最后，如果一个exception对象被传递给它，且spy抛出的exception对象和指定的对象一致（这个不太可能被用到，因为没办法构造完全一致的对象），那么方法返回<code>true</code>。<br/>
+我认为这个方法可以接收两个字符串，分别表示抛出错误的类型和message。它甚至接收一个字符串的类型和正则表达式来匹配message。你怎么认为？</li>
+<li><code>alwaysThrew(...)</code><br/>
+同上，只是必须全部的调用都符合。</li>
+<li><code>calledOn(thisObj)</code>
+如果方法被调用时的this值是指定的值，那么返回<code>true</code>。</li>
+<li><code>alwaysCalledOn(...)</code>
+同上，只是必须全部的调用都符合。</li>
 </ul>
+<p>作为补充，spies有一个特殊的方法来“解除”它们被监控的方法：
 
-<p>Linux 平台</p>
+</p>
+<pre><code>jQuery.ajax.restore();</code></pre>
+<p>这个方法解除了包裹并且恢复了默认的方法。为了spies在测试之间泄露，所有spies都可以在测试用例<code>tearDown</code>（举个例子）的时候恢复。
 
+</p>
+<p>使用这些方法及断言可以实现可读性较好的测试：
+
+</p>
+<pre><code>&quot;test should register click events for buttons&quot;: function () {
+  sinon.spy(dom, &quot;addEventHandler&quot;);
+  var buttons = dom.get(&quot;div.button&quot;, this.form);
+
+  this.feedback.setForm(this.form);
+
+  assert(dom.addEventHandler.calledWith(buttons[0], &quot;click&quot;));
+  assert(dom.addEventHandler.calledWith(buttons[1], &quot;click&quot;));
+  assert(dom.addEventHandler.calledWith(buttons[2], &quot;click&quot;));
+}</code></pre>
+<p>这个测试使用了一些库中自带的工具。它验证了一个表单中的所有按钮都绑定了点击事件的监听。注意断言只检查了两个参数——元素和事件名，没有包含回调函数。review这个例子让我意识到我可以在这个例子中使用事件代理，但是好吧......
+
+</p>
+<p>Sinon有一些更高层的工具来使用spies，我会在下一篇文章中覆盖到它们。
+
+</p>
+<h2>Stubs</h2>
+<p><a href="http://xunitpatterns.com/Test%20Stub.html">测试Stubs</a>是假的对象，它们被预先编码了行为。它们会在下面两个情况下被用到：
+
+</p>
+<ol>
+<li>避免使用不方便的借口——例如避免向服务器请求数据</li>
+<li>反馈给系统已知的数据，强制指定代码路径</li>
+</ol>
+<p>Javascript函数是“first-class”（译者言：词法作用域的概念，有人翻译成一等公民，窃以为不合适故不翻译）的，这让你花很长时间决定伪代码样例：
+
+</p>
+<pre><code>&quot;test should call event handler&quot;: function () {
+  var handler = function () { handler.called = true; };
+  var myElement = document.getElementsByTagName(&quot;a&quot;)[0];
+
+  dom.addEventListener(myElement, &quot;mouseover&quot;, handler);
+  dom.fireEvent(myElement, &quot;mouseover&quot;);
+
+  assertTrue(handler.called);
+}</code></pre>
+<p>因为Javascript函数如此的多才多艺，大部分情况下对stubs的使用是很容易解决的。然而，在做了一段时间之后，你意识到使用一个库可以减少你的工作量，特别是stub全局接口的时候，例如之前说的<code>jQuery.ajax</code>。
+
+</p>
+<h3>创建Stub</h3>
+<p>Sinon提供了一个简单的创建stub的API。调用<code>sinon.stub()</code>就可以创建stub。它返回了一个“空”函数，这个函数支持之前提到过的spy的API。这样上面的那个例子可以被写成：
+
+</p>
+<pre><code>&quot;test should call event handler&quot;: function () {
+  var handler = sinon.stub();
+  var myElement = document.getElementsByTagName(&quot;a&quot;)[0];
+
+  dom.addEventListener(myElement, &quot;mouseover&quot;, handler);
+  dom.fireEvent(myElement, &quot;mouseover&quot;);
+
+  assertTrue(handler.called);
+}</code></pre>
+<p>代码只是变得简单了一点点，不过这是个非常简单的例子。因为它支持所有的spy的接口，我们可以检查调用次数、this、arguments以及其他。
+
+</p>
+<h3>Stubs的方法</h3>
 <ul>
-<li><a href="http://sourceforge.net/p/retext/home/ReText/">ReText</a></li>
+<li><code>returns(returnValue)</code><br/>
+设置stub的返回值。</li>
+<li><code>throws(exception)</code><br/>
+设置stub抛出的exception，如果参数是一个字符串，则代表了抛出exception的类型。如果它是一个对象，则会把他当作一个exception抛出。如果没有提供参数，那么会在调用时抛出一个<code>Error</code>。</li>
+<li><code>callsArg(index)</code><br/>
+<strong>此API很可能会改变！</strong> 这个方法会导致stub立即调用并将参数传递进去。index参数表示传入参数的序号（从0开始），对应序号的参数会被当作一个回调函数。我认为这个方法的名字或者参数都不太好。欢迎给出建议。</li>
+<li><code>callsArgWith(index, arg1, arg2, ...)</code><br/>
+<strong>此API很可能会改变！</strong> 就像上面的方法一样，只是你可以为回调函数设置参数。和<code>callsArg</code>一样，我不确信这个方法的命名是否够好。我希望它更加直观，但是这是我能想到最好的了。</li>
 </ul>
+<p>对于最后两个方法只要我把它们设计的够好，它们一定会非常有用。我也想让stub可以在调用时传递“可选”的参数。我还没有想到一个合理长度的、清晰简明的命名。目前它还有明显的不足，欢迎给我提意见。
 
-<p>Mac 平台</p>
+</p>
+<p>所有的方法都返回stub，所以它们可以链式调用，例如：
 
+</p>
+<pre><code>sinon.stub(jQuery, &quot;each&quot;).callsArgWith(1, {}).returns({});</code></pre>
+<p>上面代码创建了<code>jQuery.each</code>方法的stub。当它被调用的时候，会以<code>callsArgWith</code>方法的第二参数作为参数，并且返回一个空对象。
+
+</p>
+<p>stub的真实力量是可以拥有spy的接口。记住被stub的接口集成了例如<code>restore</code>之类的方法，故可以恢复成为原本的方法。
+
+</p>
+<h2>Mocks</h2>
+<p><a href="http://xunitpatterns.com/Mock%20Object.html">Mock对象</a>就像是stubs和spies的组合，并且内建了<em>预编码地验证行为</em>，也被成为<em>期望</em>。Mocks会在前期设置它们的期望（而不会像我们常见的断言一样在执行后判断是否符合期望）并且在接收到不被期望的调用时立即失败。最终<code>mock.verify()</code>的调用会验证所有的期望是否符合。
+
+</p>
+<h3>创建mocks</h3>
+<p>你可以创建一个匿名函数的mock，例如：
+
+</p>
+<pre><code>&quot;test should call event handler&quot;: function () {
+  var mock = sinon.mock();
+  var myElement = document.getElementsByTagName(&quot;a&quot;)[0];
+
+  dom.addEventListener(myElement, &quot;mouseover&quot;, mock);
+  dom.fireEvent(myElement, &quot;mouseover&quot;);
+
+  mock.verify();
+}</code></pre>
+<p>如果mock被调用了超过一次，这个测试会立马失败。当<code>verify()</code>被调用时，如果mock没有被调用过则会抛出一个exception。
+
+</p>
+<p>你也可以为一个对象上的方法创建mock，这就和spies和stubs一样。接口稍微有些不同，我们需要创建：一个mock对象和设置我们想要给于期望的方法。
+
+</p>
+<pre><code>var mock = sinon.mock(jQuery);
+mock.expects(&quot;each&quot;).once().callsArgWith(1, {}).returns({});</code></pre>
+<p>如上代码创建了<code>jQuery.each</code>方法的期望：只被调用一次，并且指示它向之前的stub一样运作。
+
+</p>
+<h3>控制mock的期望</h3>
+<p>Sinon的mocks支持了spy和stub的接口，尽管spy的接口比起mocks的接口来说没那么有趣。通常前期你会使用如下的方法来设置期望。注意这些方法也会返回expectation，这样你可以使用链式调用，符合声明使得代码可读性更高。
+
+</p>
 <ul>
-<li><a href="http://mouapp.com/">Mou</a></li>
+<li><code>execptation.atLeast(callCount)</code><br/>
+确保mock的被调用次数达到指定的次数。</li>
+<li><code>expectation.atMost(callCount)</code><br/>
+确保mock的被调用次数不会超过指定的次数。</li>
+<li><code>expectation.exactly(callCount)</code><br/>
+指定mock被调用的次数。</li>
+<li><code>expectation.never()</code><br/>
+<code>exactly(0)</code>的快捷方法。</li>
+<li><code>expectation.once()</code><br/>
+<code>exactly(1)</code>的快捷方法。</li>
+<li><code>expectation.twice()</code><br/>
+<code>exactly(2)</code>的快捷方法。</li>
+<li><code>expectation.thrice()</code><br/>
+<code>exactly(3)</code>的快捷方法。<br/></li>
+<li><code>expectation.withArgs(arg1, arg2, ...)</code><br/>
+就像spy的<code>calledWith(arg1, arg2, ...)</code>方法一样，只不过是它是用作前期对期望的设置。</li>
+<li><code>expectation.withExactArgs(arg1, arg2, ...)</code><br/>
+就像spy的<code>calledWithExactly(arg1, arg2, ...)</code>方法一样，只不过是它是用作前期对期望的设置。</li>
+<li><code>expectation.on(thisObj)</code><br/>
+期望<code>this</code>值匹配指定的对象。</li>
 </ul>
+<p>另外，mocks也继承了<code>restore</code>方法来恢复原始的方法。然而，大多数情况下你不需要直接调用它，<code>verify</code>方法会在验证所有的期望之后恢复方法。
 
-<p>在线编辑器</p>
+</p>
+<p>下面是我在书中用到的一个例子。我构建了一个<a href="http://en.wikipedia.org/wiki/Comet_%28programming%29">comet客户端</a>用于长轮询从服务器端返回数据。下面的例子中期望在comet客户端在执行<code>connect</code>方法的时候，调用<code>ajax.poll</code>方法并传给指定的url。
 
-<ul>
-<li><a href="http://markable.in/">Markable.in</a></li>
-<li><a href="http://dillinger.io/">Dillinger.io</a></li>
-</ul>
+</p>
+<pre><code>&quot;test connect should start polling&quot;: function () {
+  var client = Object.create(ajax.cometClient);
+  client.url = &quot;/my/url&quot;;
+  var mock = sinon.mock(ajax);
+  mock.expects(&quot;poll&quot;).once().withArgs(&quot;/my/url&quot;).returns({});
 
-<p>浏览器插件</p>
+  client.connect();
 
-<ul>
-<li><a href="https://chrome.google.com/webstore/detail/oknndfeeopgpibecfjljjfanledpbkog">MaDe</a> (Chrome)</li>
-</ul>
+  mock.verify();
+}</code></pre>
+<p>你可能已经注意到<code>mock.verify</code>每次都在最后被调用，可以在测试框架中集成在最后默认执行会是一种不错的方式。我会展示在下一篇文章中展示Sinon在这个领域提供的东西。
 
-<p>高级应用</p>
-
-<ul>
-<li><a href="http://www.sublimetext.com/2">Sublime Text 2</a> + <a href="http://ttscoff.github.com/MarkdownEditing/">MarkdownEditing</a> / <a href="http://lucifr.com/2012/07/12/markdownediting-for-sublime-text-2/">教程</a></li>
-</ul>
-
-<p>*** 如有更好的 Markdown 免费编辑器推荐，请到<a href="https://gitcafe.com/riku/Markdown-Syntax-CN/tickets/1">这里反馈</a>，谢谢！</p>
+</p>
+<h2>现状</h2>
+<p>目前，这篇文章中提到的东西都是可以工作的，经过了充份的测试并且可以使用。如果你想要尝试，你可以找到一份<a href="http://cjohansen.no/sinon/sinon.preview-20100525.js">preview version</a>。所有的代码在<a href="http://gitorious.org/sinon/">Gitorious</a>都可以找到。文档还很欠缺。还有更多特性可以被使用，它们会在下几篇文章中描述。最后，我正在写test/stub/mock timer和XMLHttpRequest的工具，但是它们还没有被完成。（译者言：翻译此文的时候这些都已经完成了，可以去<a href="http://sinonjs.org/">Sinon.JS</a>官网看下）</p>
+</div>
 </body>
 </html>

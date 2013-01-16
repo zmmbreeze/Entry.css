@@ -1,6 +1,7 @@
 /* ==========================================================================
    Entry content
    ========================================================================== */
+@line: @font-size * @line-height;
 .ext-entry-content () {
     margin: 0;
     line-height: @line-height;
@@ -33,7 +34,8 @@
     > div, > p, > blockquote, > pre,
     > ul, > ol, > table, > figure,
     > iframe,
-    > section, > article {
+    > section, > article,
+    > img {
         max-width: @content-width;
         // 默认上间隔为 @line-height * 1em = h
         margin-top: @line-height * 1em;
@@ -50,10 +52,10 @@
     h1, h2, h3, h4, h5, h6 {
         font-weight: bold;
     }
-    // h1的行框高为：2em * @line-height = h
+    // h1的行框高为：2em * @line-height = 2h
     h1, h2 {
         font-size: 2em;
-        line-height: @line-height / 2;
+        line-height: @line-height;
         color: @word-highlight-color-2;
         background-color: @word-back-color-2;
         a {
@@ -62,6 +64,9 @@
         a, em, u, abbr[title] {
             border-bottom-color: @word-highlight-color-2;
         }
+    }
+    h1 {
+        text-align: center;
     }
     > h1 {
         // h1的上间隔为 2em * @line-height * 1em = 2h
@@ -72,18 +77,20 @@
     // h2的行框高为：1.5em * @line-height / 1.5 = h
     h2 {
         font-size: 1.5em;
-        line-height: @line-height / 1.5;
+        line-height: @line-height * 2em / 1.5;
     }
     > h2 {
         // h2的上间隔为 1.5em * @line-height * 2em / 1.5 = 2h
-        margin-top: @line-height * 2em / 1.5;
+        margin-top: @line-height * 1em / 1.5;
         padding-right: 1/1.5em;
         padding-left: 1/1.5em;
     }
     // h3的行框高为：1.2em * @line-height * 1 / 1.2 = h
     h3 {
         font-size: 1.2em;
-        line-height: @line-height / 1.2;
+        line-height: @line-height * 1em / 1.2;
+        // XXX 如果不加1em，用缩放因子
+        // 则会造成chrome  24.0.1312.52下计算结果有1px误差
     }
     > h3 {
         // h3的上间隔为 1.2em * @line-height * 1em / 1.2 = h
@@ -103,7 +110,7 @@
     }
     blockquote {
         position: relative;
-        padding: 1em 4em;
+        padding: @line-height * 1em 4em;
         div, p {
             .no-start-with2word;
         }
@@ -126,7 +133,6 @@
         }
     }
     pre {
-        /*
         // pre上间距为： 1em * (14 / 16) * @line-height * 1em * (16 / 14) = h
         margin-top: @line-height * 1em * 16 / 14;
         // pre上下内间距为：
@@ -136,13 +142,13 @@
         line-height: 16 / 14; // 强制设置行高，避免难看
         // pre字体大小为：14h/32
         font-size: (1em * @line-height / 2) * (14/16);
-        */
+        /*
         // pre上下内间距为：
         //      1em * (14 / 16) * @line-height * 0.5em * (16 / 14) = 0.5h
         padding: @line-height * 0.5em 4em;
         line-height: @line-height;
         font-size: 1em;
-
+        */
         white-space: pre;
         word-wrap: normal;  // reset
         overflow: auto;
@@ -151,6 +157,7 @@
         border-right: none;
         border-left: none;
         background-color: @pre-back-color;
+        .fake-border-top-bottom(@pre-border-color);
     }
     ul, ol {
         // ul, ol 上间隔为 @line-height * 1em = h
@@ -190,13 +197,13 @@
     }
     hr {
         position: relative;
-        // hr的上内边距为： @line-height / 2 * 1em = 0.5h
-        padding-top: @line-height / 2 * 1em;
-        // hr的上外边距为： @line-height / 2 * 5em = 2.5h
+        // hr的上内边距为： @line-height * 1em = h
+        padding-top: @line-height * 1em;
+        // hr的上外边距为： @line-height / 2 * 4em = 2h
         // 使用margin-bottom，故可以合并
-        margin-bottom: @line-height / 2 * 5em;
+        margin-bottom: @line-height * 2em;
         // 去掉border-bottom的2px，避免Vertical Rhythm被打乱
-        margin-top: -2px;
+        margin-top: -3px;
         // IE <= 9下如果margin-left: 0; margin-right: 0;
         // 那么会导致hr居中，而不是靠左
         .layout-box;
@@ -210,17 +217,16 @@
         &:before, &:after {
             content: '';
             position: absolute;
+            bottom: -2px;
             width: 30%;
             height: 2px;
             pointer-events: none;
         }
         &:before {
             left: 0;
-            right: auto;
             .background-linear-gradient(right, rgba(255,255,255,0), white, white);
         }
         &:after {
-            top: 0;
             right: 0;
             .background-linear-gradient(left, rgba(255,255,255,0), white, white);
         }
@@ -231,10 +237,9 @@
         min-width: @content-width / 2;
         border-collapse: collapse;
         border-spacing: 0;
-        border: 1px solid @table-border-color;
         .rounded-corners(0.5em);
         caption {
-            padding: 0.5em 0 0.25em;
+            padding: 0;
         }
         thead {
             th {
@@ -243,9 +248,6 @@
         }
         tbody {
             margin: 0 1em;
-            td, th {
-                border-top: 1px solid @table-inner-border-color;
-            }
             tr:nth-child(odd) {
                 td, th {
                     background-color: @table-highlight-back-color;
@@ -253,11 +255,9 @@
             }
         }
         td, th {
-            padding: 0.5em 1em;
-            border-left: 1px solid @table-inner-border-color;
-            &:first-child {
-                border-left: none;
-            }
+            padding: 0 1em;
+            .fake-border-top(@table-border-color);
+            border: none;
         }
     }
 
@@ -338,20 +338,20 @@
     }
     /* image */
     img {
-        max-width: @content-width;
+        max-width: 100%; // 限宽
         border: 0;
+    }
+    > img {
+        max-width: @content-width; // 覆盖优先级
     }
     figure {
         img {
             display: block;
             margin: 0 auto;
-            padding: 0.5em;
             max-width: 97%;
-            border: 1px solid @img-border-color;
         }
         figcaption {
             display: block;
-            margin-top: 0.5em;
             text-align: center;
             font-style: italic;
         }
@@ -407,6 +407,11 @@
 
     /* disqus支持 */
     #disqus_thread {
-        margin-top: 2em;
+        margin-top: 1em * @line-height;
+    }
+
+    /* util */
+    .util-no-lead-word {
+        .no-start-with2word();
     }
 }

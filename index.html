@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Entry.css</title>
-  <meta name="Keywords" content="Entry.css,中文文章,博客样式"/>
+  <meta name="Keywords" content="Entry.css,css,vertical rhythm,baseline,中文文章,博客样式"/>
   <meta name="Description" content="Entry.css 中文文章样式解决方案，帮助你快速搭建中文博客主题。"/>
   <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
   <style>
-  .entry {
+  .show-baseline {
     background-image: url(assets/baseline-32.png);
   }
   </style>
@@ -20,8 +20,12 @@
 </head>
 <body>
 <!--<div class="entry-header">
+
+</div>-->
+
+<div class="entry">
     <h1>Entry.css中文文章样式解决方案</h1>
-    <div class="entry-meta">作者：<a href="http://mzhou.me/">mzhou</a> / <a href="https://twitter.com/zhoumm">@zhoumm</a><br/>下载：<a href="https://github.com/zmmbreeze/Entry.css">Github</a><br/>版本：beta 0.9.3
+    <div class="util-no-lead-word">作者：<a href="http://mzhou.me/">mzhou</a> / <a href="https://twitter.com/zhoumm">@zhoumm</a><br/>下载：<a href="https://github.com/zmmbreeze/Entry.css">Github</a><br/>版本：beta 0.9.3
         <br/>
         <iframe src="http://ghbtns.com/github-btn.html?user=zmmbreeze&repo=Entry.css&type=watch&count=true"
         allowtransparency="true" frameborder="0" scrolling="0" width="100" height="20"></iframe>
@@ -30,9 +34,6 @@
         <iframe src="http://ghbtns.com/github-btn.html?user=zmmbreeze&type=follow&count=true"
         allowtransparency="true" frameborder="0" scrolling="0" width="200" height="20"></iframe>
     </div>
-</div>-->
-
-<div class="entry">
     <ul>
         <li><a href="#overview">概述</a></li>
         <li>
@@ -74,7 +75,12 @@
     <hr/>
 
     <h2 id="overview">概述</h2>
-    <p><strong>Entry.css</strong>提供一种<em>可配置</em>的、<em>更适合阅读</em>的<strong>中文文章样式</strong>，满足一般的博客文章展示需求。它使用了<a href="http://www.lesscss.net/">Less css</a>作为开发工具。同时推荐使用<a href="http://daringfireball.net/projects/markdown/">markdown</a>来书写文章，然后转换成HTML。</p>
+    <p><strong>Entry.css</strong>提供一种<em>可配置</em>的、<em>更适合阅读</em>的<strong>中文文章样式</strong>，满足一般的博客文章展示需求。它使用了<a href="http://www.lesscss.net/">Less css</a>。推荐使用<a href="http://daringfireball.net/projects/markdown/">markdown</a>来书写文章，然后转换成HTML。它有如下优点：</p>
+    <ul>
+        <li><a href="http://blog.justfont.com/2012/08/%E7%B6%B2%E9%A0%81%E6%8E%92%E7%89%88%EF%BC%9A%E6%B9%AF%E5%93%81%EF%BC%8D%EF%BC%8D%E5%9E%82%E7%9B%B4%E7%9A%84%E9%9F%BB%E5%BE%8B/" target="_blank">“垂直的韵律”(Vertical Rhythm)</a>，更适合阅读。</li>
+        <li>针对中文文章样式定制</li>
+        <li>可自定义</li>
+    </ul>
     <p>它分为左、右和居中三种排版方式。默认为向左布局方式，通过在<a href="#config">less的配置</a>中修改<code>@layout: left | center | right</code>值来使用不同的排版布局。</p>
     <p>它还提供了可选的多栏模式（multi-column），不过此特性还在开发中，且各个主流浏览器支持不够好。</p>
 
@@ -157,11 +163,12 @@
     <h3 id="precode">代码区块</h3>
     <p>代码区块样式使用<code>&lt;pre&gt;</code>标签作为容器，且内部可选地嵌入<code>&lt;code&gt;</code>标签。推荐使用<a href="http://prismjs.com/">prism</a>实现代码高亮。</p>
     <p>HTML例如：</p>
-    <pre class="language-markup"><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;prism.css&quot; /&gt;
+    <pre class="language-markup"><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;assets/prism.css&quot; /&gt;
 &lt;pre&gt;&lt;code&gt;
+// pre代码块的行高为基本行高的1/2
 console.log('Test');
 &lt;/code&gt;&lt;/pre&gt;
-&lt;script src=&quot;prism.css&quot;&gt;&lt;/script&gt;</code></pre>
+&lt;script src=&quot;assets/prism.css&quot;&gt;&lt;/script&gt;</code></pre>
     <blockquote>
         <code>&lt;blockquote&gt;</code>与<code>&lt;pre&gt;</code>的内容部分一样，都距离内容框4em。
     </blockquote>
@@ -226,8 +233,9 @@ console.log('Test');
         这里是一段话
         </figcaption>
     </figure>
-    <p>不过对<code>&lt;img&gt;</code>标签做了限宽，如下：</p>
-    <img src="http://placehold.it/950x150" alt="这里是一段话" />
+    <p>对<code>&lt;img&gt;</code>标签做了限宽，如下：</p>
+    <p><img src="assets/950x150.gif" alt="这里是一段话" /></p>
+    <img src="assets/950x150.gif" alt="这里是一段话" />
 
     <h3 id="otherInline">其他行内样式</h3>
     <ol>
@@ -372,6 +380,14 @@ console.log('Test');
 </script>
 <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-<script src="prism.js"></script>
+<script src="assets/prism.js"></script>
+<script src="assets/baseliner.js"></script>
+<script src="src/baseline.js"></script>
+<script>
+window.onload = function() {
+    baseline.init('.entry img, .entry iframe', 32);
+    baseliner = new Baseliner(32);
+}
+</script>
 </body>
 </html>

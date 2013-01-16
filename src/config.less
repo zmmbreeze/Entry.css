@@ -1,10 +1,15 @@
 /* ===========================================================
    Config
    =========================================================== */
-@font-size: 16px;           // 基础文字大小
-@line-height: 2;            // 行高，不能带单位，必须是数值，并且不能低于1.2
+// 整体布局：默认为靠左，也可以设置为居中(center)、靠右(right)
+@layout: left;  // left | center | right
 
-@content-width: 16px * 40;  // 内容区的宽度，默认值为 40 * 14 = 560px
+// 大小设置
+@font-size: 16px;           // 基础文字大小，不能是相对单位
+@line-height: 2;          // 行高，不能带单位，必须是数值，不能小于1.5
+@content-width: 16px * 40;  // 内容区的宽度，一行建议不要超过42个字
+
+// 字体设置
 @font-family:
     "ff-tisa-web-pro-1","ff-tisa-web-pro-2", /* typekit */
     "Lucida Grande", /* mac */
@@ -14,6 +19,7 @@
     sans-serif;                         // 文章字体
 @code-font-family: monospace, serif;    // 文章中代码的字体
 
+// 颜色和icon 设置
 @word-color: #666;              // 文字默认颜色
 @word-highlight-color: #FFF;    // 文章标题在背景高亮时候文字默认的颜色
 @word-back-color: #83A1D5;      // 文章标题在背景高亮时候文字默认的背景颜色
@@ -30,10 +36,9 @@
 @blockquote-before-icon: '\275D';   // 前一个引用icon
 @blockquote-after-icon: '\275E';    // 后一个引用icon
 
-// 从bootstrap拷贝的颜色
-@code-color: #D14;              // code的文字颜色
+@code-color: #888;              // code的文字颜色
 @code-back-color: #F7F7F9;      // code的背景色
-@code-border-color: #E1E1E8;    // code的边框颜色
+@code-border-color: transparent;    // code的边框颜色
 
 @pre-back-color: #FEFEFE;       // pre的背景色
 @pre-border-color: #E1E1E8;     // pre的边框色
@@ -42,20 +47,20 @@
 
 // 从bootstrap拷贝的颜色
 @table-border-color: #DDD;              // table边框颜色
-@table-inner-border-color: #DDD;        // table内边框颜色
+// @table-inner-border-color: #DDD;        // table内边框颜色
 @table-highlight-back-color: #F9F9F9;   // table背景高亮颜色
 
 @img-border-color: #CCC;    // 图标边框颜色
 
 @mark-back-color: yellow;   // mark的背景色
 
-// 整体布局：默认为靠左，也可以设置为居中(center)、靠右(right)
-@layout: left;  // left | center | right
-
 
 /* ==========================================================
    Optional config
    ========================================================== */
+
+// 缩进配置
+@use-indent: false;
 
 // 多栏样式
 // 设置高度之后，显示成横向阅读

@@ -38,6 +38,10 @@
  *          使pre标签不会自动换行
  *          移动@font-family到config.less中，使其可配置
  *          增加配置@code-font-family
+ *      1.0 增加配置@use-index
+ *          重新修改全部样式，支持vertical rhythm，更适合阅读
+ *          去掉不必要的配置
+ *          直接子元素为img时，默认其为block元素
  *
  */
 
@@ -59,14 +63,16 @@
 }
 
 // 段落开头空两个中文
-.start-with2word () {
+.start-with2word () {}
+.start-with2word () when (@use-indent = true) {
     // text-indent: 2em; 避免继承，故不用
     &:before {
         content: '　　';
         display: inline;
     }
 }
-.no-start-with2word () {
+.no-start-with2word () {}
+.no-start-with2word () when (@use-indent = true) {
     &:before {
         content: '';
     }
@@ -154,6 +160,59 @@
     width: @content-width;
     margin-left: auto;
     margin-right: 0;
+}
+
+// 利用before，after来伪装上下边框
+// 确保可以符合vertical rhythm
+.fake-border-top-bottom (@color: #CCC, @width: 1px) {
+    position: relative;
+    &:before,
+    &:after {
+        position: absolute;
+        z-index: 1;
+        content: '';
+        width: 100%;
+        height: @width;
+        background-color: @color;
+    }
+    &:before {
+        top: 0;
+        left: 0;
+    }
+    &:after {
+        bottom: @width;
+        left: 0;
+    }
+}
+.fake-border-bottom (@color: #CCC, @width: 1px) {
+    position: relative;
+    &:after {
+        position: absolute;
+        z-index: 1;
+        content: '';
+        width: 100%;
+        height: @width;
+        background-color: @color;
+    }
+    &:after {
+        bottom: @width;
+        left: 0;
+    }
+}
+.fake-border-top (@color: #CCC, @width: 1px) {
+    position: relative;
+    &:before {
+        position: absolute;
+        z-index: 1;
+        content: '';
+        width: 100%;
+        height: @width;
+        background-color: @color;
+    }
+    &:before {
+        top: 0;
+        left: 0;
+    }
 }
 
 @import "entry-header.less";
