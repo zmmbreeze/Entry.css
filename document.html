@@ -10,14 +10,10 @@
   <link rel="stylesheet/less" type="text/css" href="src/default.config.less">
   <script src="assets/less-1.3.0.min.js"></script>
   <!--
-  <link rel="stylesheet" href="bin/default.css" />
+  <link rel="stylesheet" href="bin/entry.css" />
   -->
 </head>
 <body>
-<!--<div class="entry-header">
-
-</div>-->
-
 <div class="entry">
     <h1>Entry.css文档</h1>
     <ul>
@@ -326,7 +322,7 @@ console.log('Test');
 <script>
 window.onload = function() {
     baseline.init('.entry img, .entry iframe', 32);
-    baseliner = new Baseliner(32);
+    var baseliner = new Baseliner(32);
 }
 </script>
 </body>
