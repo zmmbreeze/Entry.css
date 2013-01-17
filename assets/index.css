@@ -74,7 +74,8 @@ pre {
 .pack img {
     display: block;
     margin: 0 auto;
-    padding: 9px; /* 1.5 / 2 = 0.75em * 16px = 10px = 9px(padding) + 1px(border) */
+    /* 1.5 / 2em = 0.75em = 0.75 * 16px = 12px = 11px(padding) + 1px(border) */
+    padding: 11px;
     border: 1px solid #CCC;
     box-shadow: 2px 2px 5px #EEE;
 }
