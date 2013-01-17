@@ -66,10 +66,10 @@ body {
 }
 .markdown {
   margin: 0;
-  line-height: 1.62;
+  line-height: 2;
   color: #333333;
   word-wrap: break-word;
-  font-size: 14px;
+  font-size: 16px;
   font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", /* typekit */
  "Lucida Grande", /* mac */
  "Hiragino Sans GB", "Hiragino Sans GB W3", /* mac */
@@ -173,8 +173,8 @@ body {
 .markdown > section,
 .markdown > article,
 .markdown > img {
-  max-width: 560px;
-  margin-top: 1.62em;
+  max-width: 640px;
+  margin-top: 2em;
   margin-bottom: 0;
   display: block;
   margin-left: 0;
@@ -201,7 +201,7 @@ body {
 .markdown h1,
 .markdown h2 {
   font-size: 2em;
-  line-height: 1.62;
+  line-height: 2;
   color: #ffffff;
   background-color: #d98383;
 }
@@ -223,25 +223,25 @@ body {
   text-align: center;
 }
 .markdown > h1 {
-  margin-top: 1.62em;
+  margin-top: 2em;
   padding-right: 0.5em;
   padding-left: 0.5em;
 }
 .markdown h2 {
   font-size: 1.5em;
-  line-height: 2.16em;
+  line-height: 2.6666666666666665em;
 }
 .markdown > h2 {
-  margin-top: 1.08em;
+  margin-top: 1.3333333333333333em;
   padding-right: 0.6666666666666666em;
   padding-left: 0.6666666666666666em;
 }
 .markdown h3 {
   font-size: 1.2em;
-  line-height: 1.35em;
+  line-height: 1.6666666666666667em;
 }
 .markdown > h3 {
-  margin-top: 1.35em;
+  margin-top: 1.6666666666666667em;
   padding-right: 0.7692307692307692em;
   padding-left: 0.7692307692307692em;
 }
@@ -249,11 +249,11 @@ body {
 .markdown h5,
 .markdown h6 {
   font-size: 1em;
-  line-height: 1.62;
+  line-height: 2;
 }
 .markdown blockquote {
   position: relative;
-  padding: 1.62em 4em;
+  padding: 2em 4em;
 }
 .markdown blockquote:before {
   position: absolute;
@@ -273,10 +273,10 @@ body {
   color: #cccccc;
 }
 .markdown pre {
-  margin-top: 1.8514285714285716em;
-  padding: 0.9257142857142858em 4em;
+  margin-top: 2.2857142857142856em;
+  padding: 1.1428571428571428em 4em;
   line-height: 1.1428571428571428;
-  font-size: 0.70875em;
+  font-size: 0.875em;
   /*
         // pre上下内间距为：
         //      1em * (14 / 16) * @line-height * 0.5em * (16 / 14) = 0.5h
@@ -313,7 +313,7 @@ body {
 }
 .markdown ul,
 .markdown ol {
-  margin-top: 1.62em;
+  margin-top: 2em;
   padding-left: 4em;
 }
 .markdown ul li,
@@ -349,13 +349,13 @@ body {
 }
 .markdown hr {
   position: relative;
-  padding-top: 1.62em;
-  margin-bottom: 3.24em;
+  padding-top: 2em;
+  margin-bottom: 4em;
   margin-top: -3px;
   margin-left: 0;
   margin-left: auto;
   margin-right: auto;
-  max-width: 560px;
+  max-width: 640px;
   height: 0;
   background: none;
   border: none;
@@ -395,7 +395,7 @@ body {
   padding: 0;
   margin-left: 1em;
   margin-left: auto;
-  min-width: 280px;
+  min-width: 320px;
   border-collapse: collapse;
   border-spacing: 0;
   -webkit-border-radius: 0.5em;
@@ -525,7 +525,7 @@ body {
   border: 0;
 }
 .markdown > img {
-  max-width: 560px;
+  max-width: 640px;
 }
 .markdown figure img {
   display: block;
@@ -580,66 +580,5 @@ body {
   bottom: -0.25em;
 }
 .markdown #disqus_thread {
-  margin-top: 1.62em;
-}
-.markdown h1 {
-  margin: 0;
-  padding: 1em 2em;
-  max-width: 100%;
-  color: #ffffff;
-  overflow: hidden;
-  font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", /* typekit */
- "Lucida Grande", /* mac */
- "Hiragino Sans GB", "Hiragino Sans GB W3", /* mac */
- "Microsoft YaHei", /* windows */
- "wenquanyi micro hei", /* linux */
- sans-serif;
-  -webkit-font-smoothing: antialiased;
-  background-color: #cd5c5c;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  -o-box-sizing: border-box;
-  box-sizing: border-box;
-  padding-bottom: 0;
-  text-align: center;
-}
-.markdown h1 h1 {
-  margin: 0;
-  padding: 0;
-  max-width: 100%;
-  line-height: 1.5;
-  color: #ffffff;
-  background-color: #cd5c5c;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  -o-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.markdown h1 a {
-  color: #ffffff;
-}
-.markdown h1 > h1,
-.markdown h1 > h2,
-.markdown h1 > h3,
-.markdown h1 > h4,
-.markdown h1 > h5,
-.markdown h1 > h6,
-.markdown h1 > div,
-.markdown h1 > p,
-.markdown h1 > blockquote,
-.markdown h1 > pre,
-.markdown h1 > ul,
-.markdown h1 > ol,
-.markdown h1 > table,
-.markdown h1 > figure,
-.markdown h1 > iframe {
-  display: block;
-  width: 560px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.markdown h1 > table {
-  display: table;
+  margin-top: 2em;
 }

@@ -1,0 +1,143 @@
+body {
+    margin: 1.5em;
+    line-height: 1.5em;
+    font-size: 16px;
+    color: #666;
+    background-color: #BBB;
+}
+h1 {
+    margin: 0;
+    font-size: 2em;
+    line-height: 1.5em;
+}
+h2 {
+    margin: 1em 0 0 0;
+    font-size: 1.5em;
+    line-height: 2em;
+}
+h3 {
+    margin: 0.75em 0;
+    font-size: 1em;
+    line-height: 1.5em;
+}
+p {
+    margin: 1.5em 0 0 0;
+}
+pre {
+    margin: 1.5em 0 0 0 !important;
+    padding: 0.75em !important;
+}
+
+.invisible {
+    position: absolute !important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+    *clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+}
+.middle {
+    max-width: 960px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+/* head */
+.head {
+    padding: 23px 1.5em 24px;
+    background-color: #EEE;
+    border: 1px solid #999;
+    border-bottom: none;
+}
+.head-github iframe {
+    vertical-align: bottom;
+}
+
+/* info */
+.info {
+    padding: 1.5em;
+    background-color: #FFF;
+    border: 1px solid #999;
+    border-top: none;
+}
+
+.wrap {
+    overflow: hidden;
+}
+.pack {
+    float: left;
+    margin: 1.5em 20px 0 0;
+    width: 220px;
+    overflow: hidden;
+    text-align: center;
+}
+.pack img {
+    display: block;
+    margin: 0 auto;
+    padding: 9px; /* 1.5 / 2 = 0.75em * 16px = 10px = 9px(padding) + 1px(border) */
+    border: 1px solid #CCC;
+    box-shadow: 2px 2px 5px #EEE;
+}
+.pack p {
+    margin-top: 24px;
+    text-align: left;
+    font-size: 14px;
+    /* line-height: 24px; 已继承*/
+}
+
+/* foot */
+.foot {
+    padding: 1em;
+    color: #999;
+}
+.foot a {
+    color: #999;
+    text-decoration: none;
+}
+
+/* button */
+.button-container {
+    text-align: center;
+}
+.button{
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    padding: 12px 30px;
+    margin: 0;
+    vertical-align: bottom;
+    cursor: pointer;
+    overflow: visible;
+    font: 18px arial, helvetica, sans-serif;
+    text-decoration: none;
+    white-space: nowrap;
+    color: #fff;
+    border: 1px solid #57a957;
+    background-color: #57a957;
+    background-image: -webkit-linear-gradient(top, rgba(255,255,255,.3),
+                     rgba(255,255,255,0)),
+                    url(data:image/png;base64,iVBORw0KGg[...]QmCC);
+    background-image: linear-gradient(top, rgba(255,255,255,.3),
+                     rgba(255,255,255,0)),
+                    url(data:image/png;base64,iVBORw0KGg[...]QmCC);
+    transition: background-color .2s ease-out;
+    background-clip: padding-box; /* Fix bleeding */
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .3),
+              0 2px 2px -1px rgba(0, 0, 0, .5),
+              0 1px 0 rgba(255, 255, 255, .3) inset;
+    text-shadow: 0 1px 0 rgba(255,255,255, .9);
+}
+
+.button:hover{
+    color: #555;
+    background-color: #62c462;
+}
+
+.button:active{
+    position: relative;
+    top: 2px;
+    background: #57a957;
+    text-shadow: none;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
+}

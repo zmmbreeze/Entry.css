@@ -55,6 +55,7 @@ var baseline = function(){
                     this.cur.style.maxHeight = 'none';
                     this.tall = this.cur.offsetHeight;
                     this.newHeight = Math.floor(this.tall / this.target) * this.target;
+                    console.log(this.newHeight);
                     if (this.newHeight !== 0 && this.newHeight < this.tall) {
                         // 设置为block，避免额外高度打乱vertical rhythm
                         this.cur.style.display = 'block';

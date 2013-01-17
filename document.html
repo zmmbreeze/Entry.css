@@ -1,0 +1,333 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Entry.css</title>
+  <meta name="Keywords" content="Entry.css,css,vertical rhythm,baseline,中文文章,博客样式"/>
+  <meta name="Description" content="Entry.css 中文文章样式，帮助你快速搭建中文博客主题。"/>
+  <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+  <link rel="stylesheet" href="assets/prism.css" />
+  <link rel="stylesheet/less" type="text/css" href="src/default.config.less">
+  <script src="assets/less-1.3.0.min.js"></script>
+  <!--
+  <link rel="stylesheet" href="bin/default.css" />
+  -->
+</head>
+<body>
+<!--<div class="entry-header">
+
+</div>-->
+
+<div class="entry">
+    <h1>Entry.css文档</h1>
+    <ul>
+        <li><a href="#overview">概述</a></li>
+        <li>
+            <a href="#block">块级元素</a>
+            <ul>
+                <li><a href="#p">段落和换行</a></li>
+                <li><a href="#header">标题</a></li>
+                <li><a href="#list">列表</a></li>
+                <li><a href="#blockquote">区块引用</a></li>
+                <li><a href="#precode">代码区块</a></li>
+                <li><a href="#hr">分隔线</a></li>
+                <li><a href="#table">表格</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#span">行内元素</a>
+            <ul>
+                <li><a href="#link">链接</a></li>
+                <li><a href="#em">强调</a></li>
+                <li><a href="#code">代码</a></li>
+                <li><a href="#img">图片</a></li>
+                <li><a href="#otherInline">其他</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#other">外部内容</a>
+            <ul>
+                <li><a href="#inlineiframe">行内iframe按钮</a></li>
+                <li><a href="#codepenio">codepen.io</a></li>
+                <li><a href="#jsfiddle">jsfiddle</a></li>
+                <li><a href="#speakerDeck">Speaker Deck</a></li>
+            </ul>
+        </li>
+        <li><a href="#config">配置及使用</a></li>
+        <li><a href="#acknowledgement">感谢</a></li>
+    </ul>
+
+    <hr/>
+
+    <h2 id="overview">概述</h2>
+    <p><strong>Entry.css</strong>提供一种<em>可配置</em>的、<em>更适合阅读</em>的<strong>中文文章样式</strong>，满足一般的博客文章展示需求。它使用了<a href="http://www.lesscss.net/">Less css</a>。推荐使用<a href="http://daringfireball.net/projects/markdown/">markdown</a>来书写文章，然后转换成HTML。它有如下优点：</p>
+    <ul>
+        <li><a href="http://blog.justfont.com/2012/08/%E7%B6%B2%E9%A0%81%E6%8E%92%E7%89%88%EF%BC%9A%E6%B9%AF%E5%93%81%EF%BC%8D%EF%BC%8D%E5%9E%82%E7%9B%B4%E7%9A%84%E9%9F%BB%E5%BE%8B/" target="_blank">“垂直的韵律”(Vertical Rhythm)</a>，更适合阅读。</li>
+        <li>针对中文文章样式定制</li>
+        <li>可自定义</li>
+    </ul>
+    <p>它分为左、右和居中三种排版方式。默认为向左布局方式，通过在<a href="#config">less的配置</a>中修改<code>@layout: left | center | right</code>值来使用不同的排版布局。</p>
+    <p>它还提供了可选的多栏模式（multi-column），不过此特性还在开发中，且各个主流浏览器支持不够好。</p>
+
+    <h2 id="block">块级元素</h2>
+
+    <h3 id="p">段落和换行</h3>
+    <p>段落的HTML只使用<code>&lt;div&gt;</code>和<code>&lt;p&gt;</code>。它们的行高、行首缩近两个中文字都可以自定义。换行也可以使用<code>&lt;br&gt;</code>标签实现。</p>
+
+    <h3 id="header">标题</h3>
+    <p>文章内部标题共分为四种，使用<code>&lt;h1&gt;</code>标签作为一级标题，<code>&lt;h2&gt;</code>作为二级标题，<code>&lt;h3&gt;</code>标签作为三级标题，<code>&lt;h4&gt;</code>、<code>&lt;h5&gt;</code>或<code>&lt;h6&gt;</code>标签作为四级标题。以下是样例：</p>
+
+    <h3 id="list">列表</h3>
+    <p>列表样式分为有序列表<code>&lt;ol&gt;</code>和无序列表<code>&lt;ul&gt;</code>两种，这两种可以相互嵌套。没有对列表样式做过多的修改，还是使用浏览器默认样式。</p>
+
+    <p>列表的嵌套样式如下：</p>
+    <ul>
+        <li>第一层无序列表
+            <ul>
+                <li>第二层无序列表
+                    <ul>
+                        <li>第三层无序列表</li>
+                        <li>第三层无序列表</li>
+                    </ul>
+                </li>
+                <li>第二层无序列表</li>
+            </ul>   
+        </li>
+        <li>第一层无序列表</li>
+    </ul>
+
+    <ol>
+        <li>第一层有序列表
+            <ol>
+                <li>第二层有序列表
+                    <ol>
+                        <li>第三层有序列表</li>
+                        <li>第三层有序列表</li>
+                    </ol>
+                </li>
+                <li>第二层有序列表</li>
+            </ol>   
+        </li>
+        <li>第一层有序列表</li>
+    </ol>
+
+    <ul>
+        <li>第一层无序列表
+            <ol>
+                <li>第二层有序列表
+                    <ul>
+                        <li>第三层无序列表</li>
+                        <li>第三层无序列表</li>
+                    </ul>
+                </li>
+                <li>第二层有序列表</li>
+            </ol>  
+        </li>
+        <li>第一层无序列表</li>
+    </ul>
+
+
+    <h3 id="blockquote">区块引用</h3>
+    <p>区块引用只使用<code>&lt;blockquotes&gt;</code>标签。它们的样式使用了两个Unicode实体图标，这两个icon可以自定义。区块引用的样例如下：</p>
+    <blockquote>
+    人生不过是一个行走的影子，一个在舞台上指手划脚的笨拙的怜人，登场片刻，便在无声无息中悄然退去，这是一个愚人所讲的故事，充满了喧哗和骚动，却一无所指。 <small><cite>麦克白</cite></small>
+    </blockquote>
+
+    <h3 id="precode">代码区块</h3>
+    <p>代码区块样式使用<code>&lt;pre&gt;</code>标签作为容器，且内部可选地嵌入<code>&lt;code&gt;</code>标签。推荐使用<a href="http://prismjs.com/">prism</a>实现代码高亮。</p>
+    <p>HTML例如：</p>
+    <pre class="language-markup"><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;assets/prism.css&quot; /&gt;
+&lt;pre&gt;&lt;code&gt;
+// pre代码块的行高为基本行高的1/2
+console.log('Test');
+&lt;/code&gt;&lt;/pre&gt;
+&lt;script src=&quot;assets/prism.css&quot;&gt;&lt;/script&gt;</code></pre>
+    <blockquote>
+        <code>&lt;blockquote&gt;</code>与<code>&lt;pre&gt;</code>的内容部分一样，都距离内容框4倍于基础字体的大小。
+    </blockquote>
+
+    <h3 id="hr">分割线</h3>
+    <p>分割线样式只能使用&lt;hr&gt;标签。分割线样式在边缘部分使用CSS3的<code>linear-gradient</code>样式做了渐变处理，所以部分浏览器会不支持。</p>
+
+    <h3 id="table">表格</h3>
+    <p>表格的样式如下：</p>
+    <table>
+        <caption>Entry.css 支持的浏览器</caption>
+        <thead>
+            <tr>
+              <th>浏览器型号</th>
+              <th>版本号</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>IE</td>
+                <td>9+</td>
+            </tr>
+            <tr>
+                <td>Chrome</td>
+                <td>14+</td>
+            </tr>
+            <tr>
+                <td>Firefox</td>
+                <td>4+</td>
+            </tr>
+            <tr>
+                <td>Safari</td>
+                <td>5+</td>
+            </tr>
+            <tr>
+                <td>Opera</td>
+                <td>11+</td>
+            </tr>
+            <tr>
+                <td>Mobile Safari</td>
+                <td>iOS 6+</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 id="span">行内元素</h2>
+
+    <h3 id="link">链接</h3>
+    <p>连接的样式可以自定义链接颜色。对于<code>href</code>属性值以<code>javascript:</code>开头的<code>a</code>标签样式比较特殊。例如：<a href="javascript:void 0;">Javascript连接</a>和<a href="#" onclick="">有onclick属性的连接</a>和<a href="#">普通链接</a>。</p>
+
+    <h3 id="em">强调</h3>
+    <p><b>强调的样式</b>可以使用<code>&lt;strong&gt;</code>、<code>&lt;u&gt;</code>、<code>&lt;b&gt;</code>或<code>&lt;em&gt;</code>标签，<code>&lt;strong&gt;</code>表示语义与样式双重强调，后两者<em>表示样式</em>上的强调。<code>&lt;b&gt;</code>标签是加粗的样式，<code>&lt;em&gt;</code>标签则有虚线下划线，相邻的<code>&lt;em&gt;</code>之间会有<em>0.125em</em><em>的间隔</em>。<code>&lt;u&gt;</code>标签的样式是直线下划线，相邻之间也有<u>0.125em</u><u>的间隔</u></p>
+
+    <h3 id="code">代码</h3>
+    <p>代码的行内样式使用<code>&lt;code&gt;</code>标签，你也可以自定义颜色。</p>
+
+    <h3 id="img">图片</h3>
+    <p>图片样式对<code>&lt;img&gt;</code>标签没有特别设置，但是对<code>&lt;figure&gt;</code>标签做了设置。样例如下：</p>
+    <figure>
+        <img src="140x140.gif" alt="这里是一段话" />
+        <figcaption>
+        这里是一段话
+        </figcaption>
+    </figure>
+    <p>对<code>&lt;img&gt;</code>标签做了限宽，如下：</p>
+    <img src="assets/950x150.gif" alt="这里是一段话" />
+
+    <h3 id="otherInline">其他行内样式</h3>
+    <ol>
+        <li>
+            <p><em>书名号</em>使用<code>&lt;cite&gt;</code>标签，例如：</p>
+            <blockquote><cite>冰与火之歌</cite>是一部很棒的魔幻小说！<br/>
+            <cite>Hamlet</cite>也是一部很棒的小说！</blockquote>
+        </li>
+        <li>
+            <p><em>缩写</em>使用<code>&lt;abbr&gt;</code>标签，例如：</p>
+            <blockquote><abbr title="javascript">js</abbr> 的全称是javascript，鼠标放上去看看title值。</blockquote>
+        </li>
+        <li>
+            <p><em>定义</em>使用<code>&lt;dfn&gt;</code>标签，例如：</p>
+            <blockquote><dfn>HTML</dfn> 是超文本标记语言</blockquote>
+        </li>
+        <li>
+            <p><em>标记</em>使用<code>&lt;mark&gt;</code>标签，例如：</p>
+            <blockquote>在这句话里面把<mark>这几个字</mark>高亮下吧～</blockquote>
+        </li>
+        <li>
+            <p><em>行内引用</em>使用<code>&lt;q&gt;</code>标签，例如：</p>
+            <blockquote>在这句话里面把<q>这几个字</q>引用下吧～</blockquote>
+        </li>
+        <li>
+            <p><em>旁注</em>使用<code>&lt;small&gt;</code>标签，例如：</p>
+            <blockquote>
+                单人间 399 元 <small>含早餐，不含税</small>
+            </blockquote>
+        </li>
+        <li>
+            <p><em>上下标</em>使用<code>&lt;sup&gt;</code>标签作下标、<code>&lt;sub&gt;</code>标签作上标，例如：</p>
+            <blockquote>
+                10<sup>5</sup> 与 a<sub>1</sub><sup>2</sup>
+            </blockquote>
+        </li>
+    </ol>
+
+    <h2 id="other">外部内容</h2>
+
+    <h3 id="inlineiframe">行内iframe按钮</h3>
+    <div>例如github的非官方按钮：
+        <iframe src="http://ghbtns.com/github-btn.html?user=zmmbreeze&repo=Entry.css&type=watch"
+          allowtransparency="true" frameborder="0" scrolling="0" width="60" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=zmmbreeze&repo=Entry.css&type=fork"
+          allowtransparency="true" frameborder="0" scrolling="0" width="60" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=zmmbreeze&type=follow"
+            allowtransparency="true" frameborder="0" scrolling="0" width="180" height="20"></iframe>
+    </div>
+
+    <h3 id="codepenio">codepen.io</h3>
+    <div>
+        因为codepen.io的iframe宽度为100%，所以会根据父元素的宽度自适应iframe的宽度，且忽略掉iframe的max-width设置。所以必须使用一个div包裹它的embed代码。
+        <pre class="codepen" data-height="300" data-type="result" data-href="guLfC" data-user="zmmbreeze"><code></code></pre>
+        <script async src="http://codepen.io/assets/embed/ei.js"></script>
+    </div>
+
+    <h3 id="jsfiddle">jsfiddle</h3>
+    <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/zmmbreeze/8de8h/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+    <h3 id="speakerDeck">Speaker Deck</h3>
+    <div>
+    因为speaker deck会根据父元素的宽度自适应iframe的宽度，且忽略掉iframe的max-width设置，所以必须使用一个<code>div</code>包裹它的embed代码。
+    <script async class="speakerdeck-embed" data-id="5085eadcae6235000201e95f" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+    </div>
+
+    <h2 id="config">配置及使用</h2>
+    <p><em>Entry.css</em>是基于less css开发的，提供了些基本配置项。首先安装<a href="http://nodejs.org/">nodejs</a>和<a href="https://npmjs.org/">npm</a>然后运行<code>npm install less -g</code>安装less css。配置文件在src目录下的<code>config.less</code>文件中。</p>
+    <p>基于less可以自定义<em>文章</em>区域的CSS选择符。src目录下的wordpress.config.less是针对如下HTML结构的：</p>
+    <pre><code class="language-markup">&lt;article class=&quot;post&quot;&gt;
+    &lt;!-- 内容 --&gt;
+&lt;/article&gt;</code></pre>
+    <p>这种HTML结构与一般的Wordpress博客结构类似。wordpress.config.less文件如下：</p>
+    <pre><code class="language-css">@import "entry.less";
+.post {
+    .ext-entry-content;
+}</code></pre>
+    <p>然后运行命令<code>lessc wordpress.config.less &gt; wordpress.css</code>，生成wordpress.css文件就可以被用到你的博客样式中。你可以先修改src/default.config.less，然后打开index.html查看效果～如果你设计了不错的配色，欢迎<code>pull request</code>。</p>
+    <p>也可以使用默认提供的几种结构，它们都在bin目录下。</p>
+    <ul>
+        <li>
+        <em>wordpress.css</em>专用于一些基于wordpress博客。它适用的HTML结构如上所说。
+        </li>
+        <li>
+        <em>puretag.css</em>用于一般情况。它适用的是纯html结构。
+        </li>
+    </ul>
+
+    <h2 id="acknowledgement">感谢</h2>
+    <p><em>Entry.css</em>参考、使用很多其他库和工具：</p>
+    <ul>
+        <li><a href="https://github.com/necolas/normalize.css">normalize.css</a></li>
+        <li><a href="http://twitter.github.com/">Bootstrap</a></li>
+        <li><a href="http://ethantw.net/projects/han/">漢字標準格式（han.css）</a></li>
+        <li><a href="http://www.lesscss.net/">less</a></li>
+    </ul>
+
+    <div id="disqus_thread"></div>
+</div>
+
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'entrycss'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<script src="assets/prism.js"></script>
+<script src="assets/baseliner.js"></script>
+<script src="src/baseline.js"></script>
+<script>
+window.onload = function() {
+    baseline.init('.entry img, .entry iframe', 32);
+    baseliner = new Baseliner(32);
+}
+</script>
+</body>
+</html>

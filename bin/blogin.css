@@ -62,7 +62,7 @@
    ================================================ */
 .markdown {
   margin: 0;
-  line-height: 2;
+  line-height: 1.7;
   color: #666666;
   word-wrap: break-word;
   font-size: 16px;
@@ -169,8 +169,8 @@
 .markdown > section,
 .markdown > article,
 .markdown > img {
-  max-width: 600px;
-  margin-top: 2em;
+  max-width: 640px;
+  margin-top: 1.7em;
   margin-bottom: 0;
   display: block;
   margin-left: 0;
@@ -197,7 +197,7 @@
 .markdown h1,
 .markdown h2 {
   font-size: 2em;
-  line-height: 2;
+  line-height: 1.7;
   color: #666666;
   background-color: transparent;
 }
@@ -219,25 +219,25 @@
   text-align: center;
 }
 .markdown > h1 {
-  margin-top: 2em;
+  margin-top: 1.7em;
   padding-right: 0.5em;
   padding-left: 0.5em;
 }
 .markdown h2 {
   font-size: 1.5em;
-  line-height: 2.6666666666666665em;
+  line-height: 2.2666666666666666em;
 }
 .markdown > h2 {
-  margin-top: 1.3333333333333333em;
+  margin-top: 1.1333333333333333em;
   padding-right: 0.6666666666666666em;
   padding-left: 0.6666666666666666em;
 }
 .markdown h3 {
   font-size: 1.2em;
-  line-height: 1.6666666666666667em;
+  line-height: 1.4166666666666667em;
 }
 .markdown > h3 {
-  margin-top: 1.6666666666666667em;
+  margin-top: 1.4166666666666667em;
   padding-right: 0.7692307692307692em;
   padding-left: 0.7692307692307692em;
 }
@@ -245,11 +245,11 @@
 .markdown h5,
 .markdown h6 {
   font-size: 1em;
-  line-height: 2;
+  line-height: 1.7;
 }
 .markdown blockquote {
   position: relative;
-  padding: 2em 4em;
+  padding: 1.7em 4em;
 }
 .markdown blockquote:before {
   position: absolute;
@@ -269,10 +269,10 @@
   color: #cccccc;
 }
 .markdown pre {
-  margin-top: 2.2857142857142856em;
-  padding: 1.1428571428571428em 4em;
+  margin-top: 1.9428571428571428em;
+  padding: 0.9714285714285714em 4em;
   line-height: 1.1428571428571428;
-  font-size: 0.875em;
+  font-size: 0.74375em;
   /*
         // pre上下内间距为：
         //      1em * (14 / 16) * @line-height * 0.5em * (16 / 14) = 0.5h
@@ -309,7 +309,7 @@
 }
 .markdown ul,
 .markdown ol {
-  margin-top: 2em;
+  margin-top: 1.7em;
   padding-left: 4em;
 }
 .markdown ul li,
@@ -345,13 +345,13 @@
 }
 .markdown hr {
   position: relative;
-  padding-top: 2em;
-  margin-bottom: 4em;
+  padding-top: 1.7em;
+  margin-bottom: 3.4em;
   margin-top: -3px;
   margin-left: 0;
   margin-left: auto;
   margin-right: auto;
-  max-width: 600px;
+  max-width: 640px;
   height: 0;
   background: none;
   border: none;
@@ -391,7 +391,7 @@
   padding: 0;
   margin-left: 1em;
   margin-left: auto;
-  min-width: 300px;
+  min-width: 320px;
   border-collapse: collapse;
   border-spacing: 0;
   -webkit-border-radius: 0.5em;
@@ -521,7 +521,7 @@
   border: 0;
 }
 .markdown > img {
-  max-width: 600px;
+  max-width: 640px;
 }
 .markdown figure img {
   display: block;
@@ -576,5 +576,5 @@
   bottom: -0.25em;
 }
 .markdown #disqus_thread {
-  margin-top: 2em;
+  margin-top: 1.7em;
 }

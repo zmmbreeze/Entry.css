@@ -133,11 +133,9 @@
         }
     }
     pre {
-        // pre上间距为： 1em * (14 / 16) * @line-height * 1em * (16 / 14) = h
-        margin-top: @line-height * 1em * 16 / 14;
         // pre上下内间距为：
         //      1em * (14 / 16) * @line-height * 0.5em * (16 / 14) = 0.5h
-        padding: @line-height * 0.5em * 16 / 14 4em;
+        padding: @line-height * 0.5em * 16 / 14 4em * 16 / 14;
         // pre行框高为：(14h/32) * (16/14) = h/2
         line-height: 16 / 14; // 强制设置行高，避免难看
         // pre字体大小为：14h/32
@@ -158,6 +156,10 @@
         border-left: none;
         background-color: @pre-back-color;
         .fake-border-top-bottom(@pre-border-color);
+    }
+    > pre {
+        // pre上间距为： 1em * (14 / 16) * @line-height * 1em * (16 / 14) = h
+        margin-top: @line-height * 1em * 16 / 14;
     }
     ul, ol {
         // ul, ol 上间隔为 @line-height * 1em = h
@@ -342,7 +344,7 @@
         border: 0;
     }
     > img {
-        max-width: @content-width; // 覆盖优先级
+        max-width: 100%;
     }
     figure {
         img {
@@ -408,10 +410,5 @@
     /* disqus支持 */
     #disqus_thread {
         margin-top: 1em * @line-height;
-    }
-
-    /* util */
-    .util-no-lead-word {
-        .no-start-with2word();
     }
 }
