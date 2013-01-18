@@ -5,6 +5,9 @@ body {
     color: #666;
     background-color: #BBB;
 }
+a {
+    color: #069;
+}
 h1 {
     margin: 0;
     font-size: 2em;
@@ -95,7 +98,7 @@ pre {
     margin-top: 24px;
     text-align: left;
     font-size: 14px;
-    /* line-height: 24px; 已继承*/
+    height: 48px;
 }
 
 /* foot */
