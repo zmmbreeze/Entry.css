@@ -106,9 +106,6 @@
 }
 */
 /* ==========================================================================
-   Entry header
-   ========================================================================== */
-/* ==========================================================================
    Entry content
    ========================================================================== */
 /* ================================================
@@ -120,7 +117,7 @@ body {
   line-height: 2;
   color: #666666;
   word-wrap: break-word;
-  font-size: 16px;
+  font-size: 14px;
   font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", /* typekit */
  "Lucida Grande", /* mac */
  "Hiragino Sans GB", "Hiragino Sans GB W3", /* mac */
@@ -138,8 +135,8 @@ body {
 
   /*
     > pre {
-        // pre上间距为： 1em * (14 / 16) * @line-height * 1em * (16 / 14) = h
-        margin-top: @line-height * 1em * 16 / 14;
+        // pre上间距为： @font-size * (14 / 16) * @line-height * @font-size * (16 / 14) = h
+        margin-top: @line-height * @font-size * 16 / 14;
     }
     */
 
@@ -188,6 +185,7 @@ body article {
   margin-top: 0;
   margin-bottom: 0;
   margin-left: 0;
+  margin-left: auto;
   margin-right: auto;
   padding: 0;
 }
@@ -228,13 +226,14 @@ body > iframe,
 body > section,
 body > article,
 body > img {
-  max-width: 640px;
-  margin-top: 2em;
+  max-width: 588px;
+  margin-top: 28px;
   margin-bottom: 0;
   display: block;
   margin-left: 0;
+  margin-left: auto;
   margin-right: auto;
-  padding: 0 1em;
+  padding: 0 14px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
@@ -254,14 +253,12 @@ body h6 {
 }
 body h1,
 body h2 {
-  font-size: 2em;
-  line-height: 2;
-  color: #ffffff;
-  background-color: #96b3d3;
+  color: #666666;
+  background-color: transparent;
 }
 body h1 a,
 body h2 a {
-  color: #ffffff;
+  color: #666666;
 }
 body h1 a,
 body h2 a,
@@ -271,87 +268,86 @@ body h1 u,
 body h2 u,
 body h1 abbr[title],
 body h2 abbr[title] {
-  border-bottom-color: #ffffff;
+  border-bottom-color: #666666;
 }
 body h1 {
+  font-size: 28px;
+  line-height: 56px;
   text-align: center;
 }
 body > h1 {
-  margin-top: 2em;
-  padding-right: 0.5em;
-  padding-left: 0.5em;
+  margin-top: 28px;
 }
 body h2 {
-  font-size: 1.5em;
-  line-height: 2.6666666666666665em;
+  font-size: 21px;
+  line-height: 28px;
+  text-align: center;
 }
 body > h2 {
-  margin-top: 1.3333333333333333em;
-  padding-right: 0.6666666666666666em;
-  padding-left: 0.6666666666666666em;
+  margin-top: 28px;
 }
 body h3 {
-  font-size: 1.2em;
-  line-height: 1.6666666666666667em;
+  font-size: 16.8px;
+  line-height: 28px;
+  text-align: left;
 }
 body > h3 {
-  margin-top: 1.6666666666666667em;
-  padding-right: 0.7692307692307692em;
-  padding-left: 0.7692307692307692em;
+  margin-top: 28px;
 }
 body h4,
 body h5,
 body h6 {
-  font-size: 1em;
-  line-height: 2;
+  line-height: 28px;
+  font-size: 14px;
+  text-align: left;
+}
+body p:before,
+body div:before {
+  content: '　　';
+  display: inline;
 }
 body blockquote {
   position: relative;
-  padding: 2em 4em;
+  padding: 28px 56px;
+}
+body blockquote div:before,
+body blockquote p:before {
+  content: '';
 }
 body blockquote:before {
   position: absolute;
   content: '\275D';
   top: 0;
-  left: 1em;
-  font-size: 2em;
+  left: 14px;
+  font-size: 3em;
   color: #cccccc;
 }
 body blockquote:after {
   position: absolute;
   content: '\275E';
   bottom: 0;
-  right: 1em;
+  right: 14px;
   margin-right: -0.25em;
-  font-size: 2em;
+  font-size: 3em;
   color: #cccccc;
 }
 body pre {
-  /*
-        // pre上下内间距为：
-        //      1em * (14 / 16) * @line-height * 0.5em * (16 / 14) = 0.5h
-        padding: @line-height * 0.5em * 16 / 14 4em * 16 / 14;
-        // pre行框高为：(14h/32) * (16/14) = h/2
-        line-height: 16 / 14; // 强制设置行高，避免难看
-        // pre字体大小为：14h/32
-        font-size: (1em * @line-height / 2) * (14/16);
-        */
-
-  padding: 1em 1em;
-  line-height: 2;
-  font-size: 1em;
+  padding: 13px 14px;
+  line-height: 28px;
+  font-size: 14px;
   white-space: pre;
   word-wrap: normal;
   overflow: auto;
   font-family: monospace, serif;
+  border: 1px solid #e1e1e8;
   border-right: none;
   border-left: none;
-  background-color: #fefefe;
+  background-color: #f7f7f9;
 }
 body ul,
 body ol {
-  margin-top: 2em;
-  padding-left: 4em;
+  margin-top: 28px;
+  padding-left: 56px;
 }
 body ul li,
 body ol li {
@@ -382,16 +378,21 @@ body ol li ol li ol li {
 body li > ul,
 body li > ol {
   margin-top: 0;
-  padding-left: 3em;
+  padding-left: 42px;
+}
+body li > p:first-child:before,
+body li > div:first-child:before {
+  content: '';
 }
 body hr {
   position: relative;
-  padding-top: 2em;
-  margin-bottom: 4em;
+  padding-top: 28px;
+  margin-bottom: 56px;
   margin-top: -3px;
   margin-left: 0;
+  margin-left: auto;
   margin-right: auto;
-  max-width: 640px;
+  max-width: 588px;
   height: 0;
   background: none;
   border: none;
@@ -430,7 +431,8 @@ body hr:after {
 body table {
   padding: 0;
   margin-left: 1em;
-  min-width: 320px;
+  margin-left: auto;
+  min-width: 294px;
   border-collapse: collapse;
   border-spacing: 0;
   -webkit-border-radius: 0.5em;
@@ -440,13 +442,13 @@ body table {
   border-radius: 0.5em;
 }
 body table caption {
-  padding: 0;
+  padding: 14px 0;
 }
 body table thead th {
   text-align: left;
 }
 body table tbody {
-  margin: 0 1em;
+  margin: 0 14px;
 }
 body table tbody tr:nth-child(odd) td,
 body table tbody tr:nth-child(odd) th {
@@ -454,14 +456,14 @@ body table tbody tr:nth-child(odd) th {
 }
 body table td,
 body table th {
-  padding: 0 1em;
-  border: none;
+  padding: 14px 14px 13px;
+  border: 1px solid #dddddd;
 }
 body a {
   padding-bottom: 0.025em;
   color: #006699;
   text-decoration: none;
-  border-bottom-color: #006699;
+  border-bottom-color: #0088cc;
 }
 body a[onclick],
 body a[href^="javascript:"] {
@@ -535,7 +537,7 @@ body code {
 body pre code {
   padding: 0;
   margin: 0;
-  font-size: 1em;
+  font-size: 14px;
   color: #666666;
   background: none;
   border: none;
@@ -600,5 +602,5 @@ body sub {
   bottom: -0.25em;
 }
 body #disqus_thread {
-  margin-top: 2em;
+  margin-top: 28px;
 }

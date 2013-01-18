@@ -106,9 +106,6 @@
 }
 */
 /* ==========================================================================
-   Entry header
-   ========================================================================== */
-/* ==========================================================================
    Entry content
    ========================================================================== */
 /* ================================================
@@ -124,7 +121,7 @@ body {
   line-height: 2;
   color: #333333;
   word-wrap: break-word;
-  font-size: 16px;
+  font-size: 14px;
   font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", /* typekit */
  "Lucida Grande", /* mac */
  "Hiragino Sans GB", "Hiragino Sans GB W3", /* mac */
@@ -142,8 +139,8 @@ body {
 
   /*
     > pre {
-        // pre上间距为： 1em * (14 / 16) * @line-height * 1em * (16 / 14) = h
-        margin-top: @line-height * 1em * 16 / 14;
+        // pre上间距为： @font-size * (14 / 16) * @line-height * @font-size * (16 / 14) = h
+        margin-top: @line-height * @font-size * 16 / 14;
     }
     */
 
@@ -233,14 +230,14 @@ body {
 .markdown > section,
 .markdown > article,
 .markdown > img {
-  max-width: 640px;
-  margin-top: 2em;
+  max-width: 588px;
+  margin-top: 28px;
   margin-bottom: 0;
   display: block;
   margin-left: 0;
   margin-left: auto;
   margin-right: auto;
-  padding: 0 1em;
+  padding: 0 14px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
@@ -260,8 +257,6 @@ body {
 }
 .markdown h1,
 .markdown h2 {
-  font-size: 2em;
-  line-height: 2;
   color: #ffffff;
   background-color: #d98383;
 }
@@ -280,84 +275,83 @@ body {
   border-bottom-color: #ffffff;
 }
 .markdown h1 {
+  font-size: 28px;
+  line-height: 56px;
   text-align: center;
 }
 .markdown > h1 {
-  margin-top: 2em;
-  padding-right: 0.5em;
-  padding-left: 0.5em;
+  margin-top: 28px;
 }
 .markdown h2 {
-  font-size: 1.5em;
-  line-height: 2.6666666666666665em;
+  font-size: 21px;
+  line-height: 28px;
+  text-align: center;
 }
 .markdown > h2 {
-  margin-top: 1.3333333333333333em;
-  padding-right: 0.6666666666666666em;
-  padding-left: 0.6666666666666666em;
+  margin-top: 28px;
 }
 .markdown h3 {
-  font-size: 1.2em;
-  line-height: 1.6666666666666667em;
+  font-size: 16.8px;
+  line-height: 28px;
+  text-align: left;
 }
 .markdown > h3 {
-  margin-top: 1.6666666666666667em;
-  padding-right: 0.7692307692307692em;
-  padding-left: 0.7692307692307692em;
+  margin-top: 28px;
 }
 .markdown h4,
 .markdown h5,
 .markdown h6 {
-  font-size: 1em;
-  line-height: 2;
+  line-height: 28px;
+  font-size: 14px;
+  text-align: left;
+}
+.markdown p:before,
+.markdown div:before {
+  content: '　　';
+  display: inline;
 }
 .markdown blockquote {
   position: relative;
-  padding: 2em 4em;
+  padding: 28px 56px;
+}
+.markdown blockquote div:before,
+.markdown blockquote p:before {
+  content: '';
 }
 .markdown blockquote:before {
   position: absolute;
   content: '\275D';
   top: 0;
-  left: 1em;
-  font-size: 2em;
+  left: 14px;
+  font-size: 3em;
   color: #cccccc;
 }
 .markdown blockquote:after {
   position: absolute;
   content: '\275E';
   bottom: 0;
-  right: 1em;
+  right: 14px;
   margin-right: -0.25em;
-  font-size: 2em;
+  font-size: 3em;
   color: #cccccc;
 }
 .markdown pre {
-  /*
-        // pre上下内间距为：
-        //      1em * (14 / 16) * @line-height * 0.5em * (16 / 14) = 0.5h
-        padding: @line-height * 0.5em * 16 / 14 4em * 16 / 14;
-        // pre行框高为：(14h/32) * (16/14) = h/2
-        line-height: 16 / 14; // 强制设置行高，避免难看
-        // pre字体大小为：14h/32
-        font-size: (1em * @line-height / 2) * (14/16);
-        */
-
-  padding: 1em 1em;
-  line-height: 2;
-  font-size: 1em;
+  padding: 13px 14px;
+  line-height: 28px;
+  font-size: 14px;
   white-space: pre;
   word-wrap: normal;
   overflow: auto;
   font-family: monospace, serif;
+  border: 1px solid #e1e1e8;
   border-right: none;
   border-left: none;
   background-color: #fefefe;
 }
 .markdown ul,
 .markdown ol {
-  margin-top: 2em;
-  padding-left: 4em;
+  margin-top: 28px;
+  padding-left: 56px;
 }
 .markdown ul li,
 .markdown ol li {
@@ -388,17 +382,21 @@ body {
 .markdown li > ul,
 .markdown li > ol {
   margin-top: 0;
-  padding-left: 3em;
+  padding-left: 42px;
+}
+.markdown li > p:first-child:before,
+.markdown li > div:first-child:before {
+  content: '';
 }
 .markdown hr {
   position: relative;
-  padding-top: 2em;
-  margin-bottom: 4em;
+  padding-top: 28px;
+  margin-bottom: 56px;
   margin-top: -3px;
   margin-left: 0;
   margin-left: auto;
   margin-right: auto;
-  max-width: 640px;
+  max-width: 588px;
   height: 0;
   background: none;
   border: none;
@@ -438,7 +436,7 @@ body {
   padding: 0;
   margin-left: 1em;
   margin-left: auto;
-  min-width: 320px;
+  min-width: 294px;
   border-collapse: collapse;
   border-spacing: 0;
   -webkit-border-radius: 0.5em;
@@ -448,13 +446,13 @@ body {
   border-radius: 0.5em;
 }
 .markdown table caption {
-  padding: 0;
+  padding: 14px 0;
 }
 .markdown table thead th {
   text-align: left;
 }
 .markdown table tbody {
-  margin: 0 1em;
+  margin: 0 14px;
 }
 .markdown table tbody tr:nth-child(odd) td,
 .markdown table tbody tr:nth-child(odd) th {
@@ -462,14 +460,14 @@ body {
 }
 .markdown table td,
 .markdown table th {
-  padding: 0 1em;
-  border: none;
+  padding: 14px 14px 13px;
+  border: 1px solid #dddddd;
 }
 .markdown a {
   padding-bottom: 0.025em;
   color: #006699;
   text-decoration: none;
-  border-bottom-color: #006699;
+  border-bottom-color: #0088cc;
 }
 .markdown a[onclick],
 .markdown a[href^="javascript:"] {
@@ -543,7 +541,7 @@ body {
 .markdown pre code {
   padding: 0;
   margin: 0;
-  font-size: 1em;
+  font-size: 14px;
   color: #333333;
   background: none;
   border: none;
@@ -608,5 +606,5 @@ body {
   bottom: -0.25em;
 }
 .markdown #disqus_thread {
-  margin-top: 2em;
+  margin-top: 28px;
 }

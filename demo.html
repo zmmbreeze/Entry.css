@@ -7,168 +7,176 @@
   <meta name="Description" content="Entry.css 中文文章样式，帮助你快速搭建中文博客主题。"/>
   <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
   <link rel="stylesheet" href="assets/prism.css" />
-  <link rel="stylesheet" href="bin/entry-pure.css" />
+  <link rel="stylesheet" href="bin/entry.css" />
 </head>
 <body>
 <div class="entry">
-<h1>约束验证：网页表单的本地客户端验证</h1>
-<blockquote><p>译者言：此文翻译自<a href="http://www.html5rocks.com/en/tutorials/forms/constraintvalidation/" target="_blank">Constraint Validation: Native Client Side Validation for Web Forms</a></p></blockquote>
-<p>众所周知，验证表单一直有很痛苦的开发体验。实现一种用户体验好、开发体验好且可访问性好的客户端验证是很困难的事情。在HTML5出现之前没有一种本地实现的验证，所以开发者使用了各种各样基于javascript的验证方案。为了解放开发者，HTML5引入了<a href="http://www.whatwg.org/specs/web-apps/current-work/#constraint-validation" target="_blank">约束验证</a>的概念，一种本地实现的网页表单验证。</p>
-<p>尽管所有主流浏览器的最新版本都支持了这个特性，约束验证目前还仅限于展示和demo的阶段。写这篇文章的目的就是帮助开发了解这个新的api，做出更好的网页表单。在这个教程中作者会：</p>
+<h1>ECMAScript 6之WeakMap</h1>
+<p>ECMAScript 6中加入了很多新的特性，其中有一个有用的API：WeakMap。<a href="http://www.nczonline.net/blog/2012/11/06/ecmascript-6-collections-part-3-weakmaps/">Nicholas的博文</a>做了详细的介绍。这也是一篇关于WeakMap的笔记。
+</p>
+<hr>
+<h2>简介</h2>
+<p><code>WeakMap</code>与<code>Map</code>（另一个ES6的新API）都是键值对象，有着类似的API：<code>set</code>、<code>get</code>、<code>has</code>和<code>delete</code>。为了更好的解释<code>WeakMap</code>，先谈下Javascript中的键值对象。JS中几乎所有可写的对象就可以当作一个键值对象，例如：
+</p>
+<pre><code class="language-javascript">var map = {};
+map['key'] = 'value';</code></pre>
+<p>但是这样简单的键值对象达不到一个效果：它的键“不能”是对象。之所以打引号是因为并不是不能用对象，而是对象会转换成字符串，如下：
+</p>
+<pre><code class="language-javascript">var map = {};
+var key = {};
+map[key] = 'value';
+map['[object Object]'] === 'value'; // true</code></pre>
+<p>于是ES6就提供了<code>Map</code>与<code>WeakMap</code>的API，可以实现键是对象的情况。但是这引来了另外一个问题，<code>Map</code>是可以通过<code>keys</code>方法来获取其所有的键。这就需要map保留一个对键的强引用，于是就导致了引用释放上的不方便，稍微大意一些就容易造成内存泄漏。
+</p>
+<p>于是又提供了<code>WeakMap</code>，它的键只能是一个非空（null）对象，而<code>Map</code>的键则还可以是除对象外的原始类型。<code>WeakMap</code>的重要特点在于：对键的引用是弱引用，而不是一般的强引用。看如下例子：
+</p>
+<pre><code class="language-javascript">var map = new WeakMap(),
+element = document.querySelector(".element");
+
+// 对象element作为键，"Original"作为值
+map.set(element, "Original");
+
+// 可以通过element获得值
+var value = map.get(element);
+console.log(value);             // "Original"
+
+// 下面删除对element的强引用
+element.parentNode.removeChild(element);
+element = null;
+
+// element dom对象被释放
+// 已经无法通过element获取“Original”值</code></pre>
+<p><code>WeakMap</code>的键只能是非空（null）对象，所以如果你在<code>get</code>方法里面传入null或是undefined之类的值，就会报错：“value is not a non-null object”。它的另外一个特点就是无法获取所有的键，更无法获取size之类的值。
+
+</p>
+<p><code>WeakMap</code>一个典型的应用场景就是对于jQuery这样的库，需要维护一个dom列表，存储对应每个dom的数据。这时候使用它就可以达到“dom在文档中被移除的时候，自动释放dom对象”。
+
+</p>
+<p>当然ES6目前还没有普及，支持的浏览器仅有Firefox和Chrome。在chrome中你需要到<code>chrome://flags</code>，并且启用“Experimental JavaScript Features”。所以我们需要fallback。
+
+</p>
+<h2>Fallback</h2>
+<p>Gozala提供了一个很精妙的<a href="https://gist.github.com/1269991">fallback方案</a>！接下来对它的代码做解读。要实现WeakMap有几个关注点：
+
+</p>
 <ol>
-<li>全面地展示约束验证是什么；</li>
-<li>发现现今标准和浏览器实现上的限制；</li>
-<li>讨论现在如何在你的表单中使用约束验证；</li>
+<li>键一定是非空对象</li>
+<li>键无法被获取到</li>
+<li>WeakMap不能保留对键的强引用</li>
 </ol>
-<hr />
-<h2 class="entry-content-L1-3n1">约束验证是什么？</h2>
-<p>约束验证的核心是浏览器在提交表单时判断其是否合法的算法。为了做这个判断，算法利用了几个新的HTML5属性：<a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-input-min" target="_blank">min</a>、<a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-input-max" target="_blank">max</a>、<a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-input-step" target="_blank">step</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/#the-pattern-attribute" target="_blank">pattern</a>, 和 <a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-input-required" target="_blank">required</a> 以及已经存在的 <a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-fe-maxlength" target="_blank">maxlength</a> 和 <a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-input-type" target="_blank">type</a>。下面的这个例子中Text input使用了一个值为空的 <code>required</code> 属性：</p>
-<pre><code class="language-markup">&lt;form&gt;
-    &lt;input type="text" value="" /&gt;
-&lt;/form&gt;</code>
-</pre>
-<p><a href="http://jsfiddle.net/tj_vantoll/HdSqt/" target="_blank">在线查看demo</a>。如果你在<a href="http://caniuse.com/#feat=form-validation" target="_blank">支持约束验证的浏览器</a>中提交表单，那么浏览器会阻止表单提交并显示成如下效果：</p>
-<p>Chrome 21</p>
-<p><img src="assets/demo-01.png" alt="Chrome 21 display" width="200" data-pinit="registered"><br>
-Firefox 15</p>
-<p><img src="assets/demo-02.png" alt="Firefox 15 display" width="200" data-pinit="registered"><br>
-Internet Explorer 10</p>
-<p><img src="assets/demo-03.png" alt="IE10 display" width="200" data-pinit="registered"><br>
-Opera 12</p>
-<p><img src="assets/demo-04.png" alt="Opera 12 display" width="200" data-pinit="registered"><br>
-Opera Mobile</p>
-<p><img src="assets/demo-05.png" alt="Opera Mobile display" width="200" data-pinit="registered"><br>
-Chrome for Android</p>
-<p><img src="assets/demo-06.png" alt="Chrome for Android display" width="200" data-pinit="registered"><br>
-Firefox for Android</p>
-<p><img src="assets/demo-07.jpg" alt="Firefox for Android display" width="200" data-pinit="registered"></p>
-<p>标准中没有规定浏览器应该如何显示错误信息，这是由浏览器自己约定的。不过标准提供了一套DOM API、新HTML属性和CSS钩子帮助开发者自定义样式。</p>
-<h2 class="entry-content-L1-3n2">DOM API</h2>
-<p><a href="http://www.whatwg.org/specs/web-apps/current-work/#constraint-validation-api" target="_blank">约束验证的API</a>添加了如下属性和方法到DOM节点中。</p>
-<h3 id="toc-willValidate" class="entry-content-L2-3n2">WILLVALIDATE</h3>
-<p><code>willValidate</code> 属性标识了这个DOM节点是否使用约束验证。对于<a href="http://www.whatwg.org/specs/web-apps/current-work/#category-submit" target="_blank">可以提交的元素</a>来说这个属性会被设置成 <code>true</code> 除非因为某些原因被<a href="http://www.whatwg.org/specs/web-apps/current-work/#barred-from-constraint-validation" target="_blank">禁止使用约束验证</a>，例如有 <code>disabled</code> 属性时。</p>
-<pre><code class="language-markup">&lt;div id="one"&gt;&lt;/div&gt;
-&lt;input id="two" type="text" /&gt;
-&lt;input id="three" type="text" disabled="disabled" /&gt;
-&lt;script type="text/javascript"&gt;// &lt;![CDATA[
-    document.getElementById("one")
-        .willValidate; //false
-    document.getElementById("two")
-        .willValidate; //true
-    document.getElementById("three")
-        .willValidate; //false
-// ]]&gt;&lt;/script&gt;</code></pre>
-<h3 class="entry-content-L2-3n2">validity</h3>
-<p>Dom节点的<a href="http://www.whatwg.org/specs/web-apps/current-work/#dom-cva-validity" target="_blank"><code>validity</code></a> 属性会返回一个 <a href="http://www.whatwg.org/specs/web-apps/current-work/#validitystate" target="_blank"><code>ValidityState</code></a>对象，它包含了一系列与节点相关的布尔属性的验证结果。</p>
-<ul>
-<li><code>customError</code>: <code>true</code> 标识是否使用了自定义的验证消息，可以通过<code>setCustomValidity()</code>来设置验证消息；
-<pre><code class="language-markup">&lt;input id="foo" type="text" /&gt;
-&lt;input id="bar" type="text" /&gt;
-&lt;script type="text/javascript"&gt;// &lt;![CDATA[
-    document.getElementById("foo")
-        .validity.customError; //false
-    document.getElementById("bar")
-        .setCustomValidity("Invalid");
-    document.getElementById("bar")
-        .validity.customError; //true
-// ]]&gt;&lt;/script&gt;</code></pre>
-</li>
-<li><code>patternMismatch</code>: <code>true</code> 标识节点的 <code>value</code> 是否匹配它的 <code>pattern</code> 属性值。
-<pre><code class="language-markup">&lt;input id="foo" type="text" value="1234" /&gt;
-&lt;input id="bar" type="text" value="ABCD" /&gt;
-&lt;script type="text/javascript"&gt;// &lt;![CDATA[
-    document.getElementById("foo")
-        .validity.patternMismatch; //false
-    document.getElementById("bar")
-        .validity.patternMismatch; //true
-// ]]&gt;&lt;/script&gt;</code></pre>
-</li>
-<li><code>rangeOverflow</code>: <code>true</code> 标识是否节点的 <code>value</code> 比它的 <code>max</code> 属性值还大。
-<pre><code class="language-markup">&lt;input id="foo" type="number" value="1" /&gt;
-&lt;input id="bar" type="number" value="3" /&gt;
-&lt;script type="text/javascript"&gt;// &lt;![CDATA[
-    document.getElementById('foo')
-        .validity.rangeOverflow; //false
-    document.getElementById('bar')
-        .validity.rangeOverflow; //true
-// ]]&gt;&lt;/script&gt;</code></pre>
-</li>
-<li><code>rangeUnderflow</code>: <code>true</code> 标识是否节点的 <code>value</code>比它的<code>min</code>属性值还小。
-<pre><code class="language-markup">&lt;input id="foo" type="number" value="3" /&gt;
-&lt;input id="bar" type="number" value="1" /&gt;
-&lt;script type="text/javascript"&gt;// &lt;![CDATA[
-    document.getElementById('foo')
-        .validity.rangeUnderflow; //false
-    document.getElementById('bar')
-        .validity.rangeUnderflow; //true
-// ]]&gt;&lt;/script&gt;</code></pre>
-</li>
-<li><code>stepMismatch</code>: <code>true</code> 标识是否节点的 <code>value</code> 与它的 <code>step</code> 属性值不符合.
-<pre><code class="language-markup">&lt;input id="foo" type="number" value="4" /&gt;
-&lt;input id="bar" type="number" value="3" /&gt;
-&lt;script type="text/javascript"&gt;// &lt;![CDATA[
-    document.getElementById('foo')
-        .validity.stepMismatch; //false
-    document.getElementById('bar')
-        .validity.stepMismatch; //true
-// ]]&gt;&lt;/script&gt;</code></pre>
-</li>
-<li><code>tooLong</code>: <code>true</code> 标识是否节点的 <code>value</code> 长度超过了 <code>maxlength</code> 属性值。所有的浏览器都会阻止用户输入超过最大长度值的内容。
-<pre><code class="language-markup">&lt;input id="foo" type="text" value="A" maxlength="1" /&gt;
-&lt;input id="bar" type="text" value="AB" maxlength="1" /&gt;
-&lt;script type="text/javascript"&gt;// &lt;![CDATA[
-    document.getElementById('foo')
-        .validity.tooLong; //false
-    document.getElementById('bar')
-        .validity.tooLong; //true in Opera, false in other supported browsers.
-// ]]&gt;&lt;/script&gt;</code></pre>
-<p>注意：作者已经给<a href="https://bugs.webkit.org/show_bug.cgi?id=99115" target="_blank">WebKit</a>和<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=800639" target="_blank">Firefox</a>提了关于toolong值错误的tickets。</p></li>
-<li><code>typeMismatch</code>: <code>true</code> 标识是否input节点的<code>value</code>与<code>type</code>属性值不匹配。
-<pre><code class="language-markup">&lt;input id="foo" type="url" value="http://foo.com" /&gt;
-&lt;input id="bar" type="url" value="foo" /&gt;
-&lt;input id="foo2" type="email" value="foo@foo.com" /&gt;
-&lt;input id="bar2" type="email" value="bar" /&gt;
-&lt;script type="text/javascript"&gt;// &lt;![CDATA[
-    document.getElementById('foo')
-        .validity.typeMismatch; //false
-    document.getElementById('bar')
-        .validity.typeMismatch; //true
-    document.getElementById('foo2')
-        .validity.typeMismatch; //false
-    document.getElementById('bar2')
-        .validity.typeMismatch; //true
-// ]]&gt;&lt;/script&gt;</code></pre>
-</li>
-<li><code>valueMissing</code>: <code>true</code> 标识是否节点有 <code>required</code> 属性却没有值.。
-<pre><code class="language-markup">&lt;input id="foo" type="text" value="foo" /&gt;
-&lt;input id="bar" type="text" value="" /&gt;
-&lt;script type="text/javascript"&gt;// &lt;![CDATA[
-    document.getElementById('foo')
-        .validity.valueMissing; //false
-    document.getElementById('bar')
-        .validity.valueMissing; //true
-// ]]&gt;&lt;/script&gt;</code></pre>
-</li>
-<li><code>valid</code>: <code>true</code> 标识是否所有的验证提交都满足，有任意一条不满足则为 <code>false</code>。
-<pre><code class="language-markup">&lt;input id="valid-1" type="text" value="foo" /&gt;
-&lt;input id="valid-2" type="text" value="" /&gt;
-&lt;script type="text/javascript"&gt;// &lt;![CDATA[
-    document.getElementById('valid-1')
-        .validity.valid; //true
-    document.getElementById('valid-2')
-        .validity.valid; //false
-// ]]&gt;&lt;/script&gt;</code></pre>
-</li>
-</ul>
-<h3 id="toc-validationMessage" class="entry-content-L2-3n2">VALIDATIONMESSAGE</h3>
-<p>Dom节点的 <code>validationMessage</code> 属性包含浏览器显示给用户看的错误信息，即验证出错时候的提示信息。</p>
-<p>浏览器为这个属性提供了一个默认的本地化信息。如果DOM节点不需要验证或者节点包含正确的内容，那么<code>validationMessage</code>会被设置为空字符串。</p>
-<p>注意：在写这篇文章的时候，Opera默认不会填充这个属性。</p>
-<h2 class="entry-content-L1-3n3">结论</h2>
-<p>HTML5的约束验证API使得在客户端添加验证变得快捷的同时还提供了Javascript API和CSS钩子来自定义。</p>
-<p>尽管还是有很多浏览器实现和旧浏览器兼容的问题存在，配合好的降级库或是服务器端验证，开发者就可以在自己的表单中使用这些API。</p>
-<blockquote><p>译者言：看完之后觉得约束验证的API设计的真心不好用。。。</p></blockquote>
-</div>
+<p>因为这个方案是基于ECMAScript 5的，所以使用了<code>Object.freeze</code>和<code>Object.create</code>之类的API。WeakMap的初始化函数如下：
+
+</p>
+<pre><code class="language-javascript">function defineNamespace(object, namespace) {
+  /**
+  Utility function takes `object` and `namespace` and overrides `valueOf`
+  method of `object`, so that when called with a `namespace` argument,
+  `private` object associated with this `namespace` is returned. If argument
+  is different, `valueOf` falls back to original `valueOf` property.
+  **/
+
+  // Private inherits from `object`, so that `this.foo` will refer to the
+  // `object.foo`. Also, original `valueOf` is saved in order to be able to
+  // delegate to it when necessary.
+  var privates = Object.create(object), base = object.valueOf
+  Object.defineProperty(object, 'valueOf', { value: function valueOf(value) {
+    // If `this` or `namespace` is not associated with a `privates` being
+    // stored we fallback to original `valueOf`, otherwise we return privates.
+    return value != namespace || this != object ? base.apply(this, arguments)
+                                              : privates
+  }, configurable: true })
+  return privates
+}
+
+function Name() {
+  /**
+  Desugared implementation of private names proposal. API is different as
+  it's not possible to implement API proposed for harmony with in ES5. In
+  terms of provided functionality it supposed to be same.
+  http://wiki.ecmascript.org/doku.php?id=strawman:private_names
+  **/
+
+  var namespace = {}
+  return function name(object) {
+    var privates = object.valueOf(namespace)
+    return privates !== object ? privates : defineNamespace(object, namespace)
+  }
+}
+
+function guard(key) {
+  /**
+  Utility function to guard WeakMap methods from keys that are not
+  a non-null objects.
+  **/
+
+  if (key !== Object(key)) throw TypeError("value is not a non-null object")
+  return key
+}</code></pre>
+<p>使用了<code>Object.create</code>创建了一个继承自WeakMap的新对象，并设置了has,get,set,delete方法。（其实我不太理解delete是个关键字，为什么标准要把它作为WeakMap的方法名之一？）然后使用<code>Object.freeze</code>确保对象无法被改变。避免有人通过<code>map.a = 'string'</code>这样或其他方式去修改对象。
+
+</p>
+<p>其中的关键点在于<code>var privates = Name()</code>一句。privates方法是用来“依据键获取键值”。
+
+</p>
+<p>因为不能保存键的强引用所以需要将键值保存在键上。即WeakMap仅仅是提供了一个“键”与“值”之间的接口，通过WeakMap来设置或获取键对应值。这么一来就容易理解了，具体源代码如下：
+
+</p>
+<pre><code class="language-javascript">function defineNamespace(object, namespace) {
+  /**
+  Utility function takes `object` and `namespace` and overrides `valueOf`
+  method of `object`, so that when called with a `namespace` argument,
+  `private` object associated with this `namespace` is returned. If argument
+  is different, `valueOf` falls back to original `valueOf` property.
+  **/
+
+  // Private inherits from `object`, so that `this.foo` will refer to the
+  // `object.foo`. Also, original `valueOf` is saved in order to be able to
+  // delegate to it when necessary.
+  var privates = Object.create(object), base = object.valueOf
+  Object.defineProperty(object, 'valueOf', { value: function valueOf(value) {
+    // If `this` or `namespace` is not associated with a `privates` being
+    // stored we fallback to original `valueOf`, otherwise we return privates.
+    return value != namespace || this != object ? base.apply(this, arguments)
+                                              : privates
+  }, configurable: true })
+  return privates
+}
+
+function Name() {
+  /**
+  Desugared implementation of private names proposal. API is different as
+  it's not possible to implement API proposed for harmony with in ES5. In
+  terms of provided functionality it supposed to be same.
+  http://wiki.ecmascript.org/doku.php?id=strawman:private_names
+  **/
+
+  var namespace = {}
+  return function name(object) {
+    var privates = object.valueOf(namespace)
+    return privates !== object ? privates : defineNamespace(object, namespace)
+  }
+}
+
+function guard(key) {
+  /**
+  Utility function to guard WeakMap methods from keys that are not
+  a non-null objects.
+  **/
+
+  if (key !== Object(key)) throw TypeError("value is not a non-null object")
+  return key
+}</code></pre>
+<p>代码中guard方法用于验证键是否是非空对象，又通过重写valueOf方法来获取键对应的存储值的对象。即是如下的引用关系：
+
+</p>
+<pre><code>key -&gt; valueOf --(namespace)--&gt; privates --&gt; value</code></pre>
+<p>其中的关键点是namespace是一个空对象。为什么呢？因为一个空对象是无法模仿的、是唯一的，如果改用字符串则很容易被知道字符串值的人直接通过<code>key.valueOf('namespace') </code>方法获取到privates。
+
+</p>
+<p>所以实现WeakMap的核心是“如何构造一个<a href="http://wiki.ecmascript.org/doku.php?id=strawman:private_names">唯一的无法伪造的属性名</a>”！
+
+</p>
+<p>Nicolas还在Gozala方案的评论中提到了另外一种实现，具体见<a href="http://code.google.com/p/es-lab/source/browse/trunk/src/ses/WeakMap.js"></a><a href="http://code.google.com/p/es-lab/source/browse/trunk/src/ses/WeakMap.js">http://code.google.com/p/es-lab/source/browse/trunk/src/ses/WeakMap.js</a>。我还没有仔细看～</p>
 <script src="assets/prism.js"></script>
 </body>
 </html>

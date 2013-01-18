@@ -62,7 +62,7 @@
         <li>针对中文文章样式定制</li>
         <li>可自定义</li>
     </ul>
-    <p>它分为左、右和居中三种排版方式。默认为向左布局方式，通过在<a href="#config">less的配置</a>中修改<code>@layout: left | center | right</code>值来使用不同的排版布局。它还提供了可选的多栏模式（multi-column），不过此特性还在开发中，且各个主流浏览器支持不够好。故不推荐使用。</p>
+    <p>它分为左、右和居中三种排版方式。默认为居中，通过在<a href="#config">less的配置</a>中修改<code>@layout: left | center | right</code>值来使用不同的排版布局。它还提供了可选的多栏模式（multi-column），不过此特性还在开发中，且各个主流浏览器支持不够好。故不推荐使用。</p>
 
     <h2 id="block">块级元素</h2>
 
@@ -71,6 +71,11 @@
 
     <h3 id="header">标题</h3>
     <p>文章内部标题共分为四种，使用<code>&lt;h1&gt;</code>标签作为一级标题，<code>&lt;h2&gt;</code>作为二级标题，<code>&lt;h3&gt;</code>标签作为三级标题，<code>&lt;h4&gt;</code>、<code>&lt;h5&gt;</code>或<code>&lt;h6&gt;</code>标签作为四级标题。</p>
+    <h1>样例</h1>
+    <h2>样例样例</h2>
+    <h3>样例样例样例</h3>
+    <h4>样例样例样例样例</h4>
+    <p>样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例样例</p>
 
     <h3 id="list">列表</h3>
     <p>列表样式分为有序列表<code>&lt;ol&gt;</code>和无序列表<code>&lt;ul&gt;</code>两种，这两种可以相互嵌套。没有对列表样式做过多的修改，还是使用浏览器默认样式。</p>
@@ -273,11 +278,11 @@ console.log('Test');
         <pre><code class="language-markup">&lt;article class=&quot;post&quot;&gt;
     &lt;!-- 内容 --&gt;
 &lt;/article&gt;</code></pre>
-        则自定义选择器为<code>.entry</code>，如下：
+        则自定义选择器为<code>.post</code>，如下：
         <pre><code class="language-css">@import "entry.less";
 // 自定义选择符
-.entry {
-    .ext-entry-content;
+.post{
+    .ext-entry;
 }</code></pre>
         </li>
         <li>自定义配置：布局、大小、颜色、字体等等，<code>config.less</code>文件中有详细的描述。</li>
@@ -316,8 +321,8 @@ console.log('Test');
 <script src="src/baseline.js"></script>
 <script>
 window.onload = function() {
-    baseline.init('.entry img, .entry iframe', 32);
-    var baseliner = new Baseliner(32);
+    baseline.init('.entry img, .entry iframe', 28);
+    var baseliner = new Baseliner(28);
 }
 </script>
 </body>

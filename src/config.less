@@ -1,13 +1,11 @@
 /* ===========================================================
    Config
    =========================================================== */
-// 整体布局：默认为靠左，也可以设置为居中(center)、靠右(right)
-@layout: left;  // left | center | right
+// 整体布局
+@layout: center;  // left | center | right
 
-// 大小设置
-@font-size: 16px;           // 基础文字大小，不能是相对单位
-@line-height: 2;          // 行高，不能带单位，必须是数值，不能小于1.5
-@content-width: 16px * 40;  // 内容区的宽度，一行建议不要超过42个字
+// 内容区的宽度，一行建议不要超过42个字
+@content-width: @font-size * 42;
 
 // 字体设置
 @font-family:
@@ -19,12 +17,18 @@
     sans-serif;                         // 文章字体
 @code-font-family: monospace, serif;    // 文章中代码的字体
 
-// 颜色和icon 设置
+// 缩进配置
+@use-indent: true;
+@h1-text-align: center;
+@h2-text-align: center;
+@h3-text-align: left;
+@h4-text-align: left;
+
 @word-color: #666;              // 文字默认颜色
-@word-highlight-color: #FFF;    // 文章标题在背景高亮时候文字默认的颜色
-@word-back-color: #83A1D5;      // 文章标题在背景高亮时候文字默认的背景颜色
-@word-highlight-color-2: #FFF;  // 一级标题在背景高亮时候文字默认的颜色
-@word-back-color-2: #96B3D3;    // 一级标题在背景高亮时候文字默认的背景颜色
+@word-highlight-color: #666;    // 文章标题在背景高亮时候文字默认的颜色
+@word-back-color: transparent;      // 文章标题在背景高亮时候文字默认的背景颜色
+@word-highlight-color-2: #666;  // 一级标题在背景高亮时候文字默认的颜色
+@word-back-color-2: transparent;    // 一级标题在背景高亮时候文字默认的背景颜色
 
 @link-color: #069;              // 普通链接颜色
 @link-highlight-color: #FFF;    // 普通链接在背景高亮时候的颜色
@@ -41,11 +45,11 @@
 @code-border-color: transparent;    // code的边框颜色
 
 @pre-back-color: #F7F7F9;       // pre的背景色
-// #E1E1E8;
+@pre-border-color: #E1E1E8;
 
 @hr-color: #888;                // hr的颜色
 
-// #DDD;
+@table-border-color: #DDD;
 @table-highlight-back-color: #F9F9F9;   // table背景高亮颜色
 
 @img-border-color: #CCC;    // 图标边框颜色
@@ -57,8 +61,6 @@
    Optional config
    ========================================================== */
 
-// 缩进配置
-@use-indent: false;
 
 // 多栏样式
 // 设置高度之后，显示成横向阅读

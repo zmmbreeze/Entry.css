@@ -9,7 +9,5 @@ lessc ./src/blogin.config.less > ./bin/blogin.css
 # 选择器为 body
 lessc ./src/tblog.config.less > ./bin/tblog.css
 # 选择器为 .entry
-lessc ./src/default.config.less > ./bin/entry-pure.css
-# 选择器为 .entry，标题有颜色
-lessc ./src/default-pure.config.less > ./bin/entry.css
+lessc ./src/default.config.less > ./bin/entry.css
 

@@ -43,8 +43,21 @@
  *          去掉不必要的配置
  *          直接子元素为img时，默认其为block元素
  *          去掉了border相关的样式
+ *      1.1 使用px替换em
+ *          改进排版，去掉了些可配置项
+ *          基础less选择器修改为ext-entry
  *
  */
+
+// 大小设置
+@font-size: 14px;           // 基础文字大小，不能是相对单位
+@line-height: 2;            // 行高，不能带单位，必须是数值，不能小于1.5
+@line: @line-height * @font-size;        // 28px
+@code-font-size: 14px;
+@h1-font-size: 28px;
+@h2-font-size: 21px;
+@h3-font-size: 16.8px;
+@h4-font-size: 14px;
 
 @import "config.less";
 
@@ -220,7 +233,5 @@
 }
 */
 
-@import "entry-header.less";
-@import "entry-meta.less";
 @import "entry-content.less";
 @import "entry-opt.less";
