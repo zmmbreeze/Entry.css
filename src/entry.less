@@ -42,6 +42,7 @@
  *          重新修改全部样式，支持vertical rhythm，更适合阅读
  *          去掉不必要的配置
  *          直接子元素为img时，默认其为block元素
+ *          去掉了border相关的样式
  *
  */
 
@@ -164,6 +165,9 @@
 
 // 利用before，after来伪装上下边框
 // 确保可以符合vertical rhythm
+/*
+ * bug 太多，用途不够广泛
+ * 对于pre th td这样的标签就会在firefox下有很多bug
 .fake-border-top-bottom (@color: #CCC, @width: 1px) {
     position: relative;
     &:before,
@@ -214,6 +218,7 @@
         left: 0;
     }
 }
+*/
 
 @import "entry-header.less";
 @import "entry-meta.less";

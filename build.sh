@@ -1,8 +1,15 @@
 #!/bin/bash
 
+# 纯HTML 选择器为 body
 lessc ./src/puretag.config.less > ./bin/puretag.css
-lessc ./src/markdown.config.less > ./bin/markdown.css
+# 选择器为 .post
 lessc ./src/wordpress.config.less > ./bin/wordpress.css
+# 选择器为 .markdown
 lessc ./src/blogin.config.less > ./bin/blogin.css
+# 选择器为 body
 lessc ./src/tblog.config.less > ./bin/tblog.css
-lessc ./src/default.config.less > ./bin/entry.css
+# 选择器为 .entry
+lessc ./src/default.config.less > ./bin/entry-pure.css
+# 选择器为 .entry，标题有颜色
+lessc ./src/default-pure.config.less > ./bin/entry.css
+

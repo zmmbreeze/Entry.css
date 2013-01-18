@@ -42,6 +42,7 @@
  *          重新修改全部样式，支持vertical rhythm，更适合阅读
  *          去掉不必要的配置
  *          直接子元素为img时，默认其为block元素
+ *          去掉了border相关的样式
  *
  */
 /* ===========================================================
@@ -50,6 +51,60 @@
 /* ==========================================================
    Optional config
    ========================================================== */
+/*
+ * bug 太多，用途不够广泛
+ * 对于pre th td这样的标签就会在firefox下有很多bug
+.fake-border-top-bottom (@color: #CCC, @width: 1px) {
+    position: relative;
+    &:before,
+    &:after {
+        position: absolute;
+        z-index: 1;
+        content: '';
+        width: 100%;
+        height: @width;
+        background-color: @color;
+    }
+    &:before {
+        top: 0;
+        left: 0;
+    }
+    &:after {
+        bottom: 0;
+        left: 0;
+    }
+}
+.fake-border-bottom (@color: #CCC, @width: 1px) {
+    position: relative;
+    &:after {
+        position: absolute;
+        z-index: 1;
+        content: '';
+        width: 100%;
+        height: @width;
+        background-color: @color;
+    }
+    &:after {
+        bottom: 0;
+        left: 0;
+    }
+}
+.fake-border-top (@color: #CCC, @width: 1px) {
+    position: relative;
+    &:before {
+        position: absolute;
+        z-index: 1;
+        content: '';
+        width: 100%;
+        height: @width;
+        background-color: @color;
+    }
+    &:before {
+        top: 0;
+        left: 0;
+    }
+}
+*/
 /* ==========================================================================
    Entry header
    ========================================================================== */
@@ -60,9 +115,13 @@
    Multi-column
    多栏样式，很多浏览器不支持，慎用！
    ================================================ */
-.markdown {
+body {
+  padding: 0;
   margin: 0;
-  line-height: 2;
+}
+.entry {
+  margin: 0;
+  line-height: 1.7;
   color: #666666;
   word-wrap: break-word;
   font-size: 16px;
@@ -80,6 +139,13 @@
        ========== */
 
   /* === block content === */
+
+  /*
+    > pre {
+        // pre上间距为： 1em * (14 / 16) * @line-height * 1em * (16 / 14) = h
+        margin-top: @line-height * 1em * 16 / 14;
+    }
+    */
 
   /* === inline content === */
 
@@ -105,74 +171,74 @@
 
   /* disqus支持 */
 
-  /* util */
-
 }
-.markdown h1,
-.markdown h2,
-.markdown h3,
-.markdown h4,
-.markdown h5,
-.markdown h6,
-.markdown div,
-.markdown p,
-.markdown blockquote,
-.markdown pre,
-.markdown ul,
-.markdown ol,
-.markdown table,
-.markdown figure,
-.markdown iframe,
-.markdown section,
-.markdown article {
+.entry h1,
+.entry h2,
+.entry h3,
+.entry h4,
+.entry h5,
+.entry h6,
+.entry div,
+.entry p,
+.entry blockquote,
+.entry pre,
+.entry ul,
+.entry ol,
+.entry table,
+.entry figure,
+.entry iframe,
+.entry section,
+.entry article {
   margin-top: 0;
   margin-bottom: 0;
   margin-left: 0;
+  margin-left: auto;
   margin-right: auto;
   padding: 0;
 }
-.markdown h1:first-child,
-.markdown h2:first-child,
-.markdown h3:first-child,
-.markdown h4:first-child,
-.markdown h5:first-child,
-.markdown h6:first-child,
-.markdown div:first-child,
-.markdown p:first-child,
-.markdown blockquote:first-child,
-.markdown pre:first-child,
-.markdown ul:first-child,
-.markdown ol:first-child,
-.markdown table:first-child,
-.markdown figure:first-child,
-.markdown iframe:first-child,
-.markdown section:first-child,
-.markdown article:first-child {
+.entry h1:first-child,
+.entry h2:first-child,
+.entry h3:first-child,
+.entry h4:first-child,
+.entry h5:first-child,
+.entry h6:first-child,
+.entry div:first-child,
+.entry p:first-child,
+.entry blockquote:first-child,
+.entry pre:first-child,
+.entry ul:first-child,
+.entry ol:first-child,
+.entry table:first-child,
+.entry figure:first-child,
+.entry iframe:first-child,
+.entry section:first-child,
+.entry article:first-child {
   margin-top: 0;
 }
-.markdown > h1,
-.markdown > h2,
-.markdown > h3,
-.markdown > h4,
-.markdown > h5,
-.markdown > h6,
-.markdown > div,
-.markdown > p,
-.markdown > blockquote,
-.markdown > pre,
-.markdown > ul,
-.markdown > ol,
-.markdown > table,
-.markdown > figure,
-.markdown > iframe,
-.markdown > section,
-.markdown > article,
-.markdown > img {
+.entry > h1,
+.entry > h2,
+.entry > h3,
+.entry > h4,
+.entry > h5,
+.entry > h6,
+.entry > div,
+.entry > p,
+.entry > blockquote,
+.entry > pre,
+.entry > ul,
+.entry > ol,
+.entry > table,
+.entry > figure,
+.entry > iframe,
+.entry > section,
+.entry > article,
+.entry > img {
   max-width: 640px;
-  margin-top: 2em;
+  margin-top: 1.7em;
   margin-bottom: 0;
   display: block;
   margin-left: 0;
+  margin-left: auto;
   margin-right: auto;
   padding: 0 1em;
   -webkit-box-sizing: border-box;
@@ -181,75 +247,75 @@
   -o-box-sizing: border-box;
   box-sizing: border-box;
 }
-.markdown > table {
+.entry > table {
   display: table;
 }
-.markdown h1,
-.markdown h2,
-.markdown h3,
-.markdown h4,
-.markdown h5,
-.markdown h6 {
+.entry h1,
+.entry h2,
+.entry h3,
+.entry h4,
+.entry h5,
+.entry h6 {
   font-weight: bold;
 }
-.markdown h1,
-.markdown h2 {
+.entry h1,
+.entry h2 {
   font-size: 2em;
-  line-height: 2;
-  color: #ffffff;
-  background-color: #96b3d3;
+  line-height: 1.7;
+  color: #666666;
+  background-color: transparent;
 }
-.markdown h1 a,
-.markdown h2 a {
-  color: #ffffff;
+.entry h1 a,
+.entry h2 a {
+  color: #666666;
 }
-.markdown h1 a,
-.markdown h2 a,
-.markdown h1 em,
-.markdown h2 em,
-.markdown h1 u,
-.markdown h2 u,
-.markdown h1 abbr[title],
-.markdown h2 abbr[title] {
-  border-bottom-color: #ffffff;
+.entry h1 a,
+.entry h2 a,
+.entry h1 em,
+.entry h2 em,
+.entry h1 u,
+.entry h2 u,
+.entry h1 abbr[title],
+.entry h2 abbr[title] {
+  border-bottom-color: #666666;
 }
-.markdown h1 {
+.entry h1 {
   text-align: center;
 }
-.markdown > h1 {
-  margin-top: 2em;
+.entry > h1 {
+  margin-top: 1.7em;
   padding-right: 0.5em;
   padding-left: 0.5em;
 }
-.markdown h2 {
+.entry h2 {
   font-size: 1.5em;
-  line-height: 2.6666666666666665em;
+  line-height: 2.2666666666666666em;
 }
-.markdown > h2 {
-  margin-top: 1.3333333333333333em;
+.entry > h2 {
+  margin-top: 1.1333333333333333em;
   padding-right: 0.6666666666666666em;
   padding-left: 0.6666666666666666em;
 }
-.markdown h3 {
+.entry h3 {
   font-size: 1.2em;
-  line-height: 1.6666666666666667em;
+  line-height: 1.4166666666666667em;
 }
-.markdown > h3 {
-  margin-top: 1.6666666666666667em;
+.entry > h3 {
+  margin-top: 1.4166666666666667em;
   padding-right: 0.7692307692307692em;
   padding-left: 0.7692307692307692em;
 }
-.markdown h4,
-.markdown h5,
-.markdown h6 {
+.entry h4,
+.entry h5,
+.entry h6 {
   font-size: 1em;
-  line-height: 2;
+  line-height: 1.7;
 }
-.markdown blockquote {
+.entry blockquote {
   position: relative;
-  padding: 2em 4em;
+  padding: 1.7em 4em;
 }
-.markdown blockquote:before {
+.entry blockquote:before {
   position: absolute;
   content: '\275D';
   top: 0;
@@ -257,7 +323,7 @@
   font-size: 2em;
   color: #cccccc;
 }
-.markdown blockquote:after {
+.entry blockquote:after {
   position: absolute;
   content: '\275E';
   bottom: 0;
@@ -266,87 +332,71 @@
   font-size: 2em;
   color: #cccccc;
 }
-.markdown pre {
-  margin-top: 2.2857142857142856em;
-  padding: 1.1428571428571428em 4em;
-  line-height: 1.1428571428571428;
-  font-size: 0.875em;
+.entry pre {
   /*
         // pre上下内间距为：
         //      1em * (14 / 16) * @line-height * 0.5em * (16 / 14) = 0.5h
-        padding: @line-height * 0.5em 4em;
-        line-height: @line-height;
-        font-size: 1em;
+        padding: @line-height * 0.5em * 16 / 14 4em * 16 / 14;
+        // pre行框高为：(14h/32) * (16/14) = h/2
+        line-height: 16 / 14; // 强制设置行高，避免难看
+        // pre字体大小为：14h/32
+        font-size: (1em * @line-height / 2) * (14/16);
         */
 
+  padding: 0.85em 1em;
+  line-height: 1.7;
+  font-size: 1em;
   white-space: pre;
   word-wrap: normal;
   overflow: auto;
   font-family: monospace, serif;
   border-right: none;
   border-left: none;
-  background-color: #fefefe;
-  position: relative;
+  background-color: #fbfbfb;
 }
-.markdown pre:before,
-.markdown pre:after {
-  position: absolute;
-  z-index: 1;
-  content: '';
-  width: 100%;
-  height: 1px;
-  background-color: #e1e1e8;
-}
-.markdown pre:before {
-  top: 0;
-  left: 0;
-}
-.markdown pre:after {
-  bottom: 1px;
-  left: 0;
-}
-.markdown ul,
-.markdown ol {
-  margin-top: 2em;
+.entry ul,
+.entry ol {
+  margin-top: 1.7em;
   padding-left: 4em;
 }
-.markdown ul li,
-.markdown ol li {
+.entry ul li,
+.entry ol li {
   list-style-position: outside;
 }
-.markdown ul li:first-child,
-.markdown ol li:first-child {
+.entry ul li:first-child,
+.entry ol li:first-child {
   margin-top: 0;
 }
-.markdown ul li {
+.entry ul li {
   list-style-type: square;
 }
-.markdown ul li ul li {
+.entry ul li ul li {
   list-style-type: disc;
 }
-.markdown ul li ul li ul li {
+.entry ul li ul li ul li {
   list-style-type: circle;
 }
-.markdown ol li {
+.entry ol li {
   list-style-type: decimal;
 }
-.markdown ol li ol li {
+.entry ol li ol li {
   list-style-type: upper-roman;
 }
-.markdown ol li ol li ol li {
+.entry ol li ol li ol li {
   list-style-type: lower-roman;
 }
-.markdown li > ul,
-.markdown li > ol {
+.entry li > ul,
+.entry li > ol {
   margin-top: 0;
   padding-left: 3em;
 }
-.markdown hr {
+.entry hr {
   position: relative;
-  padding-top: 2em;
-  margin-bottom: 4em;
+  padding-top: 1.7em;
+  margin-bottom: 3.4em;
   margin-top: -3px;
   margin-left: 0;
+  margin-left: auto;
   margin-right: auto;
   max-width: 640px;
   height: 0;
@@ -359,8 +409,8 @@
   -o-box-sizing: border-box;
   box-sizing: border-box;
 }
-.markdown hr:before,
-.markdown hr:after {
+.entry hr:before,
+.entry hr:after {
   content: '';
   position: absolute;
   bottom: -2px;
@@ -368,7 +418,7 @@
   height: 2px;
   pointer-events: none;
 }
-.markdown hr:before {
+.entry hr:before {
   left: 0;
   background-image: -webkit-linear-gradient(right, rgba(255, 255, 255, 0) 0%, #ffffff 80%, #ffffff 100%);
   background-image: -moz-linear-gradient(right, rgba(255, 255, 255, 0) 0%, #ffffff 80%, #ffffff 100%);
@@ -376,7 +426,7 @@
   background-image: -o-linear-gradient(right, rgba(255, 255, 255, 0) 0%, #ffffff 80%, #ffffff 100%);
   background-image: linear-gradient(right, rgba(255, 255, 255, 0) 0%, #ffffff 80%, #ffffff 100%);
 }
-.markdown hr:after {
+.entry hr:after {
   right: 0;
   background-image: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #ffffff 80%, #ffffff 100%);
   background-image: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #ffffff 80%, #ffffff 100%);
@@ -384,9 +434,10 @@
   background-image: -o-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #ffffff 80%, #ffffff 100%);
   background-image: linear-gradient(left, rgba(255, 255, 255, 0) 0%, #ffffff 80%, #ffffff 100%);
 }
-.markdown table {
+.entry table {
   padding: 0;
   margin-left: 1em;
+  margin-left: auto;
   min-width: 320px;
   border-collapse: collapse;
   border-spacing: 0;
@@ -396,47 +447,32 @@
   -o-border-radius: 0.5em;
   border-radius: 0.5em;
 }
-.markdown table caption {
+.entry table caption {
   padding: 0;
 }
-.markdown table thead th {
+.entry table thead th {
   text-align: left;
 }
-.markdown table tbody {
+.entry table tbody {
   margin: 0 1em;
 }
-.markdown table tbody tr:nth-child(odd) td,
-.markdown table tbody tr:nth-child(odd) th {
+.entry table tbody tr:nth-child(odd) td,
+.entry table tbody tr:nth-child(odd) th {
   background-color: #f9f9f9;
 }
-.markdown table td,
-.markdown table th {
+.entry table td,
+.entry table th {
   padding: 0 1em;
-  position: relative;
   border: none;
 }
-.markdown table td:before,
-.markdown table th:before {
-  position: absolute;
-  z-index: 1;
-  content: '';
-  width: 100%;
-  height: 1px;
-  background-color: #dddddd;
-}
-.markdown table td:before,
-.markdown table th:before {
-  top: 0;
-  left: 0;
-}
-.markdown a {
+.entry a {
   padding-bottom: 0.025em;
   color: #006699;
   text-decoration: none;
   border-bottom-color: #006699;
 }
-.markdown a[onclick],
-.markdown a[href^="javascript:"] {
+.entry a[onclick],
+.entry a[href^="javascript:"] {
   margin: 0 0.25em;
   padding: 0.25em 0.5em;
   font-size: 0.8571428571428571em;
@@ -449,62 +485,62 @@
   border-radius: 0.25em;
   border-bottom: none;
 }
-.markdown a[onclick]:visited,
-.markdown a[href^="javascript:"]:visited {
+.entry a[onclick]:visited,
+.entry a[href^="javascript:"]:visited {
   color: #ffffff;
 }
-.markdown a:focus {
+.entry a:focus {
   outline: thin dotted;
 }
-.markdown a:visited {
+.entry a:visited {
   color: #551a8b;
   border-bottom-color: #551a8b;
 }
-.markdown a:hover {
+.entry a:hover {
   border-bottom-width: 1px;
   border-bottom-style: solid;
 }
-.markdown a:hover,
-.markdown a:active {
+.entry a:hover,
+.entry a:active {
   outline: 0;
 }
-.markdown b,
-.markdown strong {
+.entry b,
+.entry strong {
   font-weight: bold;
 }
-.markdown u,
-.markdown em {
+.entry u,
+.entry em {
   padding-bottom: .05em;
   font-style: normal;
   font-weight: normal;
-  border-bottom: 2px dotted #666666;
+  border-bottom: 2px dotted #b3b3b3;
 }
-.markdown u {
+.entry u {
   text-decoration: none;
   border-bottom-width: 1px;
   border-bottom-style: solid;
 }
-.markdown em + em,
-.markdown em + u,
-.markdown u + em,
-.markdown u + u {
+.entry em + em,
+.entry em + u,
+.entry u + em,
+.entry u + u {
   margin-left: 0.125em;
 }
-.markdown code {
+.entry code {
   padding: 0.15em 0.25em;
   margin: 0 0.25em;
-  background: #f7f7f9;
+  background: #fefefe;
   font-family: monospace, serif;
   font-size: 0.8571428571428571em;
   color: #888888;
-  border: 1px solid transparent;
+  border: 1px solid #e1e1e8;
   -webkit-border-radius: 0.25em;
   -moz-border-radius: 0.25em;
   -ms-border-radius: 0.25em;
   -o-border-radius: 0.25em;
   border-radius: 0.25em;
 }
-.markdown pre code {
+.entry pre code {
   padding: 0;
   margin: 0;
   font-size: 1em;
@@ -512,65 +548,65 @@
   background: none;
   border: none;
 }
-.markdown img {
+.entry img {
   max-width: 100%;
   border: 0;
 }
-.markdown > img {
-  max-width: 640px;
+.entry > img {
+  max-width: 100%;
 }
-.markdown figure img {
+.entry figure img {
   display: block;
   margin: 0 auto;
   max-width: 97%;
 }
-.markdown figure figcaption {
+.entry figure figcaption {
   display: block;
   text-align: center;
   font-style: italic;
 }
-.markdown cite {
+.entry cite {
   font-style: inherit;
 }
-.markdown cite:before,
-.markdown cite:after {
+.entry cite:before,
+.entry cite:after {
   content: "《";
   line-height: inherit;
 }
-.markdown cite:after {
+.entry cite:after {
   content: "》";
 }
-.markdown abbr[title] {
+.entry abbr[title] {
   padding-bottom: 0.05em;
   cursor: help;
   border-bottom: 1px dotted #666666;
 }
-.markdown dfn {
+.entry dfn {
   font-style: italic;
 }
-.markdown mark {
+.entry mark {
   background: #ffff00;
   color: #666666;
 }
-.markdown q {
+.entry q {
   quotes: "\201C" "\201D" "\2018" "\2019";
 }
-.markdown small {
+.entry small {
   font-size: 80%;
 }
-.markdown sub,
-.markdown sup {
+.entry sub,
+.entry sup {
   font-size: 75%;
   line-height: 0;
   position: relative;
   vertical-align: baseline;
 }
-.markdown sup {
+.entry sup {
   top: -0.5em;
 }
-.markdown sub {
+.entry sub {
   bottom: -0.25em;
 }
-.markdown #disqus_thread {
-  margin-top: 2em;
+.entry #disqus_thread {
+  margin-top: 1.7em;
 }

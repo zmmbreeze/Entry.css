@@ -42,6 +42,7 @@
  *          重新修改全部样式，支持vertical rhythm，更适合阅读
  *          去掉不必要的配置
  *          直接子元素为img时，默认其为block元素
+ *          去掉了border相关的样式
  *
  */
 /* ===========================================================
@@ -50,6 +51,60 @@
 /* ==========================================================
    Optional config
    ========================================================== */
+/*
+ * bug 太多，用途不够广泛
+ * 对于pre th td这样的标签就会在firefox下有很多bug
+.fake-border-top-bottom (@color: #CCC, @width: 1px) {
+    position: relative;
+    &:before,
+    &:after {
+        position: absolute;
+        z-index: 1;
+        content: '';
+        width: 100%;
+        height: @width;
+        background-color: @color;
+    }
+    &:before {
+        top: 0;
+        left: 0;
+    }
+    &:after {
+        bottom: 0;
+        left: 0;
+    }
+}
+.fake-border-bottom (@color: #CCC, @width: 1px) {
+    position: relative;
+    &:after {
+        position: absolute;
+        z-index: 1;
+        content: '';
+        width: 100%;
+        height: @width;
+        background-color: @color;
+    }
+    &:after {
+        bottom: 0;
+        left: 0;
+    }
+}
+.fake-border-top (@color: #CCC, @width: 1px) {
+    position: relative;
+    &:before {
+        position: absolute;
+        z-index: 1;
+        content: '';
+        width: 100%;
+        height: @width;
+        background-color: @color;
+    }
+    &:before {
+        top: 0;
+        left: 0;
+    }
+}
+*/
 /* ==========================================================================
    Entry header
    ========================================================================== */
@@ -62,7 +117,7 @@
    ================================================ */
 .post {
   margin: 0;
-  line-height: 2;
+  line-height: 1.7;
   color: #666666;
   word-wrap: break-word;
   font-size: 16px;
@@ -80,6 +135,13 @@
        ========== */
 
   /* === block content === */
+
+  /*
+    > pre {
+        // pre上间距为： 1em * (14 / 16) * @line-height * 1em * (16 / 14) = h
+        margin-top: @line-height * 1em * 16 / 14;
+    }
+    */
 
   /* === inline content === */
 
@@ -105,8 +167,6 @@
 
   /* disqus支持 */
 
-  /* util */
-
 }
 .post h1,
 .post h2,
@@ -128,6 +188,7 @@
   margin-top: 0;
   margin-bottom: 0;
   margin-left: 0;
+  margin-left: auto;
   margin-right: auto;
   padding: 0;
 }
@@ -169,10 +230,11 @@
 .post > article,
 .post > img {
   max-width: 640px;
-  margin-top: 2em;
+  margin-top: 1.7em;
   margin-bottom: 0;
   display: block;
   margin-left: 0;
+  margin-left: auto;
   margin-right: auto;
   padding: 0 1em;
   -webkit-box-sizing: border-box;
@@ -195,13 +257,13 @@
 .post h1,
 .post h2 {
   font-size: 2em;
-  line-height: 2;
-  color: #ffffff;
-  background-color: #96b3d3;
+  line-height: 1.7;
+  color: #666666;
+  background-color: transparent;
 }
 .post h1 a,
 .post h2 a {
-  color: #ffffff;
+  color: #666666;
 }
 .post h1 a,
 .post h2 a,
@@ -211,31 +273,31 @@
 .post h2 u,
 .post h1 abbr[title],
 .post h2 abbr[title] {
-  border-bottom-color: #ffffff;
+  border-bottom-color: #666666;
 }
 .post h1 {
   text-align: center;
 }
 .post > h1 {
-  margin-top: 2em;
+  margin-top: 1.7em;
   padding-right: 0.5em;
   padding-left: 0.5em;
 }
 .post h2 {
   font-size: 1.5em;
-  line-height: 2.6666666666666665em;
+  line-height: 2.2666666666666666em;
 }
 .post > h2 {
-  margin-top: 1.3333333333333333em;
+  margin-top: 1.1333333333333333em;
   padding-right: 0.6666666666666666em;
   padding-left: 0.6666666666666666em;
 }
 .post h3 {
   font-size: 1.2em;
-  line-height: 1.6666666666666667em;
+  line-height: 1.4166666666666667em;
 }
 .post > h3 {
-  margin-top: 1.6666666666666667em;
+  margin-top: 1.4166666666666667em;
   padding-right: 0.7692307692307692em;
   padding-left: 0.7692307692307692em;
 }
@@ -243,11 +305,11 @@
 .post h5,
 .post h6 {
   font-size: 1em;
-  line-height: 2;
+  line-height: 1.7;
 }
 .post blockquote {
   position: relative;
-  padding: 2em 4em;
+  padding: 1.7em 4em;
 }
 .post blockquote:before {
   position: absolute;
@@ -267,47 +329,30 @@
   color: #cccccc;
 }
 .post pre {
-  margin-top: 2.2857142857142856em;
-  padding: 1.1428571428571428em 4em;
-  line-height: 1.1428571428571428;
-  font-size: 0.875em;
   /*
         // pre上下内间距为：
         //      1em * (14 / 16) * @line-height * 0.5em * (16 / 14) = 0.5h
-        padding: @line-height * 0.5em 4em;
-        line-height: @line-height;
-        font-size: 1em;
+        padding: @line-height * 0.5em * 16 / 14 4em * 16 / 14;
+        // pre行框高为：(14h/32) * (16/14) = h/2
+        line-height: 16 / 14; // 强制设置行高，避免难看
+        // pre字体大小为：14h/32
+        font-size: (1em * @line-height / 2) * (14/16);
         */
 
+  padding: 0.85em 1em;
+  line-height: 1.7;
+  font-size: 1em;
   white-space: pre;
   word-wrap: normal;
   overflow: auto;
   font-family: monospace, serif;
   border-right: none;
   border-left: none;
-  background-color: #fefefe;
-  position: relative;
-}
-.post pre:before,
-.post pre:after {
-  position: absolute;
-  z-index: 1;
-  content: '';
-  width: 100%;
-  height: 1px;
-  background-color: #e1e1e8;
-}
-.post pre:before {
-  top: 0;
-  left: 0;
-}
-.post pre:after {
-  bottom: 1px;
-  left: 0;
+  background-color: #fbfbfb;
 }
 .post ul,
 .post ol {
-  margin-top: 2em;
+  margin-top: 1.7em;
   padding-left: 4em;
 }
 .post ul li,
@@ -343,10 +388,11 @@
 }
 .post hr {
   position: relative;
-  padding-top: 2em;
-  margin-bottom: 4em;
+  padding-top: 1.7em;
+  margin-bottom: 3.4em;
   margin-top: -3px;
   margin-left: 0;
+  margin-left: auto;
   margin-right: auto;
   max-width: 640px;
   height: 0;
@@ -387,6 +433,7 @@
 .post table {
   padding: 0;
   margin-left: 1em;
+  margin-left: auto;
   min-width: 320px;
   border-collapse: collapse;
   border-spacing: 0;
@@ -412,22 +459,7 @@
 .post table td,
 .post table th {
   padding: 0 1em;
-  position: relative;
   border: none;
-}
-.post table td:before,
-.post table th:before {
-  position: absolute;
-  z-index: 1;
-  content: '';
-  width: 100%;
-  height: 1px;
-  background-color: #dddddd;
-}
-.post table td:before,
-.post table th:before {
-  top: 0;
-  left: 0;
 }
 .post a {
   padding-bottom: 0.025em;
@@ -477,7 +509,7 @@
   padding-bottom: .05em;
   font-style: normal;
   font-weight: normal;
-  border-bottom: 2px dotted #666666;
+  border-bottom: 2px dotted #b3b3b3;
 }
 .post u {
   text-decoration: none;
@@ -493,11 +525,11 @@
 .post code {
   padding: 0.15em 0.25em;
   margin: 0 0.25em;
-  background: #f7f7f9;
+  background: #fefefe;
   font-family: monospace, serif;
   font-size: 0.8571428571428571em;
   color: #888888;
-  border: 1px solid transparent;
+  border: 1px solid #e1e1e8;
   -webkit-border-radius: 0.25em;
   -moz-border-radius: 0.25em;
   -ms-border-radius: 0.25em;
@@ -517,7 +549,7 @@
   border: 0;
 }
 .post > img {
-  max-width: 640px;
+  max-width: 100%;
 }
 .post figure img {
   display: block;
@@ -572,5 +604,5 @@
   bottom: -0.25em;
 }
 .post #disqus_thread {
-  margin-top: 2em;
+  margin-top: 1.7em;
 }

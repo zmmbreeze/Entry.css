@@ -64,7 +64,7 @@ pre {
     display: block;
     margin: 0 auto;
     padding: 4px;
-    width: 238px;
+    width: 326px;
     height: 40px;
     text-align: center;
     border-bottom: none;
@@ -197,7 +197,7 @@ pre {
 /* Larger buttons styles */
 
 .button.large{
-  padding: 12px 30px;
+  padding: 11px 30px;
   text-transform: uppercase;
 }
 

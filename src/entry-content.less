@@ -133,6 +133,7 @@
         }
     }
     pre {
+        /*
         // pre上下内间距为：
         //      1em * (14 / 16) * @line-height * 0.5em * (16 / 14) = 0.5h
         padding: @line-height * 0.5em * 16 / 14 4em * 16 / 14;
@@ -140,13 +141,12 @@
         line-height: 16 / 14; // 强制设置行高，避免难看
         // pre字体大小为：14h/32
         font-size: (1em * @line-height / 2) * (14/16);
-        /*
+        */
         // pre上下内间距为：
         //      1em * (14 / 16) * @line-height * 0.5em * (16 / 14) = 0.5h
-        padding: @line-height * 0.5em 4em;
+        padding: @line-height * 0.5em 1em;
         line-height: @line-height;
         font-size: 1em;
-        */
         white-space: pre;
         word-wrap: normal;  // reset
         overflow: auto;
@@ -155,12 +155,14 @@
         border-right: none;
         border-left: none;
         background-color: @pre-back-color;
-        .fake-border-top-bottom(@pre-border-color);
+        // .fake-border-top-bottom(@pre-border-color);
     }
+    /*
     > pre {
         // pre上间距为： 1em * (14 / 16) * @line-height * 1em * (16 / 14) = h
         margin-top: @line-height * 1em * 16 / 14;
     }
+    */
     ul, ol {
         // ul, ol 上间隔为 @line-height * 1em = h
         margin-top: @line-height * 1em;
@@ -258,7 +260,7 @@
         }
         td, th {
             padding: 0 1em;
-            .fake-border-top(@table-border-color);
+            // .fake-border-top(@table-border-color);
             border: none;
         }
     }
@@ -269,7 +271,7 @@
         padding-bottom: 0.025em;
         color: @link-color;
         text-decoration: none;
-        border-bottom-color: @link-color;
+        border-bottom-color: lighten(@link-color, 10%);
         &[onclick],
         &[href^="javascript:"] {
             margin: 0 0.25em;
@@ -309,7 +311,7 @@
         padding-bottom: .05em;
         font-style: normal;
         font-weight: normal;
-        border-bottom: 2px dotted @word-color;
+        border-bottom: 2px dotted lighten(@word-color, 30%);
     }
     u {
         text-decoration: none;

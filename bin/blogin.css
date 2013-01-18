@@ -42,6 +42,7 @@
  *          重新修改全部样式，支持vertical rhythm，更适合阅读
  *          去掉不必要的配置
  *          直接子元素为img时，默认其为block元素
+ *          去掉了border相关的样式
  *
  */
 /* ===========================================================
@@ -50,6 +51,60 @@
 /* ==========================================================
    Optional config
    ========================================================== */
+/*
+ * bug 太多，用途不够广泛
+ * 对于pre th td这样的标签就会在firefox下有很多bug
+.fake-border-top-bottom (@color: #CCC, @width: 1px) {
+    position: relative;
+    &:before,
+    &:after {
+        position: absolute;
+        z-index: 1;
+        content: '';
+        width: 100%;
+        height: @width;
+        background-color: @color;
+    }
+    &:before {
+        top: 0;
+        left: 0;
+    }
+    &:after {
+        bottom: 0;
+        left: 0;
+    }
+}
+.fake-border-bottom (@color: #CCC, @width: 1px) {
+    position: relative;
+    &:after {
+        position: absolute;
+        z-index: 1;
+        content: '';
+        width: 100%;
+        height: @width;
+        background-color: @color;
+    }
+    &:after {
+        bottom: 0;
+        left: 0;
+    }
+}
+.fake-border-top (@color: #CCC, @width: 1px) {
+    position: relative;
+    &:before {
+        position: absolute;
+        z-index: 1;
+        content: '';
+        width: 100%;
+        height: @width;
+        background-color: @color;
+    }
+    &:before {
+        top: 0;
+        left: 0;
+    }
+}
+*/
 /* ==========================================================================
    Entry header
    ========================================================================== */
@@ -81,6 +136,13 @@
 
   /* === block content === */
 
+  /*
+    > pre {
+        // pre上间距为： 1em * (14 / 16) * @line-height * 1em * (16 / 14) = h
+        margin-top: @line-height * 1em * 16 / 14;
+    }
+    */
+
   /* === inline content === */
 
   /* 强调 */
@@ -104,8 +166,6 @@
   /* 上下标 */
 
   /* disqus支持 */
-
-  /* util */
 
 }
 .markdown h1,
@@ -269,18 +329,19 @@
   color: #cccccc;
 }
 .markdown pre {
-  margin-top: 1.9428571428571428em;
-  padding: 0.9714285714285714em 4em;
-  line-height: 1.1428571428571428;
-  font-size: 0.74375em;
   /*
         // pre上下内间距为：
         //      1em * (14 / 16) * @line-height * 0.5em * (16 / 14) = 0.5h
-        padding: @line-height * 0.5em 4em;
-        line-height: @line-height;
-        font-size: 1em;
+        padding: @line-height * 0.5em * 16 / 14 4em * 16 / 14;
+        // pre行框高为：(14h/32) * (16/14) = h/2
+        line-height: 16 / 14; // 强制设置行高，避免难看
+        // pre字体大小为：14h/32
+        font-size: (1em * @line-height / 2) * (14/16);
         */
 
+  padding: 0.85em 1em;
+  line-height: 1.7;
+  font-size: 1em;
   white-space: pre;
   word-wrap: normal;
   overflow: auto;
@@ -288,24 +349,6 @@
   border-right: none;
   border-left: none;
   background-color: #fbfbfb;
-  position: relative;
-}
-.markdown pre:before,
-.markdown pre:after {
-  position: absolute;
-  z-index: 1;
-  content: '';
-  width: 100%;
-  height: 1px;
-  background-color: #e1e1e8;
-}
-.markdown pre:before {
-  top: 0;
-  left: 0;
-}
-.markdown pre:after {
-  bottom: 1px;
-  left: 0;
 }
 .markdown ul,
 .markdown ol {
@@ -416,22 +459,7 @@
 .markdown table td,
 .markdown table th {
   padding: 0 1em;
-  position: relative;
   border: none;
-}
-.markdown table td:before,
-.markdown table th:before {
-  position: absolute;
-  z-index: 1;
-  content: '';
-  width: 100%;
-  height: 1px;
-  background-color: #dddddd;
-}
-.markdown table td:before,
-.markdown table th:before {
-  top: 0;
-  left: 0;
 }
 .markdown a {
   padding-bottom: 0.025em;
@@ -481,7 +509,7 @@
   padding-bottom: .05em;
   font-style: normal;
   font-weight: normal;
-  border-bottom: 2px dotted #666666;
+  border-bottom: 2px dotted #b3b3b3;
 }
 .markdown u {
   text-decoration: none;
@@ -521,7 +549,7 @@
   border: 0;
 }
 .markdown > img {
-  max-width: 640px;
+  max-width: 100%;
 }
 .markdown figure img {
   display: block;

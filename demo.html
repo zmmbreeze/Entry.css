@@ -3,24 +3,172 @@
 <head>
   <meta charset="UTF-8">
   <title>Entry.css</title>
-  <meta name="Keywords" content="Entry.css,css,vertical rhythm,baseline,中文文章,博客样式"/>
+  <meta name="Keywords" content="Entry.css,css,vertical rhythm,baseline,中文文章,博客样式,约束验证"/>
   <meta name="Description" content="Entry.css 中文文章样式，帮助你快速搭建中文博客主题。"/>
   <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
   <link rel="stylesheet" href="assets/prism.css" />
-  <link rel="stylesheet/less" type="text/css" href="src/default.config.less">
-  <script src="assets/less-1.3.0.min.js"></script>
-  <!--
-  <link rel="stylesheet" href="bin/entry.css" />
-  -->
+  <link rel="stylesheet" href="bin/entry-pure.css" />
 </head>
 <body>
 <div class="entry">
+<h1>约束验证：网页表单的本地客户端验证</h1>
+<blockquote><p>译者言：此文翻译自<a href="http://www.html5rocks.com/en/tutorials/forms/constraintvalidation/" target="_blank">Constraint Validation: Native Client Side Validation for Web Forms</a></p></blockquote>
+<p>众所周知，验证表单一直有很痛苦的开发体验。实现一种用户体验好、开发体验好且可访问性好的客户端验证是很困难的事情。在HTML5出现之前没有一种本地实现的验证，所以开发者使用了各种各样基于javascript的验证方案。为了解放开发者，HTML5引入了<a href="http://www.whatwg.org/specs/web-apps/current-work/#constraint-validation" target="_blank">约束验证</a>的概念，一种本地实现的网页表单验证。</p>
+<p>尽管所有主流浏览器的最新版本都支持了这个特性，约束验证目前还仅限于展示和demo的阶段。写这篇文章的目的就是帮助开发了解这个新的api，做出更好的网页表单。在这个教程中作者会：</p>
+<ol>
+<li>全面地展示约束验证是什么；</li>
+<li>发现现今标准和浏览器实现上的限制；</li>
+<li>讨论现在如何在你的表单中使用约束验证；</li>
+</ol>
+<hr />
+<h2 class="entry-content-L1-3n1">约束验证是什么？</h2>
+<p>约束验证的核心是浏览器在提交表单时判断其是否合法的算法。为了做这个判断，算法利用了几个新的HTML5属性：<a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-input-min" target="_blank">min</a>、<a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-input-max" target="_blank">max</a>、<a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-input-step" target="_blank">step</a>, <a href="http://www.whatwg.org/specs/web-apps/current-work/#the-pattern-attribute" target="_blank">pattern</a>, 和 <a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-input-required" target="_blank">required</a> 以及已经存在的 <a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-fe-maxlength" target="_blank">maxlength</a> 和 <a href="http://www.whatwg.org/specs/web-apps/current-work/#attr-input-type" target="_blank">type</a>。下面的这个例子中Text input使用了一个值为空的 <code>required</code> 属性：</p>
+<pre><code class="language-markup">&lt;form&gt;
+    &lt;input type="text" value="" /&gt;
+&lt;/form&gt;</code>
+</pre>
+<p><a href="http://jsfiddle.net/tj_vantoll/HdSqt/" target="_blank">在线查看demo</a>。如果你在<a href="http://caniuse.com/#feat=form-validation" target="_blank">支持约束验证的浏览器</a>中提交表单，那么浏览器会阻止表单提交并显示成如下效果：</p>
+<p>Chrome 21</p>
+<p><img src="assets/demo-01.png" alt="Chrome 21 display" width="200" data-pinit="registered"><br>
+Firefox 15</p>
+<p><img src="assets/demo-02.png" alt="Firefox 15 display" width="200" data-pinit="registered"><br>
+Internet Explorer 10</p>
+<p><img src="assets/demo-03.png" alt="IE10 display" width="200" data-pinit="registered"><br>
+Opera 12</p>
+<p><img src="assets/demo-04.png" alt="Opera 12 display" width="200" data-pinit="registered"><br>
+Opera Mobile</p>
+<p><img src="assets/demo-05.png" alt="Opera Mobile display" width="200" data-pinit="registered"><br>
+Chrome for Android</p>
+<p><img src="assets/demo-06.png" alt="Chrome for Android display" width="200" data-pinit="registered"><br>
+Firefox for Android</p>
+<p><img src="assets/demo-07.jpg" alt="Firefox for Android display" width="200" data-pinit="registered"></p>
+<p>标准中没有规定浏览器应该如何显示错误信息，这是由浏览器自己约定的。不过标准提供了一套DOM API、新HTML属性和CSS钩子帮助开发者自定义样式。</p>
+<h2 class="entry-content-L1-3n2">DOM API</h2>
+<p><a href="http://www.whatwg.org/specs/web-apps/current-work/#constraint-validation-api" target="_blank">约束验证的API</a>添加了如下属性和方法到DOM节点中。</p>
+<h3 id="toc-willValidate" class="entry-content-L2-3n2">WILLVALIDATE</h3>
+<p><code>willValidate</code> 属性标识了这个DOM节点是否使用约束验证。对于<a href="http://www.whatwg.org/specs/web-apps/current-work/#category-submit" target="_blank">可以提交的元素</a>来说这个属性会被设置成 <code>true</code> 除非因为某些原因被<a href="http://www.whatwg.org/specs/web-apps/current-work/#barred-from-constraint-validation" target="_blank">禁止使用约束验证</a>，例如有 <code>disabled</code> 属性时。</p>
+<pre><code class="language-markup">&lt;div id="one"&gt;&lt;/div&gt;
+&lt;input id="two" type="text" /&gt;
+&lt;input id="three" type="text" disabled="disabled" /&gt;
+&lt;script type="text/javascript"&gt;// &lt;![CDATA[
+    document.getElementById("one")
+        .willValidate; //false
+    document.getElementById("two")
+        .willValidate; //true
+    document.getElementById("three")
+        .willValidate; //false
+// ]]&gt;&lt;/script&gt;</code></pre>
+<h3 class="entry-content-L2-3n2">validity</h3>
+<p>Dom节点的<a href="http://www.whatwg.org/specs/web-apps/current-work/#dom-cva-validity" target="_blank"><code>validity</code></a> 属性会返回一个 <a href="http://www.whatwg.org/specs/web-apps/current-work/#validitystate" target="_blank"><code>ValidityState</code></a>对象，它包含了一系列与节点相关的布尔属性的验证结果。</p>
+<ul>
+<li><code>customError</code>: <code>true</code> 标识是否使用了自定义的验证消息，可以通过<code>setCustomValidity()</code>来设置验证消息；
+<pre><code class="language-markup">&lt;input id="foo" type="text" /&gt;
+&lt;input id="bar" type="text" /&gt;
+&lt;script type="text/javascript"&gt;// &lt;![CDATA[
+    document.getElementById("foo")
+        .validity.customError; //false
+    document.getElementById("bar")
+        .setCustomValidity("Invalid");
+    document.getElementById("bar")
+        .validity.customError; //true
+// ]]&gt;&lt;/script&gt;</code></pre>
+</li>
+<li><code>patternMismatch</code>: <code>true</code> 标识节点的 <code>value</code> 是否匹配它的 <code>pattern</code> 属性值。
+<pre><code class="language-markup">&lt;input id="foo" type="text" value="1234" /&gt;
+&lt;input id="bar" type="text" value="ABCD" /&gt;
+&lt;script type="text/javascript"&gt;// &lt;![CDATA[
+    document.getElementById("foo")
+        .validity.patternMismatch; //false
+    document.getElementById("bar")
+        .validity.patternMismatch; //true
+// ]]&gt;&lt;/script&gt;</code></pre>
+</li>
+<li><code>rangeOverflow</code>: <code>true</code> 标识是否节点的 <code>value</code> 比它的 <code>max</code> 属性值还大。
+<pre><code class="language-markup">&lt;input id="foo" type="number" value="1" /&gt;
+&lt;input id="bar" type="number" value="3" /&gt;
+&lt;script type="text/javascript"&gt;// &lt;![CDATA[
+    document.getElementById('foo')
+        .validity.rangeOverflow; //false
+    document.getElementById('bar')
+        .validity.rangeOverflow; //true
+// ]]&gt;&lt;/script&gt;</code></pre>
+</li>
+<li><code>rangeUnderflow</code>: <code>true</code> 标识是否节点的 <code>value</code>比它的<code>min</code>属性值还小。
+<pre><code class="language-markup">&lt;input id="foo" type="number" value="3" /&gt;
+&lt;input id="bar" type="number" value="1" /&gt;
+&lt;script type="text/javascript"&gt;// &lt;![CDATA[
+    document.getElementById('foo')
+        .validity.rangeUnderflow; //false
+    document.getElementById('bar')
+        .validity.rangeUnderflow; //true
+// ]]&gt;&lt;/script&gt;</code></pre>
+</li>
+<li><code>stepMismatch</code>: <code>true</code> 标识是否节点的 <code>value</code> 与它的 <code>step</code> 属性值不符合.
+<pre><code class="language-markup">&lt;input id="foo" type="number" value="4" /&gt;
+&lt;input id="bar" type="number" value="3" /&gt;
+&lt;script type="text/javascript"&gt;// &lt;![CDATA[
+    document.getElementById('foo')
+        .validity.stepMismatch; //false
+    document.getElementById('bar')
+        .validity.stepMismatch; //true
+// ]]&gt;&lt;/script&gt;</code></pre>
+</li>
+<li><code>tooLong</code>: <code>true</code> 标识是否节点的 <code>value</code> 长度超过了 <code>maxlength</code> 属性值。所有的浏览器都会阻止用户输入超过最大长度值的内容。
+<pre><code class="language-markup">&lt;input id="foo" type="text" value="A" maxlength="1" /&gt;
+&lt;input id="bar" type="text" value="AB" maxlength="1" /&gt;
+&lt;script type="text/javascript"&gt;// &lt;![CDATA[
+    document.getElementById('foo')
+        .validity.tooLong; //false
+    document.getElementById('bar')
+        .validity.tooLong; //true in Opera, false in other supported browsers.
+// ]]&gt;&lt;/script&gt;</code></pre>
+<p>注意：作者已经给<a href="https://bugs.webkit.org/show_bug.cgi?id=99115" target="_blank">WebKit</a>和<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=800639" target="_blank">Firefox</a>提了关于toolong值错误的tickets。</p></li>
+<li><code>typeMismatch</code>: <code>true</code> 标识是否input节点的<code>value</code>与<code>type</code>属性值不匹配。
+<pre><code class="language-markup">&lt;input id="foo" type="url" value="http://foo.com" /&gt;
+&lt;input id="bar" type="url" value="foo" /&gt;
+&lt;input id="foo2" type="email" value="foo@foo.com" /&gt;
+&lt;input id="bar2" type="email" value="bar" /&gt;
+&lt;script type="text/javascript"&gt;// &lt;![CDATA[
+    document.getElementById('foo')
+        .validity.typeMismatch; //false
+    document.getElementById('bar')
+        .validity.typeMismatch; //true
+    document.getElementById('foo2')
+        .validity.typeMismatch; //false
+    document.getElementById('bar2')
+        .validity.typeMismatch; //true
+// ]]&gt;&lt;/script&gt;</code></pre>
+</li>
+<li><code>valueMissing</code>: <code>true</code> 标识是否节点有 <code>required</code> 属性却没有值.。
+<pre><code class="language-markup">&lt;input id="foo" type="text" value="foo" /&gt;
+&lt;input id="bar" type="text" value="" /&gt;
+&lt;script type="text/javascript"&gt;// &lt;![CDATA[
+    document.getElementById('foo')
+        .validity.valueMissing; //false
+    document.getElementById('bar')
+        .validity.valueMissing; //true
+// ]]&gt;&lt;/script&gt;</code></pre>
+</li>
+<li><code>valid</code>: <code>true</code> 标识是否所有的验证提交都满足，有任意一条不满足则为 <code>false</code>。
+<pre><code class="language-markup">&lt;input id="valid-1" type="text" value="foo" /&gt;
+&lt;input id="valid-2" type="text" value="" /&gt;
+&lt;script type="text/javascript"&gt;// &lt;![CDATA[
+    document.getElementById('valid-1')
+        .validity.valid; //true
+    document.getElementById('valid-2')
+        .validity.valid; //false
+// ]]&gt;&lt;/script&gt;</code></pre>
+</li>
+</ul>
+<h3 id="toc-validationMessage" class="entry-content-L2-3n2">VALIDATIONMESSAGE</h3>
+<p>Dom节点的 <code>validationMessage</code> 属性包含浏览器显示给用户看的错误信息，即验证出错时候的提示信息。</p>
+<p>浏览器为这个属性提供了一个默认的本地化信息。如果DOM节点不需要验证或者节点包含正确的内容，那么<code>validationMessage</code>会被设置为空字符串。</p>
+<p>注意：在写这篇文章的时候，Opera默认不会填充这个属性。</p>
+<h2 class="entry-content-L1-3n3">结论</h2>
+<p>HTML5的约束验证API使得在客户端添加验证变得快捷的同时还提供了Javascript API和CSS钩子来自定义。</p>
+<p>尽管还是有很多浏览器实现和旧浏览器兼容的问题存在，配合好的降级库或是服务器端验证，开发者就可以在自己的表单中使用这些API。</p>
+<blockquote><p>译者言：看完之后觉得约束验证的API设计的真心不好用。。。</p></blockquote>
 </div>
-<script src="assets/baseliner.js"></script>
-<script>
-window.onload = function() {
-    var baseliner = new Baseliner(32);
-}
-</script>
+<script src="assets/prism.js"></script>
 </body>
 </html>
