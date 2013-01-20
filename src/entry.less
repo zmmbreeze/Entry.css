@@ -46,6 +46,9 @@
  *      1.1 使用px替换em
  *          改进排版，去掉了些可配置项
  *          基础less选择器修改为ext-entry
+ *      1.2 修改布局的实现方式
+ *          修复hr的位置
+ *          修复无标签文字位置的bug
  *
  */
 
@@ -150,30 +153,6 @@
 .layout-table () when (@layout = right) {
     margin-left: auto;
     margin-right: 1em;
-}
-
-// 左中右布局相关样式的header
-.layout-header () {
-}
-.layout-header () when (@layout = center) {
-}
-.layout-header () when (@layout = right) {
-    padding-right: 0;
-}
-
-// 左中右布局相关样式的header中的块级元素
-.layout-header-box () {
-    display: block;
-}
-.layout-header-box () when (@layout = center) {
-    width: @content-width;
-    margin-left: auto;
-    margin-right: auto;
-}
-.layout-header-box () when (@layout = right) {
-    width: @content-width;
-    margin-left: auto;
-    margin-right: 0;
 }
 
 // 利用before，after来伪装上下边框

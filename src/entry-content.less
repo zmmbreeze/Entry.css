@@ -2,7 +2,11 @@
    Entry content
    ========================================================================== */
 .ext-entry() {
-    margin: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    .layout-box;
+    max-width: @content-width - @font-size*2;
+    padding: 0 @font-size;
     line-height: @line-height;
     color: @word-color;
     word-wrap: break-word;
@@ -22,26 +26,20 @@
     section, article {
         margin-top: 0;
         margin-bottom: 0;
-        .layout-box;
         padding: 0;
         &:first-child {
             margin-top: 0;
         }
     }
-    // 文字默认行框高为 h = @font-size * @line-height
     > h1, > h2, > h3, > h4, > h5, > h6,
     > div, > p, > blockquote, > pre,
     > ul, > ol, > table, > figure,
     > iframe,
     > section, > article,
     > img {
-        max-width: @content-width;
         margin-top: @line;
         margin-bottom: 0;
         display: block;  // for iframe
-        .layout-box;
-        padding: 0 @font-size;
-        .box-sizing;
     }
     > table {
         display: table;
@@ -175,17 +173,14 @@
         position: relative;
         padding-top: @line;
         margin-bottom: @line * 2;
-        margin-top: -3px;
+        margin-top: -2px;
         // IE <= 9下如果margin-left: 0; margin-right: 0;
         // 那么会导致hr居中，而不是靠左
-        .layout-box;
-        max-width: @content-width;
         height: 0;
         background: none;
         border: none;
         // 这两像素导致它不是绝对的Vertical Rhythm
         border-bottom: 2px dashed @hr-color;
-        .box-sizing;
         &:before, &:after {
             content: '';
             position: absolute;
@@ -205,7 +200,8 @@
     }
     table {
         padding: 0;
-        .layout-table;
+        margin-left: auto;
+        margin-right: auto;
         min-width: @content-width / 2;
         border-collapse: collapse;
         border-spacing: 0;
@@ -225,6 +221,11 @@
                     background-color: @table-highlight-back-color;
                 }
             }
+            tr:last-child {
+                td, th {
+                    padding-bottom: @line/2 - 2;
+                }
+            }
         }
         td, th {
             padding: @line/2 @font-size @line/2-1;
@@ -234,6 +235,9 @@
 
 
     /* === inline content === */
+    iframe {
+        vertical-align: text-bottom;
+    }
     a {
         padding-bottom: 0.025em;
         color: @link-color;
@@ -319,7 +323,6 @@
         img {
             display: block;
             margin: 0 auto;
-            max-width: 97%;
         }
         figcaption {
             display: block;
