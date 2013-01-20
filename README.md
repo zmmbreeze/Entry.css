@@ -17,10 +17,12 @@ Entry.css是一个可配置的、更适合阅读的中文文章样式库，可�
 ---
 在你的HTML中嵌入Entry.css，如下：
 
-    <link rel="stylesheet" href="bin/entry.css" />
-    <div class="entry">
-        <!-- 这里是你的文章 -->
-    </div>
+```javascript
+<link rel="stylesheet" href="bin/entry.css" />
+<div class="entry">
+    <!-- 这里是你的文章 -->
+</div>
+```
 
 如果你想要自定义CSS选择器或是文章主题，那么请查看下Entry.css的文档。
 
