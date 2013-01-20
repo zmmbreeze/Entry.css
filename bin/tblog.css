@@ -43,6 +43,12 @@
  *          去掉不必要的配置
  *          直接子元素为img时，默认其为block元素
  *          去掉了border相关的样式
+ *      1.1 使用px替换em
+ *          改进排版，去掉了些可配置项
+ *          基础less选择器修改为ext-entry
+ *      1.2 修改布局的实现方式
+ *          修复hr的位置
+ *          修复无标签文字位置的bug
  *
  */
 /* ===========================================================
@@ -117,7 +123,13 @@ body {
   margin: 0;
 }
 .markdown {
-  margin: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 560px;
+  padding: 0 14px;
   line-height: 2;
   color: #333333;
   word-wrap: break-word;
@@ -188,9 +200,6 @@ body {
 .markdown article {
   margin-top: 0;
   margin-bottom: 0;
-  margin-left: 0;
-  margin-left: auto;
-  margin-right: auto;
   padding: 0;
 }
 .markdown h1:first-child,
@@ -230,19 +239,9 @@ body {
 .markdown > section,
 .markdown > article,
 .markdown > img {
-  max-width: 588px;
   margin-top: 28px;
   margin-bottom: 0;
   display: block;
-  margin-left: 0;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0 14px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  -o-box-sizing: border-box;
-  box-sizing: border-box;
 }
 .markdown > table {
   display: table;
@@ -305,18 +304,9 @@ body {
   font-size: 14px;
   text-align: left;
 }
-.markdown p:before,
-.markdown div:before {
-  content: '　　';
-  display: inline;
-}
 .markdown blockquote {
   position: relative;
   padding: 28px 56px;
-}
-.markdown blockquote div:before,
-.markdown blockquote p:before {
-  content: '';
 }
 .markdown blockquote:before {
   position: absolute;
@@ -346,7 +336,7 @@ body {
   border: 1px solid #e1e1e8;
   border-right: none;
   border-left: none;
-  background-color: #fefefe;
+  background-color: #f7f7f9;
 }
 .markdown ul,
 .markdown ol {
@@ -384,28 +374,15 @@ body {
   margin-top: 0;
   padding-left: 42px;
 }
-.markdown li > p:first-child:before,
-.markdown li > div:first-child:before {
-  content: '';
-}
 .markdown hr {
   position: relative;
   padding-top: 28px;
   margin-bottom: 56px;
-  margin-top: -3px;
-  margin-left: 0;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 588px;
+  margin-top: -2px;
   height: 0;
   background: none;
   border: none;
   border-bottom: 2px dashed #888888;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  -o-box-sizing: border-box;
-  box-sizing: border-box;
 }
 .markdown hr:before,
 .markdown hr:after {
@@ -434,8 +411,8 @@ body {
 }
 .markdown table {
   padding: 0;
-  margin-left: 1em;
   margin-left: auto;
+  margin-right: auto;
   min-width: 294px;
   border-collapse: collapse;
   border-spacing: 0;
@@ -458,10 +435,17 @@ body {
 .markdown table tbody tr:nth-child(odd) th {
   background-color: #f9f9f9;
 }
+.markdown table tbody tr:last-child td,
+.markdown table tbody tr:last-child th {
+  padding-bottom: 12px;
+}
 .markdown table td,
 .markdown table th {
   padding: 14px 14px 13px;
   border: 1px solid #dddddd;
+}
+.markdown iframe {
+  vertical-align: text-bottom;
 }
 .markdown a {
   padding-bottom: 0.025em;
@@ -527,11 +511,11 @@ body {
 .markdown code {
   padding: 0.15em 0.25em;
   margin: 0 0.25em;
-  background: #f7f7f9;
+  background: #fee9cc;
   font-family: monospace, serif;
   font-size: 0.8571428571428571em;
-  color: #dd1144;
-  border: 1px solid #e1e1e8;
+  color: #333333;
+  border: 1px solid transparent;
   -webkit-border-radius: 0.25em;
   -moz-border-radius: 0.25em;
   -ms-border-radius: 0.25em;
@@ -556,7 +540,6 @@ body {
 .markdown figure img {
   display: block;
   margin: 0 auto;
-  max-width: 97%;
 }
 .markdown figure figcaption {
   display: block;

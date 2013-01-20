@@ -43,6 +43,12 @@
  *          去掉不必要的配置
  *          直接子元素为img时，默认其为block元素
  *          去掉了border相关的样式
+ *      1.1 使用px替换em
+ *          改进排版，去掉了些可配置项
+ *          基础less选择器修改为ext-entry
+ *      1.2 修改布局的实现方式
+ *          修复hr的位置
+ *          修复无标签文字位置的bug
  *
  */
 /* ===========================================================
@@ -113,7 +119,13 @@
    多栏样式，很多浏览器不支持，慎用！
    ================================================ */
 .post {
-  margin: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 608px;
+  padding: 0 16px;
   line-height: 1.7;
   color: #666666;
   word-wrap: break-word;
@@ -184,9 +196,6 @@
 .post article {
   margin-top: 0;
   margin-bottom: 0;
-  margin-left: 0;
-  margin-left: auto;
-  margin-right: auto;
   padding: 0;
 }
 .post h1:first-child,
@@ -226,19 +235,9 @@
 .post > section,
 .post > article,
 .post > img {
-  max-width: 640px;
   margin-top: 27.2px;
   margin-bottom: 0;
   display: block;
-  margin-left: 0;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0 16px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  -o-box-sizing: border-box;
-  box-sizing: border-box;
 }
 .post > table {
   display: table;
@@ -301,18 +300,9 @@
   font-size: 14px;
   text-align: left;
 }
-.post p:before,
-.post div:before {
-  content: '　　';
-  display: inline;
-}
 .post blockquote {
   position: relative;
   padding: 27.2px 64px;
-}
-.post blockquote div:before,
-.post blockquote p:before {
-  content: '';
 }
 .post blockquote:before {
   position: absolute;
@@ -342,7 +332,7 @@
   border: 1px solid #e1e1e8;
   border-right: none;
   border-left: none;
-  background-color: #fbfbfb;
+  background-color: #f7f7f9;
 }
 .post ul,
 .post ol {
@@ -380,28 +370,15 @@
   margin-top: 0;
   padding-left: 48px;
 }
-.post li > p:first-child:before,
-.post li > div:first-child:before {
-  content: '';
-}
 .post hr {
   position: relative;
   padding-top: 27.2px;
   margin-bottom: 54.4px;
-  margin-top: -3px;
-  margin-left: 0;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 640px;
+  margin-top: -2px;
   height: 0;
   background: none;
   border: none;
   border-bottom: 2px dashed #888888;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  -o-box-sizing: border-box;
-  box-sizing: border-box;
 }
 .post hr:before,
 .post hr:after {
@@ -430,8 +407,8 @@
 }
 .post table {
   padding: 0;
-  margin-left: 1em;
   margin-left: auto;
+  margin-right: auto;
   min-width: 320px;
   border-collapse: collapse;
   border-spacing: 0;
@@ -454,10 +431,17 @@
 .post table tbody tr:nth-child(odd) th {
   background-color: #f9f9f9;
 }
+.post table tbody tr:last-child td,
+.post table tbody tr:last-child th {
+  padding-bottom: 11.6px;
+}
 .post table td,
 .post table th {
   padding: 13.6px 16px 12.6px;
   border: 1px solid #dddddd;
+}
+.post iframe {
+  vertical-align: text-bottom;
 }
 .post a {
   padding-bottom: 0.025em;
@@ -523,11 +507,11 @@
 .post code {
   padding: 0.15em 0.25em;
   margin: 0 0.25em;
-  background: #fefefe;
+  background: #fee9cc;
   font-family: monospace, serif;
   font-size: 0.8571428571428571em;
-  color: #888888;
-  border: 1px solid #e1e1e8;
+  color: #666666;
+  border: 1px solid transparent;
   -webkit-border-radius: 0.25em;
   -moz-border-radius: 0.25em;
   -ms-border-radius: 0.25em;
@@ -552,7 +536,6 @@
 .post figure img {
   display: block;
   margin: 0 auto;
-  max-width: 97%;
 }
 .post figure figcaption {
   display: block;

@@ -18,7 +18,7 @@
 @code-font-family: monospace, serif;    // 文章中代码的字体
 
 // 缩进配置
-@use-indent: true;
+@use-indent: false;
 @h1-text-align: center;
 @h2-text-align: center;
 @h3-text-align: left;
@@ -40,8 +40,8 @@
 @blockquote-before-icon: '\275D';   // 前一个引用icon
 @blockquote-after-icon: '\275E';    // 后一个引用icon
 
-@code-color: #888;              // code的文字颜色
-@code-back-color: #F7F7F9;      // code的背景色
+@code-color: @word-color;              // code的文字颜色
+@code-back-color: #fee9cc;      // code的背景色
 @code-border-color: transparent;    // code的边框颜色
 
 @pre-back-color: #F7F7F9;       // pre的背景色
