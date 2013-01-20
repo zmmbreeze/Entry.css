@@ -17,7 +17,7 @@ Entry.css是一个可配置的、更适合阅读的中文文章样式库，可�
 ---
 在你的HTML中嵌入Entry.css，如下：
 
-```javascript
+```html
 <link rel="stylesheet" href="bin/entry.css" />
 <div class="entry">
     <!-- 这里是你的文章 -->
