@@ -49,6 +49,8 @@
  *      1.2 修改布局的实现方式
  *          修复hr的位置
  *          修复无标签文字位置的bug
+ *          修改code的默认背景色
+ *          默认关闭缩近选项
  *
  */
 /* ===========================================================
@@ -124,12 +126,12 @@
   margin-left: 0;
   margin-left: auto;
   margin-right: auto;
-  max-width: 608px;
-  padding: 0 16px;
-  line-height: 1.7;
+  max-width: 644px;
+  padding: 0 14px;
+  line-height: 2;
   color: #666666;
   word-wrap: break-word;
-  font-size: 16px;
+  font-size: 14px;
   font-family: "ff-tisa-web-pro-1", "ff-tisa-web-pro-2", /* typekit */
  "Lucida Grande", /* mac */
  "Hiragino Sans GB", "Hiragino Sans GB W3", /* mac */
@@ -235,7 +237,7 @@
 .markdown > section,
 .markdown > article,
 .markdown > img {
-  margin-top: 27.2px;
+  margin-top: 28px;
   margin-bottom: 0;
   display: block;
 }
@@ -271,44 +273,44 @@
 }
 .markdown h1 {
   font-size: 28px;
-  line-height: 54.4px;
+  line-height: 56px;
   text-align: center;
 }
 .markdown > h1 {
-  margin-top: 27.2px;
+  margin-top: 28px;
 }
 .markdown h2 {
   font-size: 21px;
-  line-height: 27.2px;
+  line-height: 28px;
   text-align: center;
 }
 .markdown > h2 {
-  margin-top: 27.2px;
+  margin-top: 28px;
 }
 .markdown h3 {
   font-size: 16.8px;
-  line-height: 27.2px;
+  line-height: 28px;
   text-align: left;
 }
 .markdown > h3 {
-  margin-top: 27.2px;
+  margin-top: 28px;
 }
 .markdown h4,
 .markdown h5,
 .markdown h6 {
-  line-height: 27.2px;
+  line-height: 28px;
   font-size: 14px;
   text-align: left;
 }
 .markdown blockquote {
   position: relative;
-  padding: 27.2px 64px;
+  padding: 28px 56px;
 }
 .markdown blockquote:before {
   position: absolute;
   content: '\275D';
   top: 0;
-  left: 16px;
+  left: 14px;
   font-size: 3em;
   color: #cccccc;
 }
@@ -316,14 +318,14 @@
   position: absolute;
   content: '\275E';
   bottom: 0;
-  right: 16px;
+  right: 14px;
   margin-right: -0.25em;
   font-size: 3em;
   color: #cccccc;
 }
 .markdown pre {
-  padding: 12.6px 16px;
-  line-height: 27.2px;
+  padding: 13px 14px;
+  line-height: 28px;
   font-size: 14px;
   white-space: pre;
   word-wrap: normal;
@@ -336,8 +338,8 @@
 }
 .markdown ul,
 .markdown ol {
-  margin-top: 27.2px;
-  padding-left: 64px;
+  margin-top: 28px;
+  padding-left: 56px;
 }
 .markdown ul li,
 .markdown ol li {
@@ -368,12 +370,12 @@
 .markdown li > ul,
 .markdown li > ol {
   margin-top: 0;
-  padding-left: 48px;
+  padding-left: 42px;
 }
 .markdown hr {
   position: relative;
-  padding-top: 27.2px;
-  margin-bottom: 54.4px;
+  padding-top: 28px;
+  margin-bottom: 56px;
   margin-top: -2px;
   height: 0;
   background: none;
@@ -409,7 +411,7 @@
   padding: 0;
   margin-left: auto;
   margin-right: auto;
-  min-width: 320px;
+  min-width: 336px;
   border-collapse: collapse;
   border-spacing: 0;
   -webkit-border-radius: 0.5em;
@@ -419,13 +421,13 @@
   border-radius: 0.5em;
 }
 .markdown table caption {
-  padding: 13.6px 0;
+  padding: 14px 0;
 }
 .markdown table thead th {
   text-align: left;
 }
 .markdown table tbody {
-  margin: 0 16px;
+  margin: 0 14px;
 }
 .markdown table tbody tr:nth-child(odd) td,
 .markdown table tbody tr:nth-child(odd) th {
@@ -433,11 +435,11 @@
 }
 .markdown table tbody tr:last-child td,
 .markdown table tbody tr:last-child th {
-  padding-bottom: 11.6px;
+  padding-bottom: 12px;
 }
 .markdown table td,
 .markdown table th {
-  padding: 13.6px 16px 12.6px;
+  padding: 14px 14px 13px;
   border: 1px solid #dddddd;
 }
 .markdown iframe {
@@ -521,7 +523,7 @@
 .markdown pre code {
   padding: 0;
   margin: 0;
-  font-size: 16px;
+  font-size: 14px;
   color: #666666;
   background: none;
   border: none;
@@ -585,5 +587,5 @@
   bottom: -0.25em;
 }
 .markdown #disqus_thread {
-  margin-top: 27.2px;
+  margin-top: 28px;
 }
