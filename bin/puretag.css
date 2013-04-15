@@ -51,6 +51,8 @@
  *          修复无标签文字位置的bug
  *          修改code的默认背景色
  *          默认关闭缩近选项
+ *      1.3 增加margin-bottom，使得对无标签文字的支持更好
+ *          修复baseline.js的bug
  *
  */
 /* ===========================================================
@@ -147,13 +149,6 @@ body {
 
   /* === block content === */
 
-  /*
-    > pre {
-        // pre上间距为： @font-size * (14 / 16) * @line-height * @font-size * (16 / 14) = h
-        margin-top: @line-height * @font-size * 16 / 14;
-    }
-    */
-
   /* === inline content === */
 
   /* 强调 */
@@ -219,6 +214,25 @@ body section:first-child,
 body article:first-child {
   margin-top: 0;
 }
+body h1:last-child,
+body h2:last-child,
+body h3:last-child,
+body h4:last-child,
+body h5:last-child,
+body h6:last-child,
+body div:last-child,
+body p:last-child,
+body blockquote:last-child,
+body pre:last-child,
+body ul:last-child,
+body ol:last-child,
+body table:last-child,
+body figure:last-child,
+body iframe:last-child,
+body section:last-child,
+body article:last-child {
+  margin-bottom: 0;
+}
 body > h1,
 body > h2,
 body > h3,
@@ -238,7 +252,7 @@ body > section,
 body > article,
 body > img {
   margin-top: 28px;
-  margin-bottom: 0;
+  margin-bottom: 28px;
   display: block;
 }
 body > table {
@@ -276,24 +290,15 @@ body h1 {
   line-height: 56px;
   text-align: center;
 }
-body > h1 {
-  margin-top: 28px;
-}
 body h2 {
   font-size: 21px;
   line-height: 28px;
   text-align: center;
 }
-body > h2 {
-  margin-top: 28px;
-}
 body h3 {
   font-size: 16.8px;
   line-height: 28px;
   text-align: left;
-}
-body > h3 {
-  margin-top: 28px;
 }
 body h4,
 body h5,
@@ -330,7 +335,7 @@ body pre {
   white-space: pre;
   word-wrap: normal;
   overflow: auto;
-  font-family: monospace, serif;
+  font-family: consolas, monaco, monospace, serif;
   border: 1px solid #e1e1e8;
   border-right: none;
   border-left: none;
@@ -338,16 +343,11 @@ body pre {
 }
 body ul,
 body ol {
-  margin-top: 28px;
   padding-left: 56px;
 }
 body ul li,
 body ol li {
   list-style-position: outside;
-}
-body ul li:first-child,
-body ol li:first-child {
-  margin-top: 0;
 }
 body ul li {
   list-style-type: square;
@@ -369,14 +369,13 @@ body ol li ol li ol li {
 }
 body li > ul,
 body li > ol {
-  margin-top: 0;
   padding-left: 42px;
 }
 body hr {
   position: relative;
   padding-top: 28px;
-  margin-bottom: 56px;
   margin-top: -2px;
+  margin-bottom: 56px;
   height: 0;
   background: none;
   border: none;
@@ -510,7 +509,7 @@ body code {
   padding: 0.15em 0.25em;
   margin: 0 0.25em;
   background: #fee9cc;
-  font-family: monospace, serif;
+  font-family: consolas, monaco, monospace, serif;
   font-size: 0.8571428571428571em;
   color: #666666;
   border: 1px solid transparent;

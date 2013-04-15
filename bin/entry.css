@@ -51,6 +51,8 @@
  *          修复无标签文字位置的bug
  *          修改code的默认背景色
  *          默认关闭缩近选项
+ *      1.3 增加margin-bottom，使得对无标签文字的支持更好
+ *          修复baseline.js的bug
  *
  */
 /* ===========================================================
@@ -151,13 +153,6 @@ body {
 
   /* === block content === */
 
-  /*
-    > pre {
-        // pre上间距为： @font-size * (14 / 16) * @line-height * @font-size * (16 / 14) = h
-        margin-top: @line-height * @font-size * 16 / 14;
-    }
-    */
-
   /* === inline content === */
 
   /* 强调 */
@@ -223,6 +218,25 @@ body {
 .entry article:first-child {
   margin-top: 0;
 }
+.entry h1:last-child,
+.entry h2:last-child,
+.entry h3:last-child,
+.entry h4:last-child,
+.entry h5:last-child,
+.entry h6:last-child,
+.entry div:last-child,
+.entry p:last-child,
+.entry blockquote:last-child,
+.entry pre:last-child,
+.entry ul:last-child,
+.entry ol:last-child,
+.entry table:last-child,
+.entry figure:last-child,
+.entry iframe:last-child,
+.entry section:last-child,
+.entry article:last-child {
+  margin-bottom: 0;
+}
 .entry > h1,
 .entry > h2,
 .entry > h3,
@@ -242,7 +256,7 @@ body {
 .entry > article,
 .entry > img {
   margin-top: 28px;
-  margin-bottom: 0;
+  margin-bottom: 28px;
   display: block;
 }
 .entry > table {
@@ -280,24 +294,15 @@ body {
   line-height: 56px;
   text-align: center;
 }
-.entry > h1 {
-  margin-top: 28px;
-}
 .entry h2 {
   font-size: 21px;
   line-height: 28px;
   text-align: center;
 }
-.entry > h2 {
-  margin-top: 28px;
-}
 .entry h3 {
   font-size: 16.8px;
   line-height: 28px;
   text-align: left;
-}
-.entry > h3 {
-  margin-top: 28px;
 }
 .entry h4,
 .entry h5,
@@ -334,7 +339,7 @@ body {
   white-space: pre;
   word-wrap: normal;
   overflow: auto;
-  font-family: monospace, serif;
+  font-family: consolas, monaco, monospace, serif;
   border: 1px solid #e1e1e8;
   border-right: none;
   border-left: none;
@@ -342,16 +347,11 @@ body {
 }
 .entry ul,
 .entry ol {
-  margin-top: 28px;
   padding-left: 56px;
 }
 .entry ul li,
 .entry ol li {
   list-style-position: outside;
-}
-.entry ul li:first-child,
-.entry ol li:first-child {
-  margin-top: 0;
 }
 .entry ul li {
   list-style-type: square;
@@ -373,14 +373,13 @@ body {
 }
 .entry li > ul,
 .entry li > ol {
-  margin-top: 0;
   padding-left: 42px;
 }
 .entry hr {
   position: relative;
   padding-top: 28px;
-  margin-bottom: 56px;
   margin-top: -2px;
+  margin-bottom: 56px;
   height: 0;
   background: none;
   border: none;
@@ -514,7 +513,7 @@ body {
   padding: 0.15em 0.25em;
   margin: 0 0.25em;
   background: #fee9cc;
-  font-family: monospace, serif;
+  font-family: consolas, monaco, monospace, serif;
   font-size: 0.8571428571428571em;
   color: #666666;
   border: 1px solid transparent;
