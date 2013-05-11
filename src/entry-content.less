@@ -63,7 +63,7 @@
     }
     h1 {
         font-size: @h1-font-size;
-        line-height: 2 * @line;
+        line-height: @h1-line-height;
         text-align: @h1-text-align;
     }
     h2 {
@@ -111,8 +111,8 @@
     }
     pre {
         padding: @line/2-1 @font-size;
-        line-height: @line;
-        font-size: @code-font-size;
+        line-height: @pre-line-height;
+        font-size: @pre-font-size;
         white-space: pre;
         word-wrap: normal;  // reset
         overflow: auto;
@@ -282,7 +282,7 @@
         margin: 0 0.25em;
         background: @code-back-color;
         font-family: @code-font-family;
-        font-size: 0.8571428571428571em; // 12px
+        font-size: @code-font-size;
         color: @code-color;
         border: 1px solid @code-border-color;
         .rounded-corners(0.25em);
@@ -290,7 +290,7 @@
     pre code {
         padding: 0;
         margin: 0;
-        font-size: @font-size;
+        font-size: @pre-font-size;
         color: @word-color;
         background: none;
         border: none;

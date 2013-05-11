@@ -2,70 +2,21 @@
  * Entry.css
  *
  * @author mzhou / @zhoumm
- * @log 0.1
- *      0.2 修改二级及更深层次的pre的四周都为圆角
- *          修改li中第一层第一个p/div的不缩进
- *          li之间的上下间距修改为0.25em
- *      0.3 修改中文字体
- *          修改abbr样式
- *          修改li的list-type-position为inside
- *      0.4 增加iframe支持,支持jsfiddle/speaker deck/slide share
- *          支持disqus
- *          修改四级标题样式，增加左边框
- *          去掉header的border-bottom
- *          去掉iframe为block的样式，为了支持github start button这样的外部按钮
- *      0.5 修改hr的width为max-width，确保小屏幕不会显示横向滚动条
- *          增加文章右内边距，优化小屏幕、小宽度下的样式
- *      0.6 增加列表的嵌套样式
- *      0.7 拆分文件
- *          增加可选的mutli-column支持
- *          修改宽度默认值为60px
- *          修改h3-icon默认值为空
- *          修改pre样式，去掉左右边框、圆角等等样式。使其适应性更强一些。并设置背景默认为transparent
- *          添加了两个配置：@pre-back-color 和 @pre-border-color
- *          去掉了四级标题的边框和下边距合并，保证样式普通
- *          修改行内code的上下内边距为0.15em，使其在WIN chrome下更高些
- *          修改a的下划线样式，确保下划线不和中文文字粘在一起
- *          优化字体，增加wenquanyi 微米黑字体，ubuntu linux firefox立马好看不少
- *          修复em下划线的颜色为word-color
- *          修复h1, h2内部的u,em,abbr的下划线颜色
- *          修证h1, h2, h3的padding-left和padding-right值
- *      0.8 增加居中、居右两种布局
- *          删掉三四级标题的配置
- *          删除普通a标签的左右边距
- *      0.9 增加限制图片的宽度
- *          增加section与article标签的支持
- *          使pre标签不会自动换行
- *          移动@font-family到config.less中，使其可配置
- *          增加配置@code-font-family
- *      1.0 增加配置@use-index
- *          重新修改全部样式，支持vertical rhythm，更适合阅读
- *          去掉不必要的配置
- *          直接子元素为img时，默认其为block元素
- *          去掉了border相关的样式
- *      1.1 使用px替换em
- *          改进排版，去掉了些可配置项
- *          基础less选择器修改为ext-entry
- *      1.2 修改布局的实现方式
- *          修复hr的位置
- *          修复无标签文字位置的bug
- *          修改code的默认背景色
- *          默认关闭缩近选项
- *      1.3 增加margin-bottom，使得对无标签文字的支持更好
- *          修复baseline.js的bug
- *      1.4 修复默认字体的注释bug
- *
+ * @version 1.5
  */
 
-// 大小设置
-@font-size: 14px;           // 基础文字大小，不能是相对单位
-@line-height: 2;            // 行高，不能带单位，必须是数值，不能小于1.5
-@line: @line-height * @font-size;        // 28px
-@code-font-size: 14px;
+// 大小设置, 基础高度改为16px
+@font-size: 16px;        // 基础文字大小，不能是相对单位
+@line-height: 2;         // 行高
+@line: 32px;
+@code-font-size: 13px;   // 必须小于等于14，否则会导致整行的行高+1
+@pre-font-size: 14px;    // pre标签内的code文字大小
+@pre-line-height: 16px;
 @h1-font-size: 28px;
+@h1-line-height: 16px + 32px;
 @h2-font-size: 21px;
-@h3-font-size: 16.8px;
-@h4-font-size: 14px;
+@h3-font-size: 18px;
+@h4-font-size: 16px;
 
 @import "config.less";
 
