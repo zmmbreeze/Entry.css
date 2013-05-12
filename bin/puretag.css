@@ -1,8 +1,10 @@
 body{margin-top:0;margin-bottom:0;margin-left:0;margin-left:auto;margin-right:auto;max-width:640px;padding:0 16px;line-height:2;color:#424b50;word-wrap:break-word;font-size:16px;font-family:"ff-tisa-web-pro-1","ff-tisa-web-pro-2","Lucida Grande","Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei","wenquanyi micro hei",sans-serif;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}body h1,body h2,body h3,body h4,body h5,body h6,body div,body p,body blockquote,body pre,body ul,body ol,body table,body figure,body iframe,body section,body article{margin-top:0;margin-bottom:0;padding:0;}body h1:first-child,body h2:first-child,body h3:first-child,body h4:first-child,body h5:first-child,body h6:first-child,body div:first-child,body p:first-child,body blockquote:first-child,body pre:first-child,body ul:first-child,body ol:first-child,body table:first-child,body figure:first-child,body iframe:first-child,body section:first-child,body article:first-child{margin-top:0;}
 body h1:last-child,body h2:last-child,body h3:last-child,body h4:last-child,body h5:last-child,body h6:last-child,body div:last-child,body p:last-child,body blockquote:last-child,body pre:last-child,body ul:last-child,body ol:last-child,body table:last-child,body figure:last-child,body iframe:last-child,body section:last-child,body article:last-child{margin-bottom:0;}
-body>h1,body>h2,body>h3,body>h4,body>h5,body>h6,body>div,body>p,body>blockquote,body>pre,body>ul,body>ol,body>table,body>figure,body>iframe,body>section,body>article,body>img{margin-top:32px;margin-bottom:32px;display:block;}
-body>table{display:table;}
-body h1,body h2,body h3,body h4,body h5,body h6{font-weight:bold;}
+body>div,body>p,body>blockquote,body>pre,body>ul,body>ol,body>table,body>figure,body>iframe,body>section,body>article,body>img{margin-top:32px;margin-bottom:32px;}
+body>iframe{display:block;}
+body table{display:table;}
+body>h1,body>h2,body>h3,body>h4,body>h5,body>h6{margin-top:32px;}
+body h1,body h2,body h3,body h4,body h5,body h6{font-weight:bold;}body h1+*,body h2+*,body h3+*,body h4+*,body h5+*,body h6+*{margin-top:0;}
 body h1,body h2{color:#424b50;background-color:transparent;}body h1 a,body h2 a{color:#424b50;}
 body h1 a,body h2 a,body h1 em,body h2 em,body h1 u,body h2 u,body h1 abbr[title],body h2 abbr[title]{border-bottom-color:#424b50;}
 body h1{font-size:28px;line-height:48px;text-align:center;}

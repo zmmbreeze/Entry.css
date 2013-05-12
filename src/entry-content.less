@@ -34,7 +34,6 @@
             margin-bottom: 0;
         }
     }
-    > h1, > h2, > h3, > h4, > h5, > h6,
     > div, > p, > blockquote, > pre,
     > ul, > ol, > table, > figure,
     > iframe,
@@ -42,14 +41,22 @@
     > img {
         margin-top: @line;
         margin-bottom: @line;
+    }
+    > iframe {
         display: block;  // for iframe
     }
-    > table {
+    table {
         display: table;
     }
     /* === block content === */
+    > h1, > h2, > h3, > h4, > h5, > h6 {
+        margin-top: @line;
+    }
     h1, h2, h3, h4, h5, h6 {
         font-weight: bold;
+        & + * {
+            margin-top: 0;
+        }
     }
     h1, h2 {
         color: @word-highlight-color-2;
