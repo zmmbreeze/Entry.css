@@ -8,3 +8,40 @@
     margin-right: 0;
     height: @content-height;
 }
+
+.ext-entry() when (@use-title-number) {
+    h2 {
+        counter-reset: entry825h3 entry825h4 entry825h5 entry825h6;
+        counter-increment: entry825h2;
+        &:before {
+          content: counter(entry825h2) ". ";
+        }
+    }
+    h3 {
+        counter-reset: entry825h4 entry825h5 entry825h6;
+        counter-increment: entry825h3;
+        &:before {
+          content: counter(entry825h2) "." counter(entry825h3) ". ";
+        }
+    }
+    h4 {
+        counter-reset: entry825h5 entry825h6;
+        counter-increment: entry825h4;
+        &:before {
+          content: counter(entry825h2) "." counter(entry825h3) "." counter(entry825h4) ". ";
+        }
+    }
+    h5 {
+        counter-reset: entry825h6;
+        counter-increment: entry825h5;
+        &:before {
+          content: counter(entry825h2) "." counter(entry825h3) "." counter(entry825h4) "." counter(entry825h5) ". ";
+        }
+    }
+    h6 {
+        counter-increment: entry825h6;
+        &:before {
+          content: counter(entry825h2) "." counter(entry825h3) "." counter(entry825h4) "." counter(entry825h5) "." counter(entry825h6) ". ";
+        }
+    }
+}
