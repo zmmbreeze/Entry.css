@@ -77,7 +77,7 @@
 
     /* === 块元素 === */
     h1, h2, h3, h4, h5, h6 {
-        font-weight: bold;
+        font-weight: normal;
     }
     h1, h2 {
         color: @word-highlight-color-2;
@@ -87,6 +87,13 @@
         }
         a, em, u, abbr[title] {
             border-bottom-color: @word-highlight-color-2;
+        }
+    }
+    h3, h4, h5, h6 {
+        // reset a
+        a {
+            color: @word-color;
+            border-bottom-color: @word-color;
         }
     }
     h1 {
