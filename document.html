@@ -36,7 +36,7 @@
                 <li><a href="#link">链接</a></li>
                 <li><a href="#em">强调</a></li>
                 <li><a href="#code">代码</a></li>
-                <li><a href="#img">图片</a></li>
+                <li><a href="#img">图片及视频</a></li>
                 <li><a href="#otherInline">其他</a></li>
             </ul>
         </li>
@@ -194,7 +194,7 @@ console.log('Test');
     <h3 id="code">代码</h3>
     <p>代码的行内样式使用<code>&lt;code&gt;</code>标签，你也可以自定义字体和颜色。</p>
 
-    <h3 id="img">图片</h3>
+    <h3 id="img">图片及视频</h3>
     <p>图片样式对<code>&lt;img&gt;</code>标签没有特别设置，但是对<code>&lt;figure&gt;</code>标签做了设置。样例如下：</p>
     <figure>
         <img src="140x140.gif" alt="这里是一段话" />
@@ -204,6 +204,12 @@ console.log('Test');
     </figure>
     <p>对<code>&lt;img&gt;</code>标签做了（不超过容器的）限宽，如下：</p>
     <img src="assets/950x150.gif" alt="这里是一段话" />
+    <p>同时也支持<code>video</code>标签，如下：</p>
+    <video poster="http://www.html5rocks.com/en/tutorials/video/basics/star.png" controls>
+        <source src="http://www.html5rocks.com/en/tutorials/video/basics/Chrome_ImF.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+        <source src="http://www.html5rocks.com/en/tutorials/video/basics/Chrome_ImF.webm" type='video/webm; codecs="vp8, vorbis"' />
+        <source src="http://www.html5rocks.com/en/tutorials/video/basics/Chrome_ImF.ogv" type='video/ogg; codecs="theora, vorbis"' />
+    </video>
 
     <h3 id="otherInline">其他行内样式</h3>
     <ol>
@@ -303,6 +309,7 @@ console.log('Test');
     </ul>
 
     <div id="disqus_thread"></div>
+
 </div>
 
 <script type="text/javascript">
@@ -322,7 +329,7 @@ console.log('Test');
 <script src="src/baseline.js"></script>
 <script>
 window.onload = function() {
-    baseline.init('.entry img, .entry iframe', 16);
+    baseline.init('.entry img, .entry iframe, .entry video', 16);
     var baseliner = new Baseliner(16);
 }
 </script>

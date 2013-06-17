@@ -19,13 +19,11 @@
     /* ==========
        Typography
        ========== */
-    h1, h2, h3, h4, h5, h6,
     div, p, blockquote, pre,
     ul, ol, table, figure,
-    iframe,
-    section, article {
-        margin-top: 0;
-        margin-bottom: 0;
+    section, article, header, footer {
+        margin-top: @line;
+        margin-bottom: @line;
         padding: 0;
         &:first-child {
             margin-top: 0;
@@ -34,29 +32,52 @@
             margin-bottom: 0;
         }
     }
-    > div, > p, > blockquote, > pre,
-    > ul, > ol, > table, > figure,
-    > iframe,
-    > section, > article,
-    > img {
+
+    // ul, ol 内部的元素
+    ul, ol {
+        div, p, blockquote, pre,
+        ul, ol, table, figure,
+        iframe,
+        section, article, header, footer {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+    }
+
+    // iframe为直接子元素时设置为block
+    > iframe {
+        display: block;  // for iframe
         margin-top: @line;
         margin-bottom: @line;
     }
-    > iframe {
-        display: block;  // for iframe
-    }
-    table {
-        display: table;
-    }
-    /* === block content === */
-    > h1, > h2, > h3, > h4, > h5, > h6 {
+
+    > img,
+    > video {
         margin-top: @line;
+        margin-bottom: @line;
+        display: block;
     }
+
+    // h*
     h1, h2, h3, h4, h5, h6 {
-        font-weight: bold;
-        & + * {
+        margin-top: 0;
+        margin-bottom: 0;
+        padding: 0;
+        &:first-child {
             margin-top: 0;
         }
+    }
+    > h1, > h2, > h3, > h4, > h5, > h6 {
+        margin-top: @line;
+        & + * {
+            margin-top: 0;  // 此样式必须在其他margin-top样式后面，以便覆盖
+        }
+    }
+
+
+    /* === 块元素 === */
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: bold;
     }
     h1, h2 {
         color: @word-highlight-color-2;
@@ -190,6 +211,7 @@
         }
     }
     table {
+        display: table;
         padding: 0;
         margin-left: auto;
         margin-right: auto;
@@ -198,7 +220,7 @@
         border-spacing: 0;
         .rounded-corners(0.5em);
         caption {
-            padding: @line/2 0;
+            padding: 0;
         }
         thead {
             th {
@@ -214,18 +236,18 @@
             }
             tr:last-child {
                 td, th {
-                    padding-bottom: @line/2 - 2;
+                    padding-bottom: @line/4 - 2;
                 }
             }
         }
         td, th {
-            padding: @line/2 @font-size @line/2-1;
+            padding: @line/4 @font-size @line/4-1;
             border: 1px solid @table-border-color;
         }
     }
 
 
-    /* === inline content === */
+    /* === 行内元素 === */
     iframe {
         vertical-align: text-bottom;
     }
@@ -302,13 +324,10 @@
         background: none;
         border: none;
     }
-    /* image */
-    img {
+    /* image & video */
+    img, video {
         max-width: 100%; // 限宽
         border: 0;
-    }
-    > img {
-        max-width: 100%;
     }
     figure {
         img {
