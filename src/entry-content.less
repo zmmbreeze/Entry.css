@@ -22,9 +22,12 @@
     div, p, blockquote, pre,
     ul, ol, table, figure,
     section, article, header, footer {
-        margin-top: @line;
-        margin-bottom: @line;
+        margin: 0;
         padding: 0;
+        // & + * { // 这是为了优化 “标签和匿名文本” 之间的间距
+            margin-top: (@line/2);
+            margin-bottom: (@line/2);
+        // }
         &:first-child {
             margin-top: 0;
         }
@@ -47,14 +50,14 @@
     // iframe为直接子元素时设置为block
     > iframe {
         display: block;  // for iframe
-        margin-top: @line;
-        margin-bottom: @line;
+        margin-top: (@line/2);
+        margin-bottom: (@line/2);
     }
 
     > img,
     > video {
-        margin-top: @line;
-        margin-bottom: @line;
+        margin-top: (@line/2);
+        margin-bottom: (@line/2);
         display: block;
     }
 
@@ -67,8 +70,14 @@
             margin-top: 0;
         }
     }
-    > h1, > h2, > h3, > h4, > h5, > h6 {
+    > h3, > h4, > h5, > h6 {
         margin-top: @line;
+        & + * {
+            margin-top: 0;  // 此样式必须在其他margin-top样式后面，以便覆盖
+        }
+    }
+    > h1, > h2 {
+        margin-top: (@line*2);
         & + * {
             margin-top: 0;  // 此样式必须在其他margin-top样式后面，以便覆盖
         }
@@ -160,6 +169,8 @@
     ul, ol {
         padding-left: 4 * @font-size;
         li {
+            margin: 0;
+            padding: 0;
             // 如果是inside，且li第一个元素是block元素，那么Firefox下会移到下一行
             list-style-position: outside;
         }
