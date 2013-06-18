@@ -42,7 +42,7 @@ body{padding:0;margin:0}
 .markdown u,.markdown em{padding-bottom:.05em;font-style:normal;font-weight:normal;border-bottom:2px dotted #808080}
 .markdown u{text-decoration:none;border-bottom-width:1px;border-bottom-style:solid}
 .markdown em+em,.markdown em+u,.markdown u+em,.markdown u+u{margin-left:.125em}
-.markdown code{padding:.15em .25em;margin:0 .25em;background:#fee9cc;font-family:consolas,monaco,monospace,serif;font-size:13px;color:#333;border:1px solid transparent;-webkit-border-radius:.25em;-moz-border-radius:.25em;-ms-border-radius:.25em;-o-border-radius:.25em;border-radius:.25em}
+.markdown code{padding:0 .25em;margin:0 .25em;background:#fee9cc;font-family:consolas,monaco,monospace,serif;font-size:16px;color:#333;border:1px solid transparent;-webkit-border-radius:.25em;-moz-border-radius:.25em;-ms-border-radius:.25em;-o-border-radius:.25em;border-radius:.25em}
 .markdown pre code{padding:0;margin:0;font-size:14px;color:#333;background:none;border:none}
 .markdown img,.markdown video{max-width:100%;border:0}
 .markdown figure img{display:block;margin:0 auto}
