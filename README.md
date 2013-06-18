@@ -94,3 +94,15 @@ LOG
     <br/> 修改默认字色为：424b50 （鸦青色）
 * 1.6<br/> 去掉`h*`标签与其他标签的下边距，使页面更紧凑些
     <br/> 设置所有`table`的display值
+* 1.7<br/> 支持标题自动编号(@use-title-number)
+    <br/> 修改table样式，更紧凑些
+    <br/> 简单支持了`header`、`video`、`footer`标签
+    <br/> 修复`a`标签在`h3`、`h4`、`h5`、`h6`内部时候的颜色为`word-color`
+    <br/> 标题不再加粗显示
+    <br/> 段落间距改为16px，`h1`、`h2`标题的上间距增加一倍(32*2)
+    <br/> 修改文档页配置，显示标题自动编号，`h2`局左
+    <br/> 修改`code`标签样式，去掉上下内边距，字体大小改为16px
+    <br/> 去掉code-border-color配置
+    <br/> 减小`ul`、`ol`的缩进，优化移动浏览器的显示
+    <br/> 增加纯文章的demo，见首页的“散文DEMO”链接
+    <br/> bug fix: build脚本配置bug；`use-indent`配置在编译后失效的bug；
