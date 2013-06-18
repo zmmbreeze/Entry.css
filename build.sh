@@ -10,4 +10,6 @@ lessc -x `pwd`/src/blogin.config.less > ./bin/blogin.css
 lessc -x `pwd`/src/tblog.config.less > ./bin/tblog.css
 # 选择器为 .entry
 lessc -x `pwd`/src/default.config.less > ./bin/entry.css
+# 选择器为 .entry
+lessc -x `pwd`/src/word.config.less > ./bin/word.css
 
