@@ -67,7 +67,6 @@ pre {
     display: block;
     margin: 0 auto;
     padding: 4px;
-    width: 480px;
     height: 40px;
     text-align: center;
     border-bottom: none;
@@ -308,7 +307,6 @@ pre {
   font-size: 0; /* Inline block elements gap - fix */
   margin: 0;
   padding: 0;
-  background: rgba(0, 0, 0, .04);
   border-bottom: 1px solid rgba(0, 0, 0, .07);
   padding: 7px;
   -moz-border-radius: 7px;
