@@ -106,3 +106,4 @@ LOG
     <br/> 减小`ul`、`ol`的缩进，优化移动浏览器的显示
     <br/> 增加纯文章的demo，见首页的“散文DEMO”链接
     <br/> bug fix: build脚本配置bug；`use-indent`配置在编译后失效的bug；
+* 1.7.1<br/> bug fix: #13
