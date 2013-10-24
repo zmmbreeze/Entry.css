@@ -31,9 +31,7 @@ body table tbody{margin:0 16px}body table tbody tr:nth-child(odd) td,body table 
 body table tbody tr:last-child td,body table tbody tr:last-child th{padding-bottom:6px}
 body table td,body table th{padding:8px 16px 7px;border:1px solid #ddd}
 body iframe{vertical-align:text-bottom}
-body a{padding-bottom:.025em;color:#069;text-decoration:none;border-bottom-color:#08c}body a[onclick],body a[href^="javascript:"]{margin:0 .25em;padding:.25em .5em;font-size:.8571428571428571em;color:#fff;background-color:#96b3d3;-webkit-border-radius:.25em;-moz-border-radius:.25em;-ms-border-radius:.25em;-o-border-radius:.25em;border-radius:.25em;border-bottom:none}
-body a[onclick]:visited,body a[href^="javascript:"]:visited{color:#fff}
-body a:focus{outline:thin dotted}
+body a{padding-bottom:.025em;color:#069;text-decoration:none;border-bottom-color:#08c}body a:focus{outline:thin dotted}
 body a:visited{color:#551a8b;border-bottom-color:#551a8b}
 body a:hover{border-bottom-width:1px;border-bottom-style:solid}
 body a:hover,body a:active{outline:0}

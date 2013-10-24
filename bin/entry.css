@@ -32,9 +32,7 @@ body{padding:0;margin:0}
 .entry table tbody tr:last-child td,.entry table tbody tr:last-child th{padding-bottom:6px}
 .entry table td,.entry table th{padding:8px 16px 7px;border:1px solid #ddd}
 .entry iframe{vertical-align:text-bottom}
-.entry a{padding-bottom:.025em;color:#069;text-decoration:none;border-bottom-color:#08c}.entry a[onclick],.entry a[href^="javascript:"]{margin:0 .25em;padding:.25em .5em;font-size:.8571428571428571em;color:#fff;background-color:#96b3d3;-webkit-border-radius:.25em;-moz-border-radius:.25em;-ms-border-radius:.25em;-o-border-radius:.25em;border-radius:.25em;border-bottom:none}
-.entry a[onclick]:visited,.entry a[href^="javascript:"]:visited{color:#fff}
-.entry a:focus{outline:thin dotted}
+.entry a{padding-bottom:.025em;color:#069;text-decoration:none;border-bottom-color:#08c}.entry a:focus{outline:thin dotted}
 .entry a:visited{color:#551a8b;border-bottom-color:#551a8b}
 .entry a:hover{border-bottom-width:1px;border-bottom-style:solid}
 .entry a:hover,.entry a:active{outline:0}

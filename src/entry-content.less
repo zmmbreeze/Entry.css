@@ -274,20 +274,6 @@
         color: @link-color;
         text-decoration: none;
         border-bottom-color: lighten(@link-color, 10%);
-        &[onclick],
-        &[href^="javascript:"] {
-            margin: 0 0.25em;
-            padding: 0.25em 0.5em;
-            font-size: 0.8571428571428571em;
-            color: @link-js-highlight-color;
-            background-color: @link-js-back-color;
-            .rounded-corners(0.25em);
-            border-bottom: none;
-        }
-        &[onclick]:visited,
-        &[href^="javascript:"]:visited {
-            color: @link-js-highlight-color;
-        }
         &:focus {
             outline: thin dotted;
         }

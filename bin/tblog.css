@@ -32,9 +32,7 @@ body{padding:0;margin:0}
 .markdown table tbody tr:last-child td,.markdown table tbody tr:last-child th{padding-bottom:6px}
 .markdown table td,.markdown table th{padding:8px 16px 7px;border:1px solid #ddd}
 .markdown iframe{vertical-align:text-bottom}
-.markdown a{padding-bottom:.025em;color:#069;text-decoration:none;border-bottom-color:#08c}.markdown a[onclick],.markdown a[href^="javascript:"]{margin:0 .25em;padding:.25em .5em;font-size:.8571428571428571em;color:#fff;background-color:#cd5c5c;-webkit-border-radius:.25em;-moz-border-radius:.25em;-ms-border-radius:.25em;-o-border-radius:.25em;border-radius:.25em;border-bottom:none}
-.markdown a[onclick]:visited,.markdown a[href^="javascript:"]:visited{color:#fff}
-.markdown a:focus{outline:thin dotted}
+.markdown a{padding-bottom:.025em;color:#069;text-decoration:none;border-bottom-color:#08c}.markdown a:focus{outline:thin dotted}
 .markdown a:visited{color:#551a8b;border-bottom-color:#551a8b}
 .markdown a:hover{border-bottom-width:1px;border-bottom-style:solid}
 .markdown a:hover,.markdown a:active{outline:0}
