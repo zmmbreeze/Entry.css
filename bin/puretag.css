@@ -4,8 +4,9 @@ body ul div,body ol div,body ul p,body ol p,body ul blockquote,body ol blockquot
 body>iframe{display:block;margin-top:16px;margin-bottom:16px}
 body>img,body>video{margin-top:16px;margin-bottom:16px;display:block}
 body h1,body h2,body h3,body h4,body h5,body h6{margin-top:0;margin-bottom:0;padding:0}body h1:first-child,body h2:first-child,body h3:first-child,body h4:first-child,body h5:first-child,body h6:first-child{margin-top:0}
-body>h3,body>h4,body>h5,body>h6{margin-top:32px}body>h3+*,body>h4+*,body>h5+*,body>h6+*{margin-top:0}
-body>h1,body>h2{margin-top:64px}body>h1+*,body>h2+*{margin-top:0}
+body>h3,body>h4,body>h5,body>h6{margin-top:32px}
+body>h1,body>h2{margin-top:64px}
+body h1+*,body h2+*,body h3+*,body h4+*,body h5+*,body h6+*{margin-top:0}
 body h1,body h2,body h3,body h4,body h5,body h6{font-weight:inherit}
 body h1,body h2{color:#424b50;background-color:transparent}body h1 a,body h2 a{color:#424b50}
 body h1 a,body h2 a,body h1 em,body h2 em,body h1 u,body h2 u,body h1 abbr[title],body h2 abbr[title]{border-bottom-color:#424b50}

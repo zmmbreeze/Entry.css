@@ -4,8 +4,9 @@
 .post>iframe{display:block;margin-top:16px;margin-bottom:16px}
 .post>img,.post>video{margin-top:16px;margin-bottom:16px;display:block}
 .post h1,.post h2,.post h3,.post h4,.post h5,.post h6{margin-top:0;margin-bottom:0;padding:0}.post h1:first-child,.post h2:first-child,.post h3:first-child,.post h4:first-child,.post h5:first-child,.post h6:first-child{margin-top:0}
-.post>h3,.post>h4,.post>h5,.post>h6{margin-top:32px}.post>h3+*,.post>h4+*,.post>h5+*,.post>h6+*{margin-top:0}
-.post>h1,.post>h2{margin-top:64px}.post>h1+*,.post>h2+*{margin-top:0}
+.post>h3,.post>h4,.post>h5,.post>h6{margin-top:32px}
+.post>h1,.post>h2{margin-top:64px}
+.post h1+*,.post h2+*,.post h3+*,.post h4+*,.post h5+*,.post h6+*{margin-top:0}
 .post h1,.post h2,.post h3,.post h4,.post h5,.post h6{font-weight:inherit}
 .post h1,.post h2{color:#424b50;background-color:transparent}.post h1 a,.post h2 a{color:#424b50}
 .post h1 a,.post h2 a,.post h1 em,.post h2 em,.post h1 u,.post h2 u,.post h1 abbr[title],.post h2 abbr[title]{border-bottom-color:#424b50}

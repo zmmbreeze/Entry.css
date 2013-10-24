@@ -72,12 +72,11 @@
     }
     > h3, > h4, > h5, > h6 {
         margin-top: @line;
-        & + * {
-            margin-top: 0;  // 此样式必须在其他margin-top样式后面，以便覆盖
-        }
     }
     > h1, > h2 {
         margin-top: (@line*2);
+    }
+    h1, h2, h3, h4, h5, h6 {
         & + * {
             margin-top: 0;  // 此样式必须在其他margin-top样式后面，以便覆盖
         }

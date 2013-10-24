@@ -4,8 +4,9 @@
 .markdown>iframe{display:block;margin-top:16px;margin-bottom:16px}
 .markdown>img,.markdown>video{margin-top:16px;margin-bottom:16px;display:block}
 .markdown h1,.markdown h2,.markdown h3,.markdown h4,.markdown h5,.markdown h6{margin-top:0;margin-bottom:0;padding:0}.markdown h1:first-child,.markdown h2:first-child,.markdown h3:first-child,.markdown h4:first-child,.markdown h5:first-child,.markdown h6:first-child{margin-top:0}
-.markdown>h3,.markdown>h4,.markdown>h5,.markdown>h6{margin-top:32px}.markdown>h3+*,.markdown>h4+*,.markdown>h5+*,.markdown>h6+*{margin-top:0}
-.markdown>h1,.markdown>h2{margin-top:64px}.markdown>h1+*,.markdown>h2+*{margin-top:0}
+.markdown>h3,.markdown>h4,.markdown>h5,.markdown>h6{margin-top:32px}
+.markdown>h1,.markdown>h2{margin-top:64px}
+.markdown h1+*,.markdown h2+*,.markdown h3+*,.markdown h4+*,.markdown h5+*,.markdown h6+*{margin-top:0}
 .markdown h1,.markdown h2,.markdown h3,.markdown h4,.markdown h5,.markdown h6{font-weight:inherit}
 .markdown h1,.markdown h2{color:#424b50;background-color:transparent}.markdown h1 a,.markdown h2 a{color:#424b50}
 .markdown h1 a,.markdown h2 a,.markdown h1 em,.markdown h2 em,.markdown h1 u,.markdown h2 u,.markdown h1 abbr[title],.markdown h2 abbr[title]{border-bottom-color:#424b50}
