@@ -108,3 +108,5 @@ LOG
     <br/> bug fix: build脚本配置bug；`use-indent`配置在编译后失效的bug；
 * 1.7.1<br/> bug fix: #13
 * 1.7.2<br/> 移除特殊a标签（href是javascript操作或是有onclick属性）的样式
+    <br/> 移除tblog配置
+    <br/> 修复#15
