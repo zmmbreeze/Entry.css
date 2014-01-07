@@ -7,10 +7,8 @@ body h1,body h2,body h3,body h4,body h5,body h6{margin-top:0;margin-bottom:0;pad
 body>h3,body>h4,body>h5,body>h6{margin-top:32px}
 body>h1,body>h2{margin-top:64px}
 body h1+*,body h2+*,body h3+*,body h4+*,body h5+*,body h6+*{margin-top:0}
-body h1,body h2,body h3,body h4,body h5,body h6{font-weight:inherit}
-body h1,body h2{color:#424b50;background-color:transparent}body h1 a,body h2 a{color:#424b50}
-body h1 a,body h2 a,body h1 em,body h2 em,body h1 u,body h2 u,body h1 abbr[title],body h2 abbr[title]{border-bottom-color:#424b50}
-body h3 a,body h4 a,body h5 a,body h6 a{color:#424b50;border-bottom-color:#424b50}
+body h1,body h2,body h3,body h4,body h5,body h6{font-weight:inherit;color:#424b50;background-color:transparent}body h1 a,body h2 a,body h3 a,body h4 a,body h5 a,body h6 a{color:#424b50}
+body h1 a,body h2 a,body h3 a,body h4 a,body h5 a,body h6 a,body h1 em,body h2 em,body h3 em,body h4 em,body h5 em,body h6 em,body h1 u,body h2 u,body h3 u,body h4 u,body h5 u,body h6 u,body h1 abbr[title],body h2 abbr[title],body h3 abbr[title],body h4 abbr[title],body h5 abbr[title],body h6 abbr[title]{border-bottom-color:#424b50}
 body h1{font-size:28px;line-height:48px;text-align:center}
 body h2{font-size:21px;line-height:32px;text-align:center}
 body h3{font-size:18px;line-height:32px;text-align:left}
@@ -40,7 +38,7 @@ body b,body strong{font-weight:bold}
 body u,body em{padding-bottom:.05em;font-style:inherit;font-weight:inherit;border-bottom:2px dotted #8b98a0}
 body u{text-decoration:inherit;border-bottom-width:1px;border-bottom-style:solid}
 body em+em,body em+u,body u+em,body u+u{margin-left:.125em}
-body code{padding:0 .25em;margin:0 .25em;background:#fee9cc;font-family:consolas,monaco,monospace,serif;font-size:16px;color:#424b50;-webkit-border-radius:.25em;-moz-border-radius:.25em;-ms-border-radius:.25em;-o-border-radius:.25em;border-radius:.25em}
+body code{background-color:transparent;font-family:consolas,monaco,monospace,serif;font-size:16px;color:#424b50}
 body pre code{padding:0;margin:0;font-size:14px;color:#424b50;background:none;border:none}
 body img,body video{max-width:100%;border:0}
 body figure img{display:block;margin:0 auto}

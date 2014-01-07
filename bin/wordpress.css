@@ -1,4 +1,4 @@
-.post{margin-top:0;margin-bottom:0;margin-left:0;margin-left:auto;margin-right:auto;max-width:640px;padding:0 16px;line-height:2;color:#424b50;word-wrap:break-word;font-size:16px;font-family:"ff-tisa-web-pro-1","ff-tisa-web-pro-2","Lucida Grande","Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei","wenquanyi micro hei",sans-serif,"Apple Color Emoji";-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}.post div,.post p,.post blockquote,.post pre,.post ul,.post ol,.post table,.post figure,.post section,.post article,.post header,.post footer{margin:0;padding:0;margin-top:16px;margin-bottom:16px}.post div:first-child,.post p:first-child,.post blockquote:first-child,.post pre:first-child,.post ul:first-child,.post ol:first-child,.post table:first-child,.post figure:first-child,.post section:first-child,.post article:first-child,.post header:first-child,.post footer:first-child{margin-top:0}
+.post{margin-top:0;margin-bottom:0;margin-left:0;margin-left:auto;margin-right:auto;max-width:640px;padding:0 16px;line-height:2;color:#424b50;word-wrap:break-word;font-size:16px;font-family:"Libre Baskerville","Lucida Grande","Hiragino Sans GB","Hiragino Sans GB W3","Microsoft YaHei","wenquanyi micro hei",sans-serif,"Apple Color Emoji";-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;counter-reset:entry825h2 entry825h3 entry825h4 entry825h5 entry825h6}.post div,.post p,.post blockquote,.post pre,.post ul,.post ol,.post table,.post figure,.post section,.post article,.post header,.post footer{margin:0;padding:0;margin-top:16px;margin-bottom:16px}.post div:first-child,.post p:first-child,.post blockquote:first-child,.post pre:first-child,.post ul:first-child,.post ol:first-child,.post table:first-child,.post figure:first-child,.post section:first-child,.post article:first-child,.post header:first-child,.post footer:first-child{margin-top:0}
 .post div:last-child,.post p:last-child,.post blockquote:last-child,.post pre:last-child,.post ul:last-child,.post ol:last-child,.post table:last-child,.post figure:last-child,.post section:last-child,.post article:last-child,.post header:last-child,.post footer:last-child{margin-bottom:0}
 .post ul div,.post ol div,.post ul p,.post ol p,.post ul blockquote,.post ol blockquote,.post ul pre,.post ol pre,.post ul ul,.post ol ul,.post ul ol,.post ol ol,.post ul table,.post ol table,.post ul figure,.post ol figure,.post ul iframe,.post ol iframe,.post ul section,.post ol section,.post ul article,.post ol article,.post ul header,.post ol header,.post ul footer,.post ol footer{margin-top:0;margin-bottom:0}
 .post>iframe{display:block;margin-top:16px;margin-bottom:16px}
@@ -7,12 +7,10 @@
 .post>h3,.post>h4,.post>h5,.post>h6{margin-top:32px}
 .post>h1,.post>h2{margin-top:64px}
 .post h1+*,.post h2+*,.post h3+*,.post h4+*,.post h5+*,.post h6+*{margin-top:0}
-.post h1,.post h2,.post h3,.post h4,.post h5,.post h6{font-weight:inherit}
-.post h1,.post h2{color:#424b50;background-color:transparent}.post h1 a,.post h2 a{color:#424b50}
-.post h1 a,.post h2 a,.post h1 em,.post h2 em,.post h1 u,.post h2 u,.post h1 abbr[title],.post h2 abbr[title]{border-bottom-color:#424b50}
-.post h3 a,.post h4 a,.post h5 a,.post h6 a{color:#424b50;border-bottom-color:#424b50}
-.post h1{font-size:28px;line-height:48px;text-align:center}
-.post h2{font-size:21px;line-height:32px;text-align:center}
+.post h1,.post h2,.post h3,.post h4,.post h5,.post h6{font-weight:inherit;color:#424b50;background-color:transparent}.post h1 a,.post h2 a,.post h3 a,.post h4 a,.post h5 a,.post h6 a{color:#424b50}
+.post h1 a,.post h2 a,.post h3 a,.post h4 a,.post h5 a,.post h6 a,.post h1 em,.post h2 em,.post h3 em,.post h4 em,.post h5 em,.post h6 em,.post h1 u,.post h2 u,.post h3 u,.post h4 u,.post h5 u,.post h6 u,.post h1 abbr[title],.post h2 abbr[title],.post h3 abbr[title],.post h4 abbr[title],.post h5 abbr[title],.post h6 abbr[title]{border-bottom-color:#424b50}
+.post h1{font-size:28px;line-height:48px;text-align:left}
+.post h2{font-size:21px;line-height:32px;text-align:left}
 .post h3{font-size:18px;line-height:32px;text-align:left}
 .post h4,.post h5,.post h6{line-height:32px;font-size:16px;text-align:left}
 .post blockquote{position:relative;padding:32px 64px}
@@ -40,7 +38,7 @@
 .post u,.post em{padding-bottom:.05em;font-style:inherit;font-weight:inherit;border-bottom:2px dotted #8b98a0}
 .post u{text-decoration:inherit;border-bottom-width:1px;border-bottom-style:solid}
 .post em+em,.post em+u,.post u+em,.post u+u{margin-left:.125em}
-.post code{padding:0 .25em;margin:0 .25em;background:#fee9cc;font-family:consolas,monaco,monospace,serif;font-size:16px;color:#424b50;-webkit-border-radius:.25em;-moz-border-radius:.25em;-ms-border-radius:.25em;-o-border-radius:.25em;border-radius:.25em}
+.post code{background-color:transparent;font-family:consolas,monaco,monospace,serif;font-size:16px;color:#424b50}
 .post pre code{padding:0;margin:0;font-size:14px;color:#424b50;background:none;border:none}
 .post img,.post video{max-width:100%;border:0}
 .post figure img{display:block;margin:0 auto}
@@ -56,3 +54,9 @@
 .post sup{top:-0.5em}
 .post sub{bottom:-0.25em}
 .post #disqus_thread{margin-top:32px}
+.post h2:before,.post h3:before,.post h4:before,.post h5:before,.post h6:before{margin-right:1em;color:inherit}
+.post h2{counter-reset:entry825h3 entry825h4 entry825h5 entry825h6}.post h2:before{content:counter(entry825h2);counter-increment:entry825h2}
+.post h3{counter-reset:entry825h4 entry825h5 entry825h6}.post h3:before{content:counter(entry825h2) '.' counter(entry825h3);counter-increment:entry825h3}
+.post h4{counter-reset:entry825h5 entry825h6}.post h4:before{content:counter(entry825h2) '.' counter(entry825h3) '.' counter(entry825h4);counter-increment:entry825h4}
+.post h5{counter-reset:entry825h6}.post h5:before{content:counter(entry825h2) '.' counter(entry825h3) '.' counter(entry825h4) '.' counter(entry825h5);counter-increment:entry825h5}
+.post h6:before{content:counter(entry825h2) '.' counter(entry825h3) '.' counter(entry825h4) '.' counter(entry825h5) '.' counter(entry825h6);counter-increment:entry825h6}

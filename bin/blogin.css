@@ -7,10 +7,8 @@
 .markdown>h3,.markdown>h4,.markdown>h5,.markdown>h6{margin-top:32px}
 .markdown>h1,.markdown>h2{margin-top:64px}
 .markdown h1+*,.markdown h2+*,.markdown h3+*,.markdown h4+*,.markdown h5+*,.markdown h6+*{margin-top:0}
-.markdown h1,.markdown h2,.markdown h3,.markdown h4,.markdown h5,.markdown h6{font-weight:inherit}
-.markdown h1,.markdown h2{color:#424b50;background-color:transparent}.markdown h1 a,.markdown h2 a{color:#424b50}
-.markdown h1 a,.markdown h2 a,.markdown h1 em,.markdown h2 em,.markdown h1 u,.markdown h2 u,.markdown h1 abbr[title],.markdown h2 abbr[title]{border-bottom-color:#424b50}
-.markdown h3 a,.markdown h4 a,.markdown h5 a,.markdown h6 a{color:#424b50;border-bottom-color:#424b50}
+.markdown h1,.markdown h2,.markdown h3,.markdown h4,.markdown h5,.markdown h6{font-weight:inherit;color:#424b50;background-color:transparent}.markdown h1 a,.markdown h2 a,.markdown h3 a,.markdown h4 a,.markdown h5 a,.markdown h6 a{color:#424b50}
+.markdown h1 a,.markdown h2 a,.markdown h3 a,.markdown h4 a,.markdown h5 a,.markdown h6 a,.markdown h1 em,.markdown h2 em,.markdown h3 em,.markdown h4 em,.markdown h5 em,.markdown h6 em,.markdown h1 u,.markdown h2 u,.markdown h3 u,.markdown h4 u,.markdown h5 u,.markdown h6 u,.markdown h1 abbr[title],.markdown h2 abbr[title],.markdown h3 abbr[title],.markdown h4 abbr[title],.markdown h5 abbr[title],.markdown h6 abbr[title]{border-bottom-color:#424b50}
 .markdown h1{font-size:28px;line-height:48px;text-align:center}
 .markdown h2{font-size:21px;line-height:32px;text-align:center}
 .markdown h3{font-size:18px;line-height:32px;text-align:left}
@@ -40,7 +38,7 @@
 .markdown u,.markdown em{padding-bottom:.05em;font-style:inherit;font-weight:inherit;border-bottom:2px dotted #8b98a0}
 .markdown u{text-decoration:inherit;border-bottom-width:1px;border-bottom-style:solid}
 .markdown em+em,.markdown em+u,.markdown u+em,.markdown u+u{margin-left:.125em}
-.markdown code{padding:0 .25em;margin:0 .25em;background:#fee9cc;font-family:consolas,monaco,monospace,serif;font-size:16px;color:#424b50;-webkit-border-radius:.25em;-moz-border-radius:.25em;-ms-border-radius:.25em;-o-border-radius:.25em;border-radius:.25em}
+.markdown code{background-color:transparent;font-family:consolas,monaco,monospace,serif;font-size:16px;color:#424b50}
 .markdown pre code{padding:0;margin:0;font-size:14px;color:#424b50;background:none;border:none}
 .markdown img,.markdown video{max-width:100%;border:0}
 .markdown figure img{display:block;margin:0 auto}
