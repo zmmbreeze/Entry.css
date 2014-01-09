@@ -13,9 +13,7 @@ body h1{font-size:28px;line-height:48px;text-align:center}
 body h2{font-size:21px;line-height:32px;text-align:center}
 body h3{font-size:18px;line-height:32px;text-align:left}
 body h4,body h5,body h6{line-height:32px;font-size:16px;text-align:left}
-body blockquote{position:relative;padding:32px 64px}
-body blockquote:before{position:absolute;content:'\275D';top:0;left:16px;font-size:3em;color:#ccc}
-body blockquote:after{position:absolute;content:'\275E';bottom:0;right:16px;margin-right:-0.25em;font-size:3em;color:#ccc}
+body blockquote{position:relative;margin:16px 0;font-family:STKaiti,KaiTi}
 body pre{padding:15px 16px;line-height:16px;font-size:14px;white-space:pre;word-wrap:normal;overflow:auto;font-family:consolas,monaco,monospace,serif;border:1px solid #e1e1e8;border-right:none;border-left:none;background-color:#f7f7f9}
 body ul,body ol{padding-left:32px}body ul li,body ol li{margin:0;padding:0;list-style-position:outside}
 body ul li{list-style-type:square}body ul li ul li{list-style-type:disc}body ul li ul li ul li{list-style-type:circle}

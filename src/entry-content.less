@@ -121,26 +121,10 @@
     }
     blockquote {
         position: relative;
-        padding: @line 4*@font-size;
+        margin: @line/2 0;
+        font-family: @quote-font-family;
         div, p {
             .no-start-with2word;
-        }
-        &:before {
-            position: absolute;
-            content: @blockquote-before-icon;
-            top: 0;
-            left: @font-size;
-            font-size: 3em;
-            color: @blockquote-quot-color;
-        }
-        &:after {
-            position: absolute;
-            content: @blockquote-after-icon;
-            bottom: 0;
-            right: @font-size;
-            margin-right: -0.25em;
-            font-size: 3em;
-            color: @blockquote-quot-color;
         }
     }
     pre {

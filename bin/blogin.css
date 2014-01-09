@@ -13,9 +13,7 @@
 .markdown h2{font-size:21px;line-height:32px;text-align:center}
 .markdown h3{font-size:18px;line-height:32px;text-align:left}
 .markdown h4,.markdown h5,.markdown h6{line-height:32px;font-size:16px;text-align:left}
-.markdown blockquote{position:relative;padding:32px 64px}
-.markdown blockquote:before{position:absolute;content:'\275D';top:0;left:16px;font-size:3em;color:#ccc}
-.markdown blockquote:after{position:absolute;content:'\275E';bottom:0;right:16px;margin-right:-0.25em;font-size:3em;color:#ccc}
+.markdown blockquote{position:relative;margin:16px 0;font-family:STKaiti,KaiTi}
 .markdown pre{padding:15px 16px;line-height:16px;font-size:14px;white-space:pre;word-wrap:normal;overflow:auto;font-family:consolas,monaco,monospace,serif;border:1px solid #e1e1e8;border-right:none;border-left:none;background-color:#f7f7f9}
 .markdown ul,.markdown ol{padding-left:32px}.markdown ul li,.markdown ol li{margin:0;padding:0;list-style-position:outside}
 .markdown ul li{list-style-type:square}.markdown ul li ul li{list-style-type:disc}.markdown ul li ul li ul li{list-style-type:circle}
