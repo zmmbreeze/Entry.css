@@ -13,41 +13,41 @@
     counter-reset: entry825h2 entry825h3 entry825h4 entry825h5 entry825h6;
     h2, h3, h4, h5, h6 {
         &:before {
-            margin-right: 1em;
             color: @title-number-color;
         }
     }
     h2 {
         counter-reset: entry825h3 entry825h4 entry825h5 entry825h6;
         &:before {
-            content: counter(entry825h2);
+            content: counter(entry825h2)'\3000';
+            content: counter(entry825h2, cjk-ideographic)'、';
             counter-increment: entry825h2;
         }
     }
     h3 {
         counter-reset: entry825h4 entry825h5 entry825h6;
         &:before {
-            content: counter(entry825h2) @title-number-seperator counter(entry825h3);
+            content: counter(entry825h2) @title-number-seperator counter(entry825h3)'\3000';
             counter-increment: entry825h3;
         }
     }
     h4 {
         counter-reset: entry825h5 entry825h6;
         &:before {
-            content: counter(entry825h2) @title-number-seperator counter(entry825h3) @title-number-seperator counter(entry825h4);
+            content: counter(entry825h2) @title-number-seperator counter(entry825h3) @title-number-seperator counter(entry825h4)'\3000';
             counter-increment: entry825h4;
         }
     }
     h5 {
         counter-reset: entry825h6;
         &:before {
-            content: counter(entry825h2) @title-number-seperator counter(entry825h3) @title-number-seperator counter(entry825h4) @title-number-seperator counter(entry825h5);
+            content: counter(entry825h2) @title-number-seperator counter(entry825h3) @title-number-seperator counter(entry825h4) @title-number-seperator counter(entry825h5)'\3000';
             counter-increment: entry825h5;
         }
     }
     h6 {
         &:before {
-            content: counter(entry825h2) @title-number-seperator counter(entry825h3) @title-number-seperator counter(entry825h4) @title-number-seperator counter(entry825h5) @title-number-seperator counter(entry825h6);
+            content: counter(entry825h2) @title-number-seperator counter(entry825h3) @title-number-seperator counter(entry825h4) @title-number-seperator counter(entry825h5) @title-number-seperator counter(entry825h6)'\3000';
             counter-increment: entry825h6;
         }
     }

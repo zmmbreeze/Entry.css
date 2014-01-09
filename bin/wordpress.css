@@ -54,9 +54,9 @@
 .post sup{top:-0.5em}
 .post sub{bottom:-0.25em}
 .post #disqus_thread{margin-top:32px}
-.post h2:before,.post h3:before,.post h4:before,.post h5:before,.post h6:before{margin-right:1em;color:inherit}
-.post h2{counter-reset:entry825h3 entry825h4 entry825h5 entry825h6}.post h2:before{content:counter(entry825h2);counter-increment:entry825h2}
-.post h3{counter-reset:entry825h4 entry825h5 entry825h6}.post h3:before{content:counter(entry825h2) '.' counter(entry825h3);counter-increment:entry825h3}
-.post h4{counter-reset:entry825h5 entry825h6}.post h4:before{content:counter(entry825h2) '.' counter(entry825h3) '.' counter(entry825h4);counter-increment:entry825h4}
-.post h5{counter-reset:entry825h6}.post h5:before{content:counter(entry825h2) '.' counter(entry825h3) '.' counter(entry825h4) '.' counter(entry825h5);counter-increment:entry825h5}
-.post h6:before{content:counter(entry825h2) '.' counter(entry825h3) '.' counter(entry825h4) '.' counter(entry825h5) '.' counter(entry825h6);counter-increment:entry825h6}
+.post h2:before,.post h3:before,.post h4:before,.post h5:before,.post h6:before{color:inherit}
+.post h2{counter-reset:entry825h3 entry825h4 entry825h5 entry825h6}.post h2:before{content:counter(entry825h2) '\3000';content:counter(entry825h2, cjk-ideographic) '、';counter-increment:entry825h2}
+.post h3{counter-reset:entry825h4 entry825h5 entry825h6}.post h3:before{content:counter(entry825h2) '.' counter(entry825h3) '\3000';counter-increment:entry825h3}
+.post h4{counter-reset:entry825h5 entry825h6}.post h4:before{content:counter(entry825h2) '.' counter(entry825h3) '.' counter(entry825h4) '\3000';counter-increment:entry825h4}
+.post h5{counter-reset:entry825h6}.post h5:before{content:counter(entry825h2) '.' counter(entry825h3) '.' counter(entry825h4) '.' counter(entry825h5) '\3000';counter-increment:entry825h5}
+.post h6:before{content:counter(entry825h2) '.' counter(entry825h3) '.' counter(entry825h4) '.' counter(entry825h5) '.' counter(entry825h6) '\3000';counter-increment:entry825h6}
