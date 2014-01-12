@@ -269,19 +269,28 @@
     strong {
         font-weight: bold;
     }
-    u, em {
+    u {
         padding-bottom: .05em;
         font-style: inherit;
         font-weight: inherit;
-        border-bottom: 2px dotted lighten(@word-color, 30%);
-    }
-    u {
         text-decoration: inherit;
-        border-bottom-width: 1px;
-        border-bottom-style: solid;
+        border-bottom: 1px solid lighten(@word-color, 30%);
     }
-    em + em, em + u, u + em, u + u {
+    u + u {
         margin-left: 0.125em;
+    }
+    em {
+        font-style: inherit;
+        font-weight: inherit;
+        text-decoration: inherit;
+        -webkit-text-emphasis: filled circle;
+        -moz-text-emphasis: filled circle;
+        -ms-text-emphasis: filled circle;
+        text-emphasis: filled circle;
+        -webkit-text-emphasis-position: under;
+        -moz-text-emphasis-position: under;
+        -ms-text-emphasis-position: under;
+        text-emphasis-position: under;
     }
     /* code */
     code {
@@ -377,3 +386,4 @@
         .rounded-corners(0.25em);
     }
 }
+
