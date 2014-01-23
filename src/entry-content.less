@@ -121,11 +121,16 @@
     }
     blockquote {
         position: relative;
+        padding: 0 0 0 @font-size;
         margin: @line/2 0;
         font-family: @quote-font-family;
+        border-left: 5px solid lighten(@word-color, 50%);
         div, p {
             .no-start-with2word;
         }
+    }
+    li blockquote {
+        margin-left: -(@line/2 + 5);
     }
     pre {
         padding: @line/2-1 @font-size;
@@ -294,10 +299,10 @@
     }
     /* code */
     code {
-        background-color: @code-back-color;
         font-family: @code-font-family;
         font-size: @code-font-size;
         color: @code-color;
+        background-color: @code-back-color;
     }
     pre code {
         padding: 0;
