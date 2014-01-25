@@ -139,7 +139,7 @@
         white-space: pre;
         word-wrap: normal;  // reset
         overflow: auto;
-        font-family: @code-font-family;
+        font-family: @pre-font-family;
         border: 1px solid @pre-border-color;
         border-right: none;
         border-left: none;
@@ -299,14 +299,15 @@
     }
     /* code */
     code {
-        font-family: @code-font-family;
-        font-size: @code-font-size;
+        font-family: monospace;
+        font-size: inherit;
         color: @code-color;
         background-color: @code-back-color;
     }
     pre code {
         padding: 0;
         margin: 0;
+        font-family: @pre-font-family;
         font-size: @pre-font-size;
         color: @word-color;
         background: none;
@@ -386,8 +387,9 @@
 // remove padding/margin/border-radius when using transparent as @code-back-color
 .ext-entry() when not (@code-back-color = transparent) {
     code {
-        padding: 0 0.25em;
+        padding: 0.15em 0.25em;
         margin: 0 0.25em;
+        font-size: @code-font-size;
         .rounded-corners(0.25em);
     }
 }
